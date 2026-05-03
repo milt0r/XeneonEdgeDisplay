@@ -1,0 +1,24 @@
+node_modules/
+dist/
+dist-electron/
+release/
+.vite/
+*.log
+.DS_Store
+Thumbs.db
+.env
+.env.local
+.env.*.local
+
+# TypeScript build cache
+*.tsbuildinfo
+
+# Editor / IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Local app data / runtime stores (just in case)
+*.local
+xeneon-edge*.json
