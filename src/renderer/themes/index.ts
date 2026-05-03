@@ -104,16 +104,16 @@ const BBS_BG = (() => {
 
   <!-- Greets / shoutouts (right side, inside middle panel) -->
   <g class='a' fill='#ffff55'>
-    <text x='1320' y='300'>░▒▓ T.A.G. BBSes · 313 / 810 ▓▒░</text>
+    <text x='1320' y='300'>░▒▓ NORTH OAKLAND CO. · 313/810 ▓▒░</text>
   </g>
   <g class='s' fill='#ffffff'>
-    <text x='1320' y='340'>· CRIMP / T.A.G. Tech (Paul Williams)</text>
-    <text x='1320' y='370'>· Tower of High Sorcery · Enterprize</text>
-    <text x='1320' y='400'>· Downriver Download · The Ballroom</text>
-    <text x='1320' y='430'>· The Liberal Antithesis · Cat's Meow</text>
-    <text x='1320' y='460'>· Wizards of Orchid · Ariel System</text>
-    <text x='1320' y='490'>· Mike's TAG / TAGMAIL · UFO Data</text>
-    <text x='1320' y='520'>· Systems International · In the Flesh</text>
+    <text x='1320' y='340'>· Cat's Meow · Lake Orion · TAG</text>
+    <text x='1320' y='370'>· Les's Place: The Mansion · Orion</text>
+    <text x='1320' y='400'>· Twin Star II · Waterford</text>
+    <text x='1320' y='430'>· Sawblade · Waterford · (Iron Maiden)</text>
+    <text x='1320' y='460'>· The Mafia · Pontiac · Telegard</text>
+    <text x='1320' y='490'>· Southern Cross · Lapeer</text>
+    <text x='1320' y='520'>· Utility City · Auburn Hills · FidoNet hub</text>
   </g>
 
   <!-- status bar -->
