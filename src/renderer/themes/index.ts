@@ -104,16 +104,16 @@ const BBS_BG = (() => {
 
   <!-- Greets / shoutouts (right side, inside middle panel) -->
   <g class='a' fill='#ffff55'>
-    <text x='1320' y='300'>░▒▓ GREETZ TO THE 313 / 810 SCENE ▓▒░</text>
+    <text x='1320' y='300'>░▒▓ T.A.G. BBSes · 313 / 810 ▓▒░</text>
   </g>
   <g class='s' fill='#ffffff'>
-    <text x='1320' y='340'>· Woody's Nest · The Jungle</text>
-    <text x='1320' y='370'>· Hartland Pride · The Club II</text>
-    <text x='1320' y='400'>· Tower of High Sorcery · Falcon's Lair</text>
-    <text x='1320' y='430'>· The Praise Board · Tandy Harbor</text>
-    <text x='1320' y='460'>· The Snake Pit · The Robot Factory</text>
-    <text x='1320' y='490'>· Genesis II · The Outpost · Cross Corner</text>
-    <text x='1320' y='520'>· Big Blue Globe · Utility City</text>
+    <text x='1320' y='340'>· CRIMP / T.A.G. Tech (Paul Williams)</text>
+    <text x='1320' y='370'>· Tower of High Sorcery · Enterprize</text>
+    <text x='1320' y='400'>· Downriver Download · The Ballroom</text>
+    <text x='1320' y='430'>· The Liberal Antithesis · Cat's Meow</text>
+    <text x='1320' y='460'>· Wizards of Orchid · Ariel System</text>
+    <text x='1320' y='490'>· Mike's TAG / TAGMAIL · UFO Data</text>
+    <text x='1320' y='520'>· Systems International · In the Flesh</text>
   </g>
 
   <!-- status bar -->
