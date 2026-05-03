@@ -94,8 +94,8 @@ export interface AppSettings {
     widgetOpacity: number;
     /** Per-theme background override. Empty string = use theme default; 'none' = no background. */
     backgrounds: Record<string, string>;
-    /** Selected NHL team id (when themeId === 'nhl'). */
-    nhlTeam: string;
+    /** Selected team id per league theme (nhl/nfl/nba/mlb/f1/nascar). */
+    sportTeams: Record<string, string>;
   };
 }
 

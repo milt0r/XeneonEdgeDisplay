@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../store/app';
 import { THEMES } from '../themes';
-import { NHL_TEAMS } from '../themes/nhl';
+import { teamsForSport, SPORT_LABEL, type Sport } from '../themes/sports';
 import { OnScreenKeyboard } from '../components/OnScreenKeyboard';
 import { CommitSlider } from '../components/CommitSlider';
 import { PluginRegistry } from '../plugins/registry';
@@ -217,9 +217,19 @@ export function SettingsPanel() {
                 >
                   No background
                 </button>
+                <a
+                  className="chip"
+                  href={`https://unsplash.com/s/photos/${encodeURIComponent(THEMES.find((t) => t.id === settings.themeId)?.name ?? settings.themeId)}`}
+                  target="_blank"
+                  rel="noopener"
+                  style={{ textDecoration: 'none' }}
+                >
+                  🔍 Browse Unsplash
+                </a>
               </div>
               <div className="muted mono" style={{ fontSize: 11, marginTop: 6 }}>
-                Paste any image URL (web, data:, or file:///C:/path/to/image.jpg). Per-theme.
+                Paste any image URL (https://, data:, or file:///C:/path/to/image.jpg).
+                Tip: on Unsplash, right-click any photo → "Copy image address". Per-theme.
               </div>
             </div>
           </section>
@@ -238,34 +248,34 @@ export function SettingsPanel() {
                 </button>
               ))}
             </div>
-            {settings.themeId === 'nhl' && (
-              <div className="field-row" style={{ marginTop: 12 }}>
-                <label>NHL team</label>
-                <select
-                  value={settings.ui?.nhlTeam ?? 'detroit'}
-                  onChange={(e) => update({ ui: { ...settings.ui, nhlTeam: e.target.value } })}
-                >
-                  <optgroup label="Eastern Conference">
-                    {NHL_TEAMS.filter((t) => t.conference === 'East')
-                      .sort((a, b) => a.city.localeCompare(b.city))
-                      .map((t) => (
-                        <option key={t.id} value={t.id}>{t.city} {t.name} ({t.abbr})</option>
-                      ))}
-                  </optgroup>
-                  <optgroup label="Western Conference">
-                    {NHL_TEAMS.filter((t) => t.conference === 'West')
-                      .sort((a, b) => a.city.localeCompare(b.city))
-                      .map((t) => (
-                        <option key={t.id} value={t.id}>{t.city} {t.name} ({t.abbr})</option>
-                      ))}
-                  </optgroup>
-                </select>
-                <div className="muted mono" style={{ fontSize: 11 }}>
-                  Colors and a team-tinted rink background apply automatically.
-                  Logos are trademarked — paste your own logo URL via the Background field below if you want one.
+            {(['nhl','nfl','nba','mlb','f1','nascar'] as Sport[]).includes(settings.themeId as Sport) && (() => {
+              const sport = settings.themeId as Sport;
+              const teams = teamsForSport(sport);
+              return (
+                <div className="field-row" style={{ marginTop: 12 }}>
+                  <label>{SPORT_LABEL[sport]} team</label>
+                  <select
+                    value={settings.ui?.sportTeams?.[sport] ?? teams[0]?.id ?? ''}
+                    onChange={(e) =>
+                      update({
+                        ui: {
+                          ...settings.ui,
+                          sportTeams: { ...(settings.ui?.sportTeams ?? {}), [sport]: e.target.value }
+                        }
+                      })
+                    }
+                  >
+                    {teams.map((t) => (
+                      <option key={t.id} value={t.id}>{t.name} ({t.abbr})</option>
+                    ))}
+                  </select>
+                  <div className="muted mono" style={{ fontSize: 11 }}>
+                    Colors and a team-tinted field background apply automatically.
+                    Logos are loaded from public CDNs (NHL.com, ESPN, Wikimedia).
+                  </div>
                 </div>
-              </div>
-            )}
+              );
+            })()}
           </section>
 
           <section className="settings-section">

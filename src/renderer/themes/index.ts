@@ -306,25 +306,35 @@ export const eightbit: Theme = {
   effects: { clickSound: null }
 };
 
-export const nhl: Theme = {
-  id: 'nhl',
-  name: 'NHL Team',
-  description: 'Pick any NHL team — colors and rink-themed background apply',
-  // background, accent, etc. are derived per-team in ThemeProvider
-  background: null,
-  tokens: {
-    bg: '#0b0d10', bgElevated: '#13171c', bgPanel: '#181d23',
-    fg: '#ffffff', fgMuted: '#a0a8b3',
-    accent: '#CE1126', accentSoft: '#3a0a10', accentHot: '#ffffff',
-    warn: '#ffb14a', good: '#5fe39a', border: '#2a323a',
-    fontUi: '"Inter", system-ui, sans-serif',
-    fontMono: '"JetBrains Mono", ui-monospace, monospace',
-    fontDisplay: '"Oswald", "Inter", system-ui, sans-serif',
-    radius: '6px', pad: '14px',
-    scanlines: false, glow: false, vignette: true, noise: false
-  },
-  effects: { clickSound: null }
-};
+/* ---------- Per-league sport themes (team picker via ThemeProvider) ---------- */
+
+function leagueTheme(id: string, name: string, description: string, primary: string, accentHot: string): Theme {
+  return {
+    id,
+    name,
+    description,
+    background: null,
+    tokens: {
+      bg: '#0b0d10', bgElevated: '#13171c', bgPanel: '#181d23',
+      fg: '#ffffff', fgMuted: '#a0a8b3',
+      accent: primary, accentSoft: '#1a2030', accentHot,
+      warn: '#ffb14a', good: '#5fe39a', border: '#2a323a',
+      fontUi: '"Inter", system-ui, sans-serif',
+      fontMono: '"JetBrains Mono", ui-monospace, monospace',
+      fontDisplay: '"Oswald", "Inter", system-ui, sans-serif',
+      radius: '6px', pad: '14px',
+      scanlines: false, glow: false, vignette: true, noise: false
+    },
+    effects: { clickSound: null }
+  };
+}
+
+export const nhl = leagueTheme('nhl', 'NHL', 'Pick any NHL team — colors and rink-themed background apply', '#CE1126', '#ffffff');
+export const nfl = leagueTheme('nfl', 'NFL', 'Pick any NFL team — colors and gridiron background apply', '#013369', '#D50A0A');
+export const nba = leagueTheme('nba', 'NBA', 'Pick any NBA team — colors and court background apply', '#C9082B', '#17408B');
+export const mlb = leagueTheme('mlb', 'MLB', 'Pick any MLB team — colors and diamond background apply', '#002D72', '#E81828');
+export const f1  = leagueTheme('f1',  'Formula 1', 'Pick any F1 constructor — colors and racetrack background apply', '#E10600', '#FFFFFF');
+export const nascar = leagueTheme('nascar', 'NASCAR', 'Pick any NASCAR team — colors and oval racetrack background apply', '#FFD100', '#000000');
 
 /* ============================================================
  * Extra themes (sci-fi, games, pop-culture, aesthetic, retro,
@@ -341,7 +351,7 @@ export const lcars: Theme = {
   name: 'LCARS',
   description: 'Star Trek Okudagram panels in peach, amber, and lavender',
   background:
-    'radial-gradient(ellipse at 0% 0%, rgba(255,153,102,0.12), transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(204,153,204,0.10), transparent 50%), #000000',
+    'radial-gradient(ellipse at 0% 0%, rgba(255,153,102,0.18), transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(204,153,204,0.14), transparent 50%), #000000',
   tokens: {
     bg: '#000000', bgElevated: '#161616', bgPanel: '#1c1c1c',
     fg: '#ffcc99', fgMuted: '#cc99cc',
@@ -881,66 +891,6 @@ export const detroittechno: Theme = {
 
 /* ---------- Detroit-specific ---------- */
 
-export const tigers: Theme = {
-  id: 'tigers',
-  name: 'Detroit Tigers',
-  description: 'Old English D, navy and orange',
-  background:
-    'radial-gradient(ellipse at center, #142848 0%, #0a1830 100%)',
-  tokens: {
-    bg: '#0a1830', bgElevated: '#142848', bgPanel: '#1a3458',
-    fg: '#ffffff', fgMuted: '#a0b8d0',
-    accent: '#fa4616', accentSoft: '#3a1810', accentHot: '#ffffff',
-    warn: '#fa4616', good: '#5fe39a', border: '#1f3858',
-    fontUi: '"Cinzel", "Inter", serif',
-    fontMono: '"JetBrains Mono", monospace',
-    fontDisplay: '"Cinzel", "Cinzel Decorative", serif',
-    radius: '4px', pad: '14px',
-    scanlines: false, glow: false, vignette: true, noise: false
-  },
-  effects: { clickSound: null }
-};
-
-export const lions: Theme = {
-  id: 'lions',
-  name: 'Detroit Lions',
-  description: 'Honolulu blue and silver',
-  background:
-    'linear-gradient(135deg, #0076b6 0%, #003c66 100%)',
-  tokens: {
-    bg: '#003c66', bgElevated: '#005285', bgPanel: '#0066a0',
-    fg: '#ffffff', fgMuted: '#b8d0e0',
-    accent: '#0076b6', accentSoft: '#1a3a5a', accentHot: '#b0b7bc',
-    warn: '#ffb14a', good: '#5fe39a', border: '#0a548a',
-    fontUi: '"Oswald", "Inter", sans-serif',
-    fontMono: '"JetBrains Mono", monospace',
-    fontDisplay: '"Oswald", sans-serif',
-    radius: '4px', pad: '14px',
-    scanlines: false, glow: false, vignette: true, noise: false
-  },
-  effects: { clickSound: null }
-};
-
-export const pistons: Theme = {
-  id: 'pistons',
-  name: 'Detroit Pistons',
-  description: 'Vintage Bad Boys red, white, blue',
-  background:
-    'linear-gradient(180deg, #c8102e 0%, #1d428a 100%)',
-  tokens: {
-    bg: '#0c1f44', bgElevated: '#1d428a', bgPanel: '#22529c',
-    fg: '#ffffff', fgMuted: '#b8c4d8',
-    accent: '#c8102e', accentSoft: '#4a0a14', accentHot: '#ffffff',
-    warn: '#ffb14a', good: '#5fe39a', border: '#1a3870',
-    fontUi: '"Oswald", "Inter", sans-serif',
-    fontMono: '"JetBrains Mono", monospace',
-    fontDisplay: '"Oswald", sans-serif',
-    radius: '6px', pad: '14px',
-    scanlines: false, glow: false, vignette: true, noise: false
-  },
-  effects: { clickSound: null }
-};
-
 export const vernors: Theme = {
   id: 'vernors',
   name: 'Vernors',
@@ -976,10 +926,10 @@ export const THEMES: Theme[] = [
   synthwave, vaporwave, lofi, detroittechno,
   // Adventure / fantasy
   cyberpunk, dnd,
-  // Detroit
-  tigers, lions, pistons, vernors,
-  // Sports (must remain last so the per-team picker still works)
-  nhl
+  // Detroit special
+  vernors,
+  // Sports leagues (per-team picker via ThemeProvider)
+  nhl, nfl, nba, mlb, f1, nascar
 ];
 
 export function getTheme(id: string): Theme {

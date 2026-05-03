@@ -2,7 +2,7 @@ import React, { createContext, useContext, useEffect, useMemo } from 'react';
 import { getTheme, type Theme } from './index';
 import { themeToCssVars } from './theme';
 import { useApp } from '../store/app';
-import { getNhlTeam, nhlBackground } from './nhl';
+import { teamsForSport, getSportTeam, sportsBackground, type Sport } from './sports';
 
 interface Ctx {
   theme: Theme;
@@ -24,17 +24,21 @@ export function ThemeProvider({ themeId, children }: { themeId: string; children
   const fontFamily = useApp((s) => s.settings?.ui?.fontFamily ?? 'theme');
   const widgetOpacity = useApp((s) => s.settings?.ui?.widgetOpacity ?? 1.0);
   const backgrounds = useApp((s) => s.settings?.ui?.backgrounds ?? {});
-  const nhlTeamId = useApp((s) => s.settings?.ui?.nhlTeam ?? 'detroit');
+  const sportTeams = useApp((s) => s.settings?.ui?.sportTeams ?? {});
 
-  // Derive NHL team-specific theme tokens / background.
+  // Derive per-league sport theme from the active team selection.
   const theme = useMemo<Theme>(() => {
-    if (baseTheme.id !== 'nhl') return baseTheme;
-    const team = getNhlTeam(nhlTeamId);
+    const sportIds: Sport[] = ['nhl', 'nfl', 'nba', 'mlb', 'f1', 'nascar'];
+    if (!sportIds.includes(baseTheme.id as Sport)) return baseTheme;
+    const sport = baseTheme.id as Sport;
+    const teamId = sportTeams[sport] ?? teamsForSport(sport)[0]?.id;
+    if (!teamId) return baseTheme;
+    const team = getSportTeam(sport, teamId);
     return {
       ...baseTheme,
-      name: `${team.city} ${team.name}`,
-      description: `${team.city} ${team.name} (${team.abbr})`,
-      background: nhlBackground(team),
+      name: `${baseTheme.name} · ${team.name}`,
+      description: `${team.name} (${team.abbr})`,
+      background: sportsBackground(team),
       tokens: {
         ...baseTheme.tokens,
         accent: team.primary,
@@ -43,7 +47,7 @@ export function ThemeProvider({ themeId, children }: { themeId: string; children
         fg: '#ffffff'
       }
     };
-  }, [baseTheme, nhlTeamId]);
+  }, [baseTheme, sportTeams]);
 
   useEffect(() => {
     document.body.dataset.theme = theme.id;
