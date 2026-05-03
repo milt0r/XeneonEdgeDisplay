@@ -267,12 +267,65 @@ body[data-theme='dnd'] .sensor-value {
   justify-content: flex-end;
 }
 .settings-panel {
-  width: 720px;
+  width: 920px;
   background: var(--bg-panel);
   border-left: 1px solid var(--border);
   display: flex;
   flex-direction: column;
 }
+.settings-shell {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+.settings-sidebar {
+  flex: 0 0 180px;
+  background: var(--bg-elevated);
+  border-right: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  padding: 8px 6px;
+  gap: 4px;
+  overflow-y: auto;
+}
+.settings-tab {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  color: var(--fg-muted);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  text-align: left;
+  min-height: 44px;
+}
+.settings-tab:hover { background: var(--bg-panel); color: var(--fg); }
+.settings-tab.active {
+  background: var(--accent-soft);
+  color: var(--accent-hot);
+  border-color: var(--accent);
+}
+.settings-tab-icon { font-size: 18px; min-width: 24px; text-align: center; }
+
+.widget-list { display: flex; flex-direction: column; gap: 4px; }
+.widget-list-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 10px;
+  align-items: center;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 8px 12px;
+  font-size: 13px;
+}
+.widget-list-name { color: var(--fg); }
 .settings-header {
   padding: 16px;
   border-bottom: 1px solid var(--border);

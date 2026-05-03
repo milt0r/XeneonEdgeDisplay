@@ -18,6 +18,8 @@ export function SettingsPanel() {
   const setSettings = useApp((s) => s.setSettings);
   const setShowSettings = useApp((s) => s.setShowSettings);
   const addWidget = useApp((s) => s.addWidget);
+  const removeWidget = useApp((s) => s.removeWidget);
+  const layout = useApp((s) => s.layout);
 
   const [haUrl, setHaUrl] = useState(settings.homeAssistant.baseUrl || 'http://homeassistant.local:8123');
   const [haToken, setHaToken] = useState('');
@@ -32,6 +34,7 @@ export function SettingsPanel() {
 
   const [oskField, setOskField] = useState<OskField | null>(null);
   const oskEnabled = !!settings?.ui?.onScreenKeyboard;
+  const [tab, setTab] = useState<'themes' | 'widgets' | 'providers' | 'interface' | 'window'>('themes');
 
   const update = async (patch: any) => {
     const next = await window.api.updateSettings(patch);
@@ -111,7 +114,27 @@ export function SettingsPanel() {
             CLOSE
           </button>
         </div>
-        <div className="settings-body">
+        <div className="settings-shell">
+          <nav className="settings-sidebar">
+            {([
+              ['themes', '🎨', 'Themes'],
+              ['widgets', '▦', 'Widgets'],
+              ['providers', '🔌', 'Providers'],
+              ['interface', '⚙', 'Interface'],
+              ['window', '⛶', 'Window']
+            ] as const).map(([id, icon, label]) => (
+              <button
+                key={id}
+                className={`settings-tab ${tab === id ? 'active' : ''}`}
+                onClick={() => setTab(id)}
+              >
+                <span className="settings-tab-icon">{icon}</span>
+                <span>{label}</span>
+              </button>
+            ))}
+          </nav>
+          <div className="settings-body">
+          {tab === 'interface' && (
           <section className="settings-section">
             <h3>Interface</h3>
             <label className="toggle-row">
@@ -233,7 +256,9 @@ export function SettingsPanel() {
               </div>
             </div>
           </section>
+          )}
 
+          {tab === 'themes' && (
           <section className="settings-section">
             <h3>Theme</h3>
             <div className="theme-grid">
@@ -277,7 +302,9 @@ export function SettingsPanel() {
               );
             })()}
           </section>
+          )}
 
+          {tab === 'providers' && (<>
           <section className="settings-section">
             <h3>Weather</h3>
             <div className="row">
@@ -422,7 +449,9 @@ export function SettingsPanel() {
               )}
             </div>
           </section>
+          </>)}
 
+          {tab === 'widgets' && (
           <section className="settings-section">
             <h3>Add widget</h3>
             <div className="ql-grid">
@@ -439,8 +468,24 @@ export function SettingsPanel() {
                 </button>
               ))}
             </div>
+            <h3 style={{ marginTop: 16 }}>Currently on dashboard</h3>
+            <div className="widget-list">
+              {layout.length === 0 && <div className="muted mono">No widgets yet</div>}
+              {layout.map((it) => {
+                const plugin = PluginRegistry.get(it.pluginId);
+                return (
+                  <div key={it.instanceId} className="widget-list-row">
+                    <span className="widget-list-name">{plugin?.title ?? it.pluginId}</span>
+                    <span className="muted mono" style={{ fontSize: 11 }}>{it.w}×{it.h}</span>
+                    <button className="chip danger" onClick={() => removeWidget(it.instanceId)}>Remove</button>
+                  </div>
+                );
+              })}
+            </div>
           </section>
+          )}
 
+          {tab === 'window' && (
           <section className="settings-section">
             <h3>Window</h3>
             <div className="btn-row">
@@ -452,7 +497,9 @@ export function SettingsPanel() {
               </button>
             </div>
           </section>
+          )}
         </div>
+      </div>
 
         {oskBinding && (
           <OnScreenKeyboard
