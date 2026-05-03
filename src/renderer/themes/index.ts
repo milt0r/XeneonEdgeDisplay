@@ -326,7 +326,661 @@ export const nhl: Theme = {
   effects: { clickSound: null }
 };
 
-export const THEMES: Theme[] = [pipboy, dark, synthwave, nord, cyberpunk, dnd, bbs, eightbit, nhl];
+/* ============================================================
+ * Extra themes (sci-fi, games, pop-culture, aesthetic, retro,
+ * music, Detroit-local). Backgrounds are inline SVG / gradient
+ * data URIs with no network fetch.
+ * ============================================================ */
+
+const enc = (s: string) => `url("data:image/svg+xml;utf8,${encodeURIComponent(s.replace(/\s+/g, ' ').trim())}")`;
+
+/* ---------- Sci-Fi ---------- */
+
+export const lcars: Theme = {
+  id: 'lcars',
+  name: 'LCARS',
+  description: 'Star Trek Okudagram panels in peach, amber, and lavender',
+  background:
+    'radial-gradient(ellipse at 0% 0%, rgba(255,153,102,0.12), transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(204,153,204,0.10), transparent 50%), #000000',
+  tokens: {
+    bg: '#000000', bgElevated: '#161616', bgPanel: '#1c1c1c',
+    fg: '#ffcc99', fgMuted: '#cc99cc',
+    accent: '#ff9966', accentSoft: '#3a1a08', accentHot: '#ffcc66',
+    warn: '#cc6666', good: '#99ccff', border: '#cc6666',
+    fontUi: '"Antonio", "Oswald", Helvetica, Arial, sans-serif',
+    fontMono: '"JetBrains Mono", ui-monospace, monospace',
+    fontDisplay: '"Antonio", "Oswald", Helvetica, sans-serif',
+    radius: '24px', pad: '14px',
+    scanlines: false, glow: true, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const nostromo: Theme = {
+  id: 'nostromo',
+  name: 'Nostromo',
+  description: 'MU-TH-UR 6000 — green phosphor terminal aboard the USCSS Nostromo',
+  background:
+    'radial-gradient(ellipse at 50% 50%, rgba(40, 200, 80, 0.10), transparent 70%), repeating-linear-gradient(0deg, rgba(40, 200, 80, 0.05) 0, rgba(40, 200, 80, 0.05) 1px, transparent 2px, transparent 4px), #000000',
+  tokens: {
+    bg: '#000000', bgElevated: '#001a05', bgPanel: '#002a08',
+    fg: '#33ff66', fgMuted: '#1f8a3a',
+    accent: '#33ff66', accentSoft: '#0d3b18', accentHot: '#aaffaa',
+    warn: '#ffaa33', good: '#33ff66', border: '#1f8a3a',
+    fontUi: '"VT323", "Share Tech Mono", monospace',
+    fontMono: '"VT323", monospace',
+    fontDisplay: '"VT323", monospace',
+    radius: '0px', pad: '12px',
+    scanlines: true, glow: true, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const halo: Theme = {
+  id: 'halo',
+  name: 'Cortana',
+  description: 'UNSC HUD: deep navy with holographic cyan',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'>
+    <defs><pattern id='h' x='0' y='0' width='40' height='35' patternUnits='userSpaceOnUse'>
+      <path d='M20 0 L40 12 L40 35 L20 47 L0 35 L0 12 Z' fill='none' stroke='%2300d4ff' stroke-opacity='0.12' stroke-width='1'/>
+    </pattern></defs>
+    <rect width='200' height='200' fill='%23030814'/><rect width='200' height='200' fill='url(%23h)'/></svg>`) + ' repeat, #030814',
+  tokens: {
+    bg: '#030814', bgElevated: '#091428', bgPanel: '#0e1d3a',
+    fg: '#cfeeff', fgMuted: '#6a90b8',
+    accent: '#00d4ff', accentSoft: '#0c3a55', accentHot: '#7afff0',
+    warn: '#ffb14a', good: '#5fe39a', border: '#1c3050',
+    fontUi: '"Rajdhani", "Orbitron", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Orbitron", "Rajdhani", sans-serif',
+    radius: '4px', pad: '14px',
+    scanlines: false, glow: true, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const xfiles: Theme = {
+  id: 'xfiles',
+  name: 'X-Files',
+  description: 'The truth is out there — green CRT case file',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2560 720' preserveAspectRatio='xMidYMid slice'>
+    <defs>
+      <radialGradient id='spot' cx='50%' cy='50%' r='65%'>
+        <stop offset='0%' stop-color='%23001a00' stop-opacity='1'/>
+        <stop offset='100%' stop-color='%23000000' stop-opacity='1'/>
+      </radialGradient>
+    </defs>
+    <rect width='2560' height='720' fill='url(%23spot)'/>
+    <g font-family='Special Elite, VT323, monospace' fill='%2333ff33' opacity='0.18'>
+      <text x='1280' y='160' text-anchor='middle' font-size='110' letter-spacing='10'>THE TRUTH IS OUT THERE</text>
+      <text x='1280' y='560' text-anchor='middle' font-size='80' letter-spacing='8'>I  W A N T  T O  B E L I E V E</text>
+    </g>
+    <g fill='none' stroke='%2333ff33' stroke-opacity='0.25' stroke-width='2'>
+      <circle cx='1280' cy='360' r='220'/>
+      <circle cx='1280' cy='360' r='160'/>
+      <line x1='1060' y1='360' x2='1500' y2='360'/>
+      <line x1='1280' y1='140' x2='1280' y2='580'/>
+    </g>
+    <g font-family='Special Elite, VT323, monospace' fill='%2333ff33' opacity='0.45' font-size='22'>
+      <text x='80' y='60'>FBI · CASE FILE 7012-X · CLASSIFIED · LEVEL 4</text>
+      <text x='80' y='700'>FOX MULDER · DANA SCULLY · J. EDGAR HOOVER BLDG · WASHINGTON DC</text>
+    </g>
+  </svg>`) + ' center/cover no-repeat, #000000',
+  tokens: {
+    bg: '#000000', bgElevated: '#031003', bgPanel: '#062006',
+    fg: '#33ff33', fgMuted: '#1a8a1a',
+    accent: '#33ff33', accentSoft: '#0a2a0a', accentHot: '#aaffaa',
+    warn: '#ff5555', good: '#33ff33', border: '#1a5a1a',
+    fontUi: '"Special Elite", "VT323", monospace',
+    fontMono: '"Special Elite", "VT323", monospace',
+    fontDisplay: '"Special Elite", "VT323", monospace',
+    radius: '0px', pad: '14px',
+    scanlines: true, glow: true, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+/* ---------- Games ---------- */
+
+export const minecraft: Theme = {
+  id: 'minecraft',
+  name: 'Minecraft',
+  description: 'Grass blocks, dirt borders, blocky pixel font',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 320 200' shape-rendering='crispEdges'>
+    <rect width='320' height='40' fill='%2387ceeb'/>
+    <g fill='%23ffffff' opacity='0.8'><rect x='40' y='10' width='40' height='10'/><rect x='200' y='15' width='50' height='8'/></g>
+    <rect y='40' width='320' height='30' fill='%2360c040'/>
+    <g fill='%2378d040'><rect y='40' width='10' height='6'/><rect x='30' y='40' width='6' height='4'/><rect x='80' y='40' width='14' height='8'/><rect x='160' y='40' width='8' height='5'/><rect x='220' y='40' width='12' height='7'/></g>
+    <rect y='70' width='320' height='130' fill='%23805020'/>
+    <g fill='%23603810'><rect x='30' y='80' width='14' height='14'/><rect x='100' y='110' width='18' height='14'/><rect x='200' y='90' width='12' height='12'/><rect x='250' y='150' width='20' height='14'/></g>
+    <g fill='%239f6028'><rect x='80' y='140' width='14' height='10'/><rect x='180' y='170' width='16' height='12'/></g>
+  </svg>`) + ' center/cover no-repeat, #87ceeb',
+  tokens: {
+    bg: '#5a3010', bgElevated: '#704018', bgPanel: '#805020',
+    fg: '#ffffff', fgMuted: '#d0c8a0',
+    accent: '#60c040', accentSoft: '#1f4818', accentHot: '#a4f070',
+    warn: '#e0a020', good: '#60c040', border: '#3a2010',
+    fontUi: '"Press Start 2P", "VT323", monospace',
+    fontMono: '"Press Start 2P", "VT323", monospace',
+    fontDisplay: '"Press Start 2P", "VT323", monospace',
+    radius: '0px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const doom: Theme = {
+  id: 'doom',
+  name: 'Doom',
+  description: 'UAC infirmary status bar — red, brown, grey, blood',
+  background:
+    'linear-gradient(180deg, #1a0a0a 0%, #2a1010 60%, #5a1a0a 100%), repeating-linear-gradient(45deg, rgba(0,0,0,0.2) 0 6px, transparent 6px 12px)',
+  tokens: {
+    bg: '#1a0a0a', bgElevated: '#2a1010', bgPanel: '#3a1812',
+    fg: '#e0d0a0', fgMuted: '#a08c5a',
+    accent: '#ff2222', accentSoft: '#5a0a0a', accentHot: '#ffd060',
+    warn: '#ff8c20', good: '#22cc22', border: '#5a2a18',
+    fontUi: '"Bungee", "Press Start 2P", Impact, sans-serif',
+    fontMono: '"VT323", monospace',
+    fontDisplay: '"Bungee", Impact, sans-serif',
+    radius: '0px', pad: '14px',
+    scanlines: false, glow: true, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const blackmesa: Theme = {
+  id: 'blackmesa',
+  name: 'Black Mesa',
+  description: 'Lambda labs — orange hazard + grey concrete',
+  background:
+    'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%), repeating-linear-gradient(-45deg, rgba(255, 140, 0, 0.04) 0 24px, transparent 24px 48px)',
+  tokens: {
+    bg: '#1a1a1a', bgElevated: '#262626', bgPanel: '#333333',
+    fg: '#e8e8e8', fgMuted: '#9a9a9a',
+    accent: '#ff8c00', accentSoft: '#3a2208', accentHot: '#ffb84a',
+    warn: '#ffb14a', good: '#5fe39a', border: '#3a3a3a',
+    fontUi: '"Rajdhani", "Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Rajdhani", sans-serif',
+    radius: '2px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const stardew: Theme = {
+  id: 'stardew',
+  name: 'Stardew Valley',
+  description: 'Pixel cottagecore in pastel greens and warm wood',
+  background:
+    'linear-gradient(180deg, #ffd9a0 0%, #f7c890 30%, #88c070 60%, #5ca050 100%)',
+  tokens: {
+    bg: '#3a2a1a', bgElevated: '#5a4030', bgPanel: '#6a4a36',
+    fg: '#fff4d6', fgMuted: '#d4b890',
+    accent: '#88c070', accentSoft: '#3a5a28', accentHot: '#ffd866',
+    warn: '#ff9c66', good: '#88c070', border: '#3a2a1a',
+    fontUi: '"Press Start 2P", "VT323", monospace',
+    fontMono: '"VT323", monospace',
+    fontDisplay: '"Press Start 2P", monospace',
+    radius: '0px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+/* ---------- Pop-culture ---------- */
+
+export const severance: Theme = {
+  id: 'severance',
+  name: 'Severance',
+  description: 'Lumon Industries — austere mid-century corporate beige and ice-blue',
+  background:
+    'radial-gradient(ellipse at center, rgba(110, 180, 220, 0.06), transparent 60%), repeating-radial-gradient(circle at 30% 30%, rgba(0,0,0,0.06) 0 1px, transparent 1px 8px), #d8d4c4',
+  tokens: {
+    bg: '#d8d4c4', bgElevated: '#c4bfa8', bgPanel: '#bbb59e',
+    fg: '#1a2030', fgMuted: '#5a6080',
+    accent: '#2a5a90', accentSoft: '#a8b5c8', accentHot: '#0a2050',
+    warn: '#a86040', good: '#406a30', border: '#9a9580',
+    fontUi: '"IBM Plex Mono", "JetBrains Mono", monospace',
+    fontMono: '"IBM Plex Mono", "JetBrains Mono", monospace',
+    fontDisplay: '"IBM Plex Mono", monospace',
+    radius: '0px', pad: '16px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const wesanderson: Theme = {
+  id: 'wesanderson',
+  name: 'Wes Anderson',
+  description: 'Pastel symmetry — warm pink, mustard yellow, mint, deep teal',
+  background:
+    'linear-gradient(180deg, #f4c8c0 0%, #f4c8c0 33%, #f0d896 33%, #f0d896 66%, #b8d8c8 66%, #b8d8c8 100%)',
+  tokens: {
+    bg: '#f4c8c0', bgElevated: '#f0d896', bgPanel: '#fff4e8',
+    fg: '#3a2018', fgMuted: '#7a5a4a',
+    accent: '#c84838', accentSoft: '#e8b8a0', accentHot: '#1a4858',
+    warn: '#e08a3a', good: '#5a8a6a', border: '#c89878',
+    fontUi: '"Futura", "Inter", "Nunito", sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Futura", "Inter", sans-serif',
+    radius: '0px', pad: '16px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const f1pit: Theme = {
+  id: 'f1pit',
+  name: 'F1 Pit Wall',
+  description: 'Carbon-fibre weave with checkered-flag accents and telemetry red',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'>
+    <rect width='80' height='80' fill='%23151515'/>
+    <g stroke='%23222222' stroke-width='1'>
+      <path d='M0 0 L80 80 M0 80 L80 0'/>
+      <path d='M0 40 L40 80 L80 40 L40 0 Z' fill='%231a1a1a'/>
+    </g>
+  </svg>`) + ' repeat, #151515',
+  tokens: {
+    bg: '#101010', bgElevated: '#1a1a1a', bgPanel: '#222222',
+    fg: '#e8e8e8', fgMuted: '#888888',
+    accent: '#e10600', accentSoft: '#3a0a08', accentHot: '#ffffff',
+    warn: '#ffd100', good: '#00d05a', border: '#2a2a2a',
+    fontUi: '"Rajdhani", "Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Orbitron", "Rajdhani", sans-serif',
+    radius: '2px', pad: '14px',
+    scanlines: false, glow: true, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const apollo: Theme = {
+  id: 'apollo',
+  name: 'Apollo MOCR',
+  description: 'NASA Mission Control — gunmetal grey, mission patch teal',
+  background:
+    'linear-gradient(180deg, #2a2e34 0%, #1f2228 100%), radial-gradient(circle at 80% 20%, rgba(0,180,180,0.08), transparent 50%)',
+  tokens: {
+    bg: '#1f2228', bgElevated: '#2a2e34', bgPanel: '#353a42',
+    fg: '#eaeaea', fgMuted: '#9aa0a8',
+    accent: '#00b4b4', accentSoft: '#0a3a3a', accentHot: '#ffffff',
+    warn: '#ffb14a', good: '#5fe39a', border: '#3a3f48',
+    fontUi: '"IBM Plex Mono", "JetBrains Mono", monospace',
+    fontMono: '"IBM Plex Mono", "JetBrains Mono", monospace',
+    fontDisplay: '"IBM Plex Mono", "Inter", monospace',
+    radius: '4px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+/* ---------- Aesthetic / Editor palettes ---------- */
+
+export const solarizedDark: Theme = {
+  id: 'solarized-dark',
+  name: 'Solarized Dark',
+  description: 'Ethan Schoonover\'s dark variant',
+  background: 'radial-gradient(ellipse at center, #073642, #002b36 100%)',
+  tokens: {
+    bg: '#002b36', bgElevated: '#073642', bgPanel: '#0e4250',
+    fg: '#eee8d5', fgMuted: '#93a1a1',
+    accent: '#268bd2', accentSoft: '#0a3a5a', accentHot: '#b58900',
+    warn: '#cb4b16', good: '#859900', border: '#586e75',
+    fontUi: '"Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", "IBM Plex Mono", monospace',
+    fontDisplay: '"Inter", sans-serif',
+    radius: '6px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const solarizedLight: Theme = {
+  id: 'solarized-light',
+  name: 'Solarized Light',
+  description: 'Light variant for daytime use',
+  background: 'radial-gradient(ellipse at center, #fdf6e3, #eee8d5 100%)',
+  tokens: {
+    bg: '#fdf6e3', bgElevated: '#eee8d5', bgPanel: '#ffffff',
+    fg: '#073642', fgMuted: '#586e75',
+    accent: '#268bd2', accentSoft: '#bee4f5', accentHot: '#cb4b16',
+    warn: '#cb4b16', good: '#859900', border: '#93a1a1',
+    fontUi: '"Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Inter", sans-serif',
+    radius: '6px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const catppuccin: Theme = {
+  id: 'catppuccin',
+  name: 'Catppuccin Mocha',
+  description: 'Soothing pastel theme beloved by devs',
+  background: 'radial-gradient(circle at 0% 0%, #313244, #1e1e2e 60%)',
+  tokens: {
+    bg: '#1e1e2e', bgElevated: '#181825', bgPanel: '#313244',
+    fg: '#cdd6f4', fgMuted: '#a6adc8',
+    accent: '#cba6f7', accentSoft: '#3a2c4a', accentHot: '#f5c2e7',
+    warn: '#fab387', good: '#a6e3a1', border: '#45475a',
+    fontUi: '"Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Inter", sans-serif',
+    radius: '8px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const tokyonight: Theme = {
+  id: 'tokyonight',
+  name: 'Tokyo Night',
+  description: 'Purple-tinted dark with neon highlights',
+  background: 'radial-gradient(ellipse at 100% 0%, #414868, #1a1b26 70%)',
+  tokens: {
+    bg: '#1a1b26', bgElevated: '#24283b', bgPanel: '#2f334d',
+    fg: '#c0caf5', fgMuted: '#7982a9',
+    accent: '#7aa2f7', accentSoft: '#1c2e54', accentHot: '#bb9af7',
+    warn: '#e0af68', good: '#9ece6a', border: '#414868',
+    fontUi: '"Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Inter", sans-serif',
+    radius: '6px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const gruvbox: Theme = {
+  id: 'gruvbox',
+  name: 'Gruvbox Dark',
+  description: 'Warm retro terminal',
+  background: 'radial-gradient(ellipse at center, #3c3836, #282828 70%)',
+  tokens: {
+    bg: '#282828', bgElevated: '#32302f', bgPanel: '#3c3836',
+    fg: '#ebdbb2', fgMuted: '#a89984',
+    accent: '#fabd2f', accentSoft: '#3a2a08', accentHot: '#fe8019',
+    warn: '#fb4934', good: '#b8bb26', border: '#504945',
+    fontUi: '"JetBrains Mono", ui-monospace, monospace',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"JetBrains Mono", monospace',
+    radius: '4px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const monokai: Theme = {
+  id: 'monokai',
+  name: 'Monokai Pro',
+  description: 'Vibrant code-editor classic',
+  background: 'linear-gradient(135deg, #2d2a2e 0%, #221f22 100%)',
+  tokens: {
+    bg: '#221f22', bgElevated: '#2d2a2e', bgPanel: '#403e41',
+    fg: '#fcfcfa', fgMuted: '#939293',
+    accent: '#ff6188', accentSoft: '#4a1c2a', accentHot: '#ffd866',
+    warn: '#fc9867', good: '#a9dc76', border: '#5b595c',
+    fontUi: '"JetBrains Mono", monospace',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"JetBrains Mono", monospace',
+    radius: '4px', pad: '14px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+/* ---------- Retro period pieces ---------- */
+
+export const atari2600: Theme = {
+  id: 'atari2600',
+  name: 'Atari 2600',
+  description: 'Saturated 8-color cartridge era',
+  background:
+    'linear-gradient(180deg, #6b3c00 0%, #6b3c00 20%, #cc3333 20%, #cc3333 40%, #ee9900 40%, #ee9900 60%, #00aa00 60%, #00aa00 80%, #0088cc 80%, #0088cc 100%)',
+  tokens: {
+    bg: '#000000', bgElevated: '#1a1a1a', bgPanel: '#2a2a2a',
+    fg: '#ffffff', fgMuted: '#cccccc',
+    accent: '#ee9900', accentSoft: '#3a2200', accentHot: '#ffcc33',
+    warn: '#cc3333', good: '#00aa00', border: '#cc3333',
+    fontUi: '"Press Start 2P", monospace',
+    fontMono: '"Press Start 2P", monospace',
+    fontDisplay: '"Press Start 2P", monospace',
+    radius: '0px', pad: '14px',
+    scanlines: true, glow: false, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const amiga: Theme = {
+  id: 'amiga',
+  name: 'Amiga Workbench',
+  description: 'Workbench 1.3 grey pinstripes on Topaz blue',
+  background:
+    'repeating-linear-gradient(90deg, #0a55aa 0 1px, #0844a0 1px 2px), #0844a0',
+  tokens: {
+    bg: '#0844a0', bgElevated: '#9090c0', bgPanel: '#a8a8c8',
+    fg: '#000000', fgMuted: '#404060',
+    accent: '#ff8800', accentSoft: '#ffd9a0', accentHot: '#ffaa44',
+    warn: '#cc0000', good: '#008800', border: '#000000',
+    fontUi: '"VT323", "Share Tech Mono", monospace',
+    fontMono: '"VT323", monospace',
+    fontDisplay: '"VT323", monospace',
+    radius: '0px', pad: '12px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const y2k: Theme = {
+  id: 'y2k',
+  name: 'iMac G3',
+  description: 'Translucent Bondi blue Aqua, circa 1999',
+  background:
+    'radial-gradient(ellipse at 30% 0%, #b0e8f0 0%, #4ab8d4 50%, #006080 100%)',
+  tokens: {
+    bg: '#006080', bgElevated: '#0078a0', bgPanel: '#0098c0',
+    fg: '#ffffff', fgMuted: '#cce8f0',
+    accent: '#00d8f8', accentSoft: '#005060', accentHot: '#ffffff',
+    warn: '#ff6a3d', good: '#5fe39a', border: '#005a78',
+    fontUi: '"Lucida Grande", "Inter", "Helvetica Neue", sans-serif',
+    fontMono: '"Monaco", "JetBrains Mono", monospace',
+    fontDisplay: '"Lucida Grande", "Inter", sans-serif',
+    radius: '14px', pad: '14px',
+    scanlines: false, glow: true, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const win31: Theme = {
+  id: 'win31',
+  name: 'Windows 3.1',
+  description: 'Chunky bevels on the iconic teal hatched desktop',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 4 4'>
+    <rect width='4' height='4' fill='%23008080'/>
+    <rect x='0' y='0' width='1' height='1' fill='%23000000'/>
+    <rect x='2' y='2' width='1' height='1' fill='%23000000'/>
+  </svg>`) + ' repeat, #008080',
+  tokens: {
+    bg: '#008080', bgElevated: '#c0c0c0', bgPanel: '#c0c0c0',
+    fg: '#000000', fgMuted: '#404040',
+    accent: '#000080', accentSoft: '#a0a0e0', accentHot: '#ffffff',
+    warn: '#cc0000', good: '#008000', border: '#808080',
+    fontUi: '"MS Sans Serif", "Tahoma", "Inter", sans-serif',
+    fontMono: '"VT323", monospace',
+    fontDisplay: '"MS Sans Serif", "Inter", sans-serif',
+    radius: '0px', pad: '10px',
+    scanlines: false, glow: false, vignette: false, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+/* ---------- Music / Cultural ---------- */
+
+export const vaporwave: Theme = {
+  id: 'vaporwave',
+  name: 'Vaporwave',
+  description: 'A E S T H E T I C — pink + teal gradients with chrome',
+  background:
+    'linear-gradient(180deg, #ff71ce 0%, #b967ff 50%, #01cdfe 100%), radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 60%)',
+  tokens: {
+    bg: '#1a0533', bgElevated: '#2a0a4a', bgPanel: '#3a1066',
+    fg: '#ffffff', fgMuted: '#d4b8ff',
+    accent: '#ff71ce', accentSoft: '#5a1c4a', accentHot: '#01cdfe',
+    warn: '#fffb96', good: '#05ffa1', border: '#b967ff',
+    fontUi: '"Audiowide", "Orbitron", system-ui, sans-serif',
+    fontMono: '"VT323", monospace',
+    fontDisplay: '"Audiowide", "Orbitron", sans-serif',
+    radius: '6px', pad: '14px',
+    scanlines: false, glow: true, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const lofi: Theme = {
+  id: 'lofi',
+  name: 'Lo-Fi',
+  description: 'Warm muted browns and oranges, Chillhop-cafe vibe',
+  background:
+    'radial-gradient(ellipse at 30% 30%, #d8a878 0%, #b07848 40%, #6a4828 100%)',
+  tokens: {
+    bg: '#3a2818', bgElevated: '#4a3424', bgPanel: '#5a4030',
+    fg: '#fff0d8', fgMuted: '#c8a888',
+    accent: '#e8a86a', accentSoft: '#5a3a1a', accentHot: '#fff0d8',
+    warn: '#e87a4a', good: '#9ac890', border: '#7a5838',
+    fontUi: '"Nunito", "Inter", system-ui, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Nunito", sans-serif',
+    radius: '12px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const detroittechno: Theme = {
+  id: 'detroittechno',
+  name: 'Detroit Techno',
+  description: 'Submerge / UR — concrete grey + flat magenta',
+  background:
+    'radial-gradient(ellipse at 50% 50%, #2a2a2a 0%, #0a0a0a 80%), repeating-linear-gradient(0deg, rgba(255,0,128,0.04) 0 1px, transparent 1px 12px)',
+  tokens: {
+    bg: '#0a0a0a', bgElevated: '#181818', bgPanel: '#222222',
+    fg: '#ffffff', fgMuted: '#888888',
+    accent: '#ff0080', accentSoft: '#3a0020', accentHot: '#ffd400',
+    warn: '#ffd400', good: '#00ffaa', border: '#333333',
+    fontUi: '"Bungee", "Orbitron", Impact, sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Bungee", Impact, sans-serif',
+    radius: '0px', pad: '14px',
+    scanlines: false, glow: true, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+/* ---------- Detroit-specific ---------- */
+
+export const tigers: Theme = {
+  id: 'tigers',
+  name: 'Detroit Tigers',
+  description: 'Old English D, navy and orange',
+  background:
+    'radial-gradient(ellipse at center, #142848 0%, #0a1830 100%)',
+  tokens: {
+    bg: '#0a1830', bgElevated: '#142848', bgPanel: '#1a3458',
+    fg: '#ffffff', fgMuted: '#a0b8d0',
+    accent: '#fa4616', accentSoft: '#3a1810', accentHot: '#ffffff',
+    warn: '#fa4616', good: '#5fe39a', border: '#1f3858',
+    fontUi: '"Cinzel", "Inter", serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Cinzel", "Cinzel Decorative", serif',
+    radius: '4px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const lions: Theme = {
+  id: 'lions',
+  name: 'Detroit Lions',
+  description: 'Honolulu blue and silver',
+  background:
+    'linear-gradient(135deg, #0076b6 0%, #003c66 100%)',
+  tokens: {
+    bg: '#003c66', bgElevated: '#005285', bgPanel: '#0066a0',
+    fg: '#ffffff', fgMuted: '#b8d0e0',
+    accent: '#0076b6', accentSoft: '#1a3a5a', accentHot: '#b0b7bc',
+    warn: '#ffb14a', good: '#5fe39a', border: '#0a548a',
+    fontUi: '"Oswald", "Inter", sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Oswald", sans-serif',
+    radius: '4px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const pistons: Theme = {
+  id: 'pistons',
+  name: 'Detroit Pistons',
+  description: 'Vintage Bad Boys red, white, blue',
+  background:
+    'linear-gradient(180deg, #c8102e 0%, #1d428a 100%)',
+  tokens: {
+    bg: '#0c1f44', bgElevated: '#1d428a', bgPanel: '#22529c',
+    fg: '#ffffff', fgMuted: '#b8c4d8',
+    accent: '#c8102e', accentSoft: '#4a0a14', accentHot: '#ffffff',
+    warn: '#ffb14a', good: '#5fe39a', border: '#1a3870',
+    fontUi: '"Oswald", "Inter", sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Oswald", sans-serif',
+    radius: '6px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: false
+  },
+  effects: { clickSound: null }
+};
+
+export const vernors: Theme = {
+  id: 'vernors',
+  name: 'Vernors',
+  description: 'Detroit\'s ginger soda — green + gold + cream',
+  background:
+    'linear-gradient(180deg, #1a4a1a 0%, #2a5a2a 100%), radial-gradient(circle at 30% 30%, rgba(212,175,55,0.10), transparent 60%)',
+  tokens: {
+    bg: '#1a4a1a', bgElevated: '#2a5a2a', bgPanel: '#356a35',
+    fg: '#fff8e0', fgMuted: '#c8d8a8',
+    accent: '#d4af37', accentSoft: '#4a3a10', accentHot: '#fff8e0',
+    warn: '#e87a3a', good: '#a8d878', border: '#1a3a1a',
+    fontUi: '"Cinzel", "Oswald", serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Cinzel Decorative", "Cinzel", serif',
+    radius: '8px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const THEMES: Theme[] = [
+  // System / minimal
+  dark, nord, solarizedLight, solarizedDark, catppuccin, tokyonight, gruvbox, monokai,
+  // Retro terminals & periods
+  pipboy, bbs, eightbit, atari2600, amiga, win31, y2k,
+  // Sci-fi
+  lcars, nostromo, halo, xfiles,
+  // Games
+  minecraft, doom, blackmesa, stardew,
+  // Pop-culture
+  severance, wesanderson, f1pit, apollo,
+  // Music / cultural
+  synthwave, vaporwave, lofi, detroittechno,
+  // Adventure / fantasy
+  cyberpunk, dnd,
+  // Detroit
+  tigers, lions, pistons, vernors,
+  // Sports (must remain last so the per-team picker still works)
+  nhl
+];
 
 export function getTheme(id: string): Theme {
   return THEMES.find((t) => t.id === id) ?? dark;
