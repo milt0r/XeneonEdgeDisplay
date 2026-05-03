@@ -8,6 +8,14 @@ import { HaTilesWidget } from '../widgets/ha-tiles';
 import { QuickLaunchWidget } from '../widgets/quick-launch';
 import { StocksWidget } from '../widgets/stocks';
 import { SportsWidget } from '../widgets/sports';
+import { PomodoroWidget } from '../widgets/pomodoro';
+import { TodoWidget } from '../widgets/todo';
+import { AirQualityWidget } from '../widgets/air-quality';
+import { HackerNewsWidget } from '../widgets/hackernews';
+import { SpeedtestWidget } from '../widgets/speedtest';
+import { CalendarWidget } from '../widgets/calendar';
+import { ScriptRunnerWidget } from '../widgets/scripts';
+import { NetworkMapWidget } from '../widgets/network-map';
 import { StubVoiceWidget, StubCalendarWidget } from '../widgets/stubs';
 
 export const BUILTIN_PLUGINS: WidgetPlugin<any>[] = [
@@ -20,6 +28,14 @@ export const BUILTIN_PLUGINS: WidgetPlugin<any>[] = [
   QuickLaunchWidget,
   StocksWidget,
   SportsWidget,
+  PomodoroWidget,
+  TodoWidget,
+  AirQualityWidget,
+  HackerNewsWidget,
+  SpeedtestWidget,
+  CalendarWidget,
+  ScriptRunnerWidget,
+  NetworkMapWidget,
   StubVoiceWidget,
   StubCalendarWidget
 ];

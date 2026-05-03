@@ -11,6 +11,9 @@ import { HomeAssistantProvider } from './providers/home-assistant';
 import { SpotifyProvider } from './providers/spotify';
 import { StocksProvider } from './providers/stocks';
 import { SportsProvider } from './providers/sports';
+import { NetProvider } from './providers/net';
+import { CalendarProvider } from './providers/calendar';
+import { ScriptsProvider } from './providers/scripts';
 
 const isDev = !!process.env.VITE_DEV_SERVER_URL;
 
@@ -24,6 +27,9 @@ let ha: HomeAssistantProvider;
 let spotify: SpotifyProvider;
 let stocks: StocksProvider;
 let sports: SportsProvider;
+let net: NetProvider;
+let calendarProv: CalendarProvider;
+let scriptsProv: ScriptsProvider;
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -135,6 +141,11 @@ function registerIpc() {
 
   ipcMain.handle(IPC.Sports.games, (_e, leagues: any[]) => sports.games(leagues));
   ipcMain.handle(IPC.Sports.teams, (_e, league: any) => sports.teams(league));
+
+  ipcMain.handle(IPC.Net.speedtest, () => net.speedtest());
+  ipcMain.handle(IPC.Net.arp, () => net.arp());
+  ipcMain.handle(IPC.Calendar.fetchIcs, (_e, url: string) => calendarProv.fetchIcs(url));
+  ipcMain.handle(IPC.Scripts.run, (_e, cmd: string, t?: number) => scriptsProv.run(cmd, t));
 }
 
 app.whenReady().then(() => {
@@ -150,6 +161,9 @@ app.whenReady().then(() => {
   spotify = new SpotifyProvider(initial, secrets, (snap) => broadcast('spotify', snap));
   stocks = new StocksProvider();
   sports = new SportsProvider();
+  net = new NetProvider();
+  calendarProv = new CalendarProvider();
+  scriptsProv = new ScriptsProvider();
 
   registerIpc();
   createWindow();

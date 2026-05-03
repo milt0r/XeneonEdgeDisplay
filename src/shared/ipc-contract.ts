@@ -67,6 +67,19 @@ export interface IpcApi {
     teams(league: League): Promise<SportsTeam[]>;
   };
 
+  net: {
+    speedtest(): Promise<{ pingMs: number; downloadMbps: number; jitterMs: number; ok: boolean; error?: string }>;
+    arp(): Promise<Array<{ ip: string; mac: string; iface?: string; vendor?: string }>>;
+  };
+
+  calendar: {
+    fetchIcs(url: string): Promise<{ ok: boolean; events?: Array<{ uid: string; summary: string; start: number; end: number; location?: string; allDay: boolean }>; error?: string }>;
+  };
+
+  scripts: {
+    run(cmd: string, timeoutMs?: number): Promise<{ ok: boolean; stdout: string; stderr: string; exitCode: number }>;
+  };
+
   window: {
     toggleFullscreen(): Promise<void>;
     quit(): Promise<void>;
@@ -104,5 +117,8 @@ export const IPC = {
   Window: { toggleFullscreen: 'window:toggleFullscreen', quit: 'window:quit' },
   Stocks: { quotes: 'stocks:quotes', news: 'stocks:news' },
   Sports: { games: 'sports:games', teams: 'sports:teams' },
+  Net: { speedtest: 'net:speedtest', arp: 'net:arp' },
+  Calendar: { fetchIcs: 'cal:fetchIcs' },
+  Scripts: { run: 'scripts:run' },
   Events: { provider: 'event:provider' }
 } as const;

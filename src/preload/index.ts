@@ -52,6 +52,16 @@ const api: IpcApi = {
     games: (leagues) => ipcRenderer.invoke(IPC.Sports.games, leagues),
     teams: (league) => ipcRenderer.invoke(IPC.Sports.teams, league)
   },
+  net: {
+    speedtest: () => ipcRenderer.invoke(IPC.Net.speedtest),
+    arp: () => ipcRenderer.invoke(IPC.Net.arp)
+  },
+  calendar: {
+    fetchIcs: (url) => ipcRenderer.invoke(IPC.Calendar.fetchIcs, url)
+  },
+  scripts: {
+    run: (cmd, timeoutMs) => ipcRenderer.invoke(IPC.Scripts.run, cmd, timeoutMs)
+  },
   on(channel: ProviderEventKind, handler: (payload: any) => void) {
     const listener = (_e: unknown, msg: { kind: string; payload: unknown }) => {
       if (msg && msg.kind === channel) handler(msg.payload);
