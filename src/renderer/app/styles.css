@@ -533,6 +533,30 @@ body[data-theme='dnd'] .sensor-value {
   cursor: pointer;
   z-index: 10;
 }
+.tile-detail-btn {
+  position: absolute; bottom: 4px; right: 4px;
+  width: 26px; height: 26px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  opacity: 0.55;
+  transition: opacity 120ms, color 120ms, border-color 120ms;
+  padding: 0;
+}
+.ha-cell:hover .tile-detail-btn,
+.tile-detail-btn:hover {
+  opacity: 1;
+  color: var(--accent);
+  border-color: var(--accent);
+}
 .ha-grid::-webkit-scrollbar { width: 12px; }
 .ha-grid::-webkit-scrollbar-thumb { background: var(--accent-soft); border-radius: 6px; }
 .ha-grid::-webkit-scrollbar-track { background: var(--bg-elevated); }

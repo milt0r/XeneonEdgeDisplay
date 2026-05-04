@@ -496,8 +496,39 @@ const HaDashboard: React.FC<WidgetComponentProps<Config>> = ({ config, updateCon
               key={e.entityId}
               className={`ha-cell size-${size}`}
               onDoubleClick={() => setDetailId(e.entityId)}
+              onPointerDown={(ev) => {
+                if ((ev.target as HTMLElement).closest('.tile-detail-btn, .size-cycle, .tile-remove')) return;
+                const start = Date.now();
+                const id = window.setTimeout(() => {
+                  setDetailId(e.entityId);
+                }, 500);
+                const cancel = () => {
+                  if (Date.now() - start < 500) window.clearTimeout(id);
+                  window.removeEventListener('pointerup', cancel);
+                  window.removeEventListener('pointercancel', cancel);
+                  window.removeEventListener('pointermove', cancelOnMove);
+                };
+                const cancelOnMove = (mv: PointerEvent) => {
+                  if (Math.hypot(mv.clientX - ev.clientX, mv.clientY - ev.clientY) > 10) {
+                    window.clearTimeout(id);
+                    cancel();
+                  }
+                };
+                window.addEventListener('pointerup', cancel);
+                window.addEventListener('pointercancel', cancel);
+                window.addEventListener('pointermove', cancelOnMove);
+              }}
             >
               {inner}
+              <button
+                className="tile-detail-btn"
+                onClick={(ev) => { ev.stopPropagation(); setDetailId(e.entityId); }}
+                onPointerDown={(ev) => ev.stopPropagation()}
+                title="Open controls"
+                aria-label="Open controls"
+              >
+                ⋯
+              </button>
               {editing && (
                 <button
                   className="size-cycle"
