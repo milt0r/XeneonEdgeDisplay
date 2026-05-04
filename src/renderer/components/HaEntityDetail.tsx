@@ -336,9 +336,6 @@ function SensorView({ entity }: { entity: HAEntityState }) {
       <div className="metric-value" style={{ fontSize: 96 }}>
         {entity.state}<span className="sensor-unit">{unit}</span>
       </div>
-      <div className="muted mono" style={{ fontSize: 11 }}>
-        Last changed {new Date(entity.lastChanged).toLocaleString()}
-      </div>
     </div>
   );
 }
