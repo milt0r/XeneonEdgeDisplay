@@ -330,11 +330,12 @@ function CameraView({ entity }: { entity: HAEntityState }) {
 
 function SensorView({ entity }: { entity: HAEntityState }) {
   const unit = entityUnit(entity.attributes);
+  const isTs = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/.test(entity.state);
   return (
     <div className="ctrl-stack" style={{ alignItems: 'center' }}>
       <div className="metric-label">{(entity.attributes as any).device_class ?? 'value'}</div>
       <div className="metric-value" style={{ fontSize: 96 }}>
-        {entity.state}<span className="sensor-unit">{unit}</span>
+        {isTs ? '—' : entity.state}<span className="sensor-unit">{unit}</span>
       </div>
     </div>
   );

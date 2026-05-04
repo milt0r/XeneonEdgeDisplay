@@ -98,11 +98,20 @@ function CameraTile({ entityId, name, onRemove }: { entityId: string; name: stri
   );
 }
 
+const ISO_TS = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}/;
+
 function SensorReadout({
   value, unit, name, icon, onRemove
 }: { value: string; unit: string; name: string; icon: React.ReactElement; onRemove?: () => void }) {
   const num = parseFloat(value);
-  const display = Number.isFinite(num) ? num.toFixed(num >= 100 || Number.isInteger(num) ? 0 : 1) : value;
+  let display: string;
+  if (Number.isFinite(num)) {
+    display = num.toFixed(num >= 100 || Number.isInteger(num) ? 0 : 1);
+  } else if (ISO_TS.test(value)) {
+    display = '—';
+  } else {
+    display = value;
+  }
   return (
     <div className="ha-card sensor-card">
       <div className="sensor-top">
@@ -118,15 +127,20 @@ function SensorReadout({
   );
 }
 
+function isTimestampState(v: string): boolean {
+  return ISO_TS.test(v);
+}
+
 function ToggleTile({
   entityId, state, name, icon, onRemove
 }: { entityId: string; state: string; name: string; icon: React.ReactElement; onRemove?: () => void }) {
   const on = isOnState(state);
+  const stateLabel = isTimestampState(state) ? '—' : state;
   return (
     <button className={`ha-card toggle-card ${on ? 'on' : ''}`} onClick={() => callToggle(entityId)}>
       <span className="toggle-icon">{icon}</span>
       <span className="toggle-name">{name}</span>
-      <span className="toggle-state">{state}</span>
+      <span className="toggle-state">{stateLabel}</span>
       {onRemove && <RemoveBadge onClick={(e) => { e.stopPropagation(); onRemove(); }} />}
     </button>
   );
