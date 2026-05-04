@@ -22,12 +22,8 @@ const DND_BG =
   "radial-gradient(ellipse at center, rgba(230, 176, 74, 0.10), transparent 60%), radial-gradient(ellipse at 80% 80%, rgba(255, 106, 61, 0.18), transparent 50%), linear-gradient(180deg, #1a0f08 0%, #2b1b10 100%)";
 
 /**
- * BBS background: tribute to **Baron's Flying Service** (313-738-8222 →
- * 248-738-8222, Waterford MI, sysop Art Warren, T.A.G. software,
- * 1985-2009) — one of the longest-running BBSes in the Detroit metro area.
- * Source: http://bbslist.textfiles.com/248/oldschool.html
- *
- * Includes a tribute line for other Detroit-area boards from that era.
+ * BBS background: dial-up era tribute screen (Detroit-area metro,
+ * c. 1985-2000s).
  */
 const BBS_BG = (() => {
   const svg = `<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2560 720' preserveAspectRatio='xMidYMid slice'>
@@ -98,7 +94,7 @@ const BBS_BG = (() => {
     <text x='80' y='380' fill='#55ff55'>│</text> <text x='112' y='380' fill='#ffff55'>[M]</text> <text x='168' y='380' fill='#ffffff'>Message Bases ..  FidoNet 1:120</text>     <text x='800' y='380' fill='#55ff55'>│</text>
     <text x='80' y='420' fill='#55ff55'>│</text> <text x='112' y='420' fill='#ffff55'>[D]</text> <text x='168' y='420' fill='#ffffff'>Door Games    .. LORD, TW2002, BRE</text>  <text x='800' y='420' fill='#55ff55'>│</text>
     <text x='80' y='460' fill='#55ff55'>│</text> <text x='112' y='460' fill='#ffff55'>[E]</text> <text x='168' y='460' fill='#ffffff'>NetMail / Email</text>                     <text x='800' y='460' fill='#55ff55'>│</text>
-    <text x='80' y='500' fill='#55ff55'>│</text> <text x='112' y='500' fill='#ffff55'>[C]</text> <text x='168' y='500' fill='#ffffff'>Chat with Sysop (ART WARREN)</text>       <text x='800' y='500' fill='#55ff55'>│</text>
+    <text x='80' y='500' fill='#55ff55'>│</text> <text x='112' y='500' fill='#ffff55'>[C]</text> <text x='168' y='500' fill='#ffffff'>Chat with Sysop</text>                       <text x='800' y='500' fill='#55ff55'>│</text>
     <text x='80' y='540' fill='#55ff55'>└────────────────────────────────────┘</text>
   </g>
 
@@ -118,7 +114,7 @@ const BBS_BG = (() => {
 
   <!-- status bar -->
   <g class='a' fill='#ffff55'>
-    <text x='80' y='600'>Sysop: ART WARREN    Node: 01    Time On: 0:42    Calls Today: 1,994    Last Caller: PHRACK</text>
+    <text x='80' y='600'>Sysop: SYSOP         Node: 01    Time On: 0:42    Calls Today: 1,994    Last Caller: PHRACK</text>
   </g>
   <g class='a' fill='#55ffff'>
     <text x='80' y='640'>Connected to 313-738-8222 at 28800 baud · ANSI · 8N1 · » CARRIER 28800 «  ░▒▓████████████▓▒░</text>
