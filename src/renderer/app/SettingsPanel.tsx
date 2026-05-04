@@ -261,18 +261,45 @@ export function SettingsPanel() {
           {tab === 'themes' && (
           <section className="settings-section">
             <h3>Theme</h3>
-            <div className="theme-grid">
-              {THEMES.map((t) => (
-                <button
-                  key={t.id}
-                  className={`theme-card ${settings.themeId === t.id ? 'active' : ''}`}
-                  onClick={() => setTheme(t.id)}
-                >
-                  <div className="theme-card-name">{t.name}</div>
-                  <div className="theme-card-desc">{t.description}</div>
-                </button>
-              ))}
-            </div>
+            {(() => {
+              const favs = new Set(settings.ui?.favoriteThemes ?? []);
+              const sorted = [...THEMES].sort((a, b) => {
+                const fa = favs.has(a.id) ? 0 : 1;
+                const fb = favs.has(b.id) ? 0 : 1;
+                if (fa !== fb) return fa - fb;
+                return a.name.localeCompare(b.name);
+              });
+              const toggleFav = (id: string) => {
+                const cur = settings.ui?.favoriteThemes ?? [];
+                const next = cur.includes(id) ? cur.filter((x) => x !== id) : [...cur, id];
+                update({ ui: { ...settings.ui, favoriteThemes: next } });
+              };
+              return (
+                <div className="theme-grid">
+                  {sorted.map((t) => {
+                    const isFav = favs.has(t.id);
+                    return (
+                      <div
+                        key={t.id}
+                        className={`theme-card ${settings.themeId === t.id ? 'active' : ''}`}
+                        onClick={() => setTheme(t.id)}
+                      >
+                        <button
+                          className={`theme-fav ${isFav ? 'on' : ''}`}
+                          onClick={(e) => { e.stopPropagation(); toggleFav(t.id); }}
+                          aria-label={isFav ? 'Unfavorite' : 'Favorite'}
+                          title={isFav ? 'Remove from favorites' : 'Add to favorites'}
+                        >
+                          {isFav ? '★' : '☆'}
+                        </button>
+                        <div className="theme-card-name">{t.name}</div>
+                        <div className="theme-card-desc">{t.description}</div>
+                      </div>
+                    );
+                  })}
+                </div>
+              );
+            })()}
             {(['nhl','nfl','nba','mlb','f1','nascar'] as Sport[]).includes(settings.themeId as Sport) && (() => {
               const sport = settings.themeId as Sport;
               const teams = teamsForSport(sport);

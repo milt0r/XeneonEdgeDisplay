@@ -96,6 +96,8 @@ export interface AppSettings {
     backgrounds: Record<string, string>;
     /** Selected team id per league theme (nhl/nfl/nba/mlb/f1/nascar). */
     sportTeams: Record<string, string>;
+    /** Theme IDs the user has starred — sorted to the top of the picker. */
+    favoriteThemes: string[];
   };
 }
 

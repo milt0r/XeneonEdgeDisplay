@@ -31,7 +31,8 @@ export const DEFAULT_SETTINGS: AppSettings = {
     fontFamily: 'theme',
     widgetOpacity: 1.0,
     backgrounds: {},
-    sportTeams: { nhl: 'detroit', nfl: 'det', nba: 'det', mlb: 'det', f1: 'redbull', nascar: 'hendrick' }
+    sportTeams: { nhl: 'detroit', nfl: 'det', nba: 'det', mlb: 'det', f1: 'redbull', nascar: 'hendrick' },
+    favoriteThemes: []
   }
 };
 
