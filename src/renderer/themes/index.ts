@@ -889,6 +889,148 @@ export const detroittechno: Theme = {
   effects: { clickSound: null }
 };
 
+/* ---------- Music / Cultural ---------- */
+
+export const metallica: Theme = {
+  id: 'metallica',
+  name: 'Metallica',
+  description: 'Lightning-bolt M — sharp angular black on chrome',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2560 720' preserveAspectRatio='xMidYMid slice'>
+    <defs>
+      <linearGradient id='chrome' x1='0%' y1='0%' x2='0%' y2='100%'>
+        <stop offset='0%' stop-color='%23404040'/>
+        <stop offset='40%' stop-color='%23a0a0a0'/>
+        <stop offset='55%' stop-color='%23ffffff'/>
+        <stop offset='70%' stop-color='%23a0a0a0'/>
+        <stop offset='100%' stop-color='%23202020'/>
+      </linearGradient>
+      <radialGradient id='spot' cx='50%' cy='50%' r='70%'>
+        <stop offset='0%' stop-color='%23303030'/>
+        <stop offset='100%' stop-color='%23000000'/>
+      </radialGradient>
+    </defs>
+    <rect width='2560' height='720' fill='url(%23spot)'/>
+    <g transform='translate(1280 360)' opacity='0.18'>
+      <!-- giant lightning-bolt M silhouette -->
+      <path d='M -560 200 L -380 -200 L -260 -200 L -140 80 L -20 -200 L 100 -200 L 220 80 L 340 -200 L 460 -200 L 560 200 L 440 200 L 380 80 L 300 200 L 180 200 L 100 30 L 20 200 L -100 200 L -180 30 L -260 200 L -380 200 Z'
+        fill='url(%23chrome)' stroke='%23ffffff' stroke-width='2'/>
+    </g>
+    <g font-family='Black Ops One, Impact, sans-serif' fill='%23ffffff' opacity='0.55'>
+      <text x='1280' y='80' text-anchor='middle' font-size='32' letter-spacing='12'>· KILL · EM · ALL ·</text>
+      <text x='1280' y='680' text-anchor='middle' font-size='28' letter-spacing='10'>SAN FRANCISCO · SINCE 1981</text>
+    </g>
+  </svg>`) + ' center/cover no-repeat, #000000',
+  tokens: {
+    bg: '#000000', bgElevated: '#1a1a1a', bgPanel: '#222222',
+    fg: '#e8e8e8', fgMuted: '#888888',
+    accent: '#c0c0c0', accentSoft: '#3a3a3a', accentHot: '#ffffff',
+    warn: '#ff3838', good: '#5fe39a', border: '#404040',
+    fontUi: '"Black Ops One", "Bungee", Impact, sans-serif',
+    fontMono: '"Share Tech Mono", monospace',
+    fontDisplay: '"Black Ops One", Impact, sans-serif',
+    radius: '0px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const foofighters: Theme = {
+  id: 'foofighters',
+  name: 'Foo Fighters',
+  description: 'Crimson rock with the FF circle seal',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2560 720' preserveAspectRatio='xMidYMid slice'>
+    <defs>
+      <radialGradient id='spot' cx='50%' cy='50%' r='70%'>
+        <stop offset='0%' stop-color='%23501010'/>
+        <stop offset='100%' stop-color='%23150505'/>
+      </radialGradient>
+    </defs>
+    <rect width='2560' height='720' fill='url(%23spot)'/>
+    <g transform='translate(1280 360)' opacity='0.22'>
+      <!-- circle seal -->
+      <circle r='240' fill='none' stroke='%23ffffff' stroke-width='14'/>
+      <circle r='220' fill='none' stroke='%23ffffff' stroke-width='4'/>
+      <!-- mirrored FFs -->
+      <g font-family='Pacifico, cursive' font-size='280' fill='%23ffffff' text-anchor='middle' dominant-baseline='central'>
+        <text x='-70' y='0'>F</text>
+        <g transform='translate(70 0) scale(-1 1)'><text y='0'>F</text></g>
+      </g>
+    </g>
+    <g font-family='Pacifico, cursive' fill='%23ffffff' opacity='0.6'>
+      <text x='1280' y='110' text-anchor='middle' font-size='80'>Foo Fighters</text>
+    </g>
+    <g font-family='Bebas Neue, Oswald, sans-serif' fill='%23ffffff' opacity='0.4'>
+      <text x='1280' y='670' text-anchor='middle' font-size='36' letter-spacing='14'>SEATTLE · 1994</text>
+    </g>
+  </svg>`) + ' center/cover no-repeat, #1a0606',
+  tokens: {
+    bg: '#1a0606', bgElevated: '#2a0c0c', bgPanel: '#3a1212',
+    fg: '#ffffff', fgMuted: '#c8a8a8',
+    accent: '#c8102e', accentSoft: '#5a0a14', accentHot: '#ffffff',
+    warn: '#ffb14a', good: '#5fe39a', border: '#5a1a1a',
+    fontUi: '"Bebas Neue", "Oswald", "Inter", sans-serif',
+    fontMono: '"JetBrains Mono", monospace',
+    fontDisplay: '"Pacifico", "Bebas Neue", cursive',
+    radius: '6px', pad: '14px',
+    scanlines: false, glow: false, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
+export const t2: Theme = {
+  id: 't2',
+  name: 'Terminator 2',
+  description: 'Skynet HK glow — chrome T2 on black with neon-blue scanner',
+  background: enc(`<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 2560 720' preserveAspectRatio='xMidYMid slice'>
+    <defs>
+      <linearGradient id='chrome' x1='0%' y1='0%' x2='0%' y2='100%'>
+        <stop offset='0%' stop-color='%23404040'/>
+        <stop offset='40%' stop-color='%23a0a0a0'/>
+        <stop offset='55%' stop-color='%23ffffff'/>
+        <stop offset='70%' stop-color='%23a0a0a0'/>
+        <stop offset='100%' stop-color='%23202020'/>
+      </linearGradient>
+      <radialGradient id='spot' cx='50%' cy='40%' r='70%'>
+        <stop offset='0%' stop-color='%23001020'/>
+        <stop offset='100%' stop-color='%23000000'/>
+      </radialGradient>
+      <filter id='glow'>
+        <feGaussianBlur stdDeviation='4'/>
+        <feMerge><feMergeNode/><feMergeNode in='SourceGraphic'/></feMerge>
+      </filter>
+    </defs>
+    <rect width='2560' height='720' fill='url(%23spot)'/>
+    <!-- giant chrome T2 -->
+    <g transform='translate(1280 380)' font-family='Saira Stencil One, Orbitron, Impact, sans-serif' font-size='460' text-anchor='middle' dominant-baseline='central' opacity='0.30'>
+      <text fill='url(%23chrome)' stroke='%23ffffff' stroke-width='3'>T2</text>
+    </g>
+    <!-- terminator red scanner -->
+    <g transform='translate(1280 360)' opacity='0.55'>
+      <ellipse rx='30' ry='18' cx='-60' cy='-180' fill='%23ff2222' filter='url(%23glow)'/>
+      <ellipse rx='30' ry='18' cx='60' cy='-180' fill='%23ff2222' filter='url(%23glow)'/>
+    </g>
+    <!-- subtitle -->
+    <g font-family='Saira Stencil One, Orbitron, sans-serif' fill='%2300d4ff' opacity='0.7'>
+      <text x='1280' y='620' text-anchor='middle' font-size='44' letter-spacing='14'>JUDGMENT  DAY</text>
+    </g>
+    <g font-family='Saira Stencil One, Orbitron, sans-serif' fill='%2300d4ff' opacity='0.4'>
+      <text x='1280' y='670' text-anchor='middle' font-size='22' letter-spacing='8'>CYBERDYNE  SYSTEMS  ·  MODEL  101  ·  T-800</text>
+    </g>
+  </svg>`) + ' center/cover no-repeat, #000000',
+  tokens: {
+    bg: '#000000', bgElevated: '#0a141e', bgPanel: '#0f1c2a',
+    fg: '#cfeeff', fgMuted: '#7a90a8',
+    accent: '#00d4ff', accentSoft: '#0a2a3a', accentHot: '#ff2222',
+    warn: '#ff2222', good: '#5fe39a', border: '#1a3a4a',
+    fontUi: '"Saira Stencil One", "Orbitron", Impact, sans-serif',
+    fontMono: '"Share Tech Mono", "JetBrains Mono", monospace',
+    fontDisplay: '"Saira Stencil One", "Orbitron", Impact, sans-serif',
+    radius: '0px', pad: '14px',
+    scanlines: true, glow: true, vignette: true, noise: true
+  },
+  effects: { clickSound: null }
+};
+
 /* ---------- Detroit-specific ---------- */
 
 export const vernors: Theme = {
@@ -923,7 +1065,9 @@ export const THEMES: Theme[] = [
   // Pop-culture
   severance, wesanderson, f1pit, apollo,
   // Music / cultural
-  synthwave, vaporwave, lofi, detroittechno,
+  synthwave, vaporwave, lofi, detroittechno, metallica, foofighters,
+  // Movies / TV
+  t2,
   // Adventure / fantasy
   cyberpunk, dnd,
   // Detroit special
