@@ -16,6 +16,7 @@ import { SpeedtestWidget } from '../widgets/speedtest';
 import { CalendarWidget } from '../widgets/calendar';
 import { ScriptRunnerWidget } from '../widgets/scripts';
 import { NetworkMapWidget } from '../widgets/network-map';
+import { DiscordWidget } from '../widgets/discord';
 import { StubVoiceWidget, StubCalendarWidget } from '../widgets/stubs';
 
 export const BUILTIN_PLUGINS: WidgetPlugin<any>[] = [
@@ -36,6 +37,7 @@ export const BUILTIN_PLUGINS: WidgetPlugin<any>[] = [
   CalendarWidget,
   ScriptRunnerWidget,
   NetworkMapWidget,
+  DiscordWidget,
   StubVoiceWidget,
   StubCalendarWidget
 ];

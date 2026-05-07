@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain, safeStorage } from 'electron';
+import { app, BrowserWindow, ipcMain, safeStorage, dialog } from 'electron';
 import path from 'node:path';
 import { IPC } from '../shared/ipc-contract';
 import { DEFAULT_LAYOUT, DEFAULT_SETTINGS } from '../shared/defaults';
@@ -14,6 +14,7 @@ import { SportsProvider } from './providers/sports';
 import { NetProvider } from './providers/net';
 import { CalendarProvider } from './providers/calendar';
 import { ScriptsProvider } from './providers/scripts';
+import { DiscordProvider } from './providers/discord';
 
 const isDev = !!process.env.VITE_DEV_SERVER_URL;
 
@@ -30,6 +31,7 @@ let sports: SportsProvider;
 let net: NetProvider;
 let calendarProv: CalendarProvider;
 let scriptsProv: ScriptsProvider;
+let discord: DiscordProvider;
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -92,6 +94,8 @@ function registerIpc() {
     sensors.applySettings(next);
     ha.applySettings(next);
     spotify.applySettings(next);
+    const dToken = secrets.get('discordToken') ?? '';
+    discord.applySettings(next.discord?.enabled ? next.discord.clientId : '', next.discord?.enabled ? dToken : '');
     if (mainWindow && !mainWindow.isDestroyed()) {
       const scale = Math.max(0.6, Math.min(2.0, next.ui?.fontScale ?? 1.0));
       try { mainWindow.webContents.setZoomFactor(scale); } catch {}
@@ -146,6 +150,17 @@ function registerIpc() {
   ipcMain.handle(IPC.Net.arp, () => net.arp());
   ipcMain.handle(IPC.Calendar.fetchIcs, (_e, url: string) => calendarProv.fetchIcs(url));
   ipcMain.handle(IPC.Scripts.run, (_e, cmd: string, t?: number) => scriptsProv.run(cmd, t));
+
+  ipcMain.handle(IPC.Discord.snapshot, () => discord.snapshot());
+  ipcMain.handle(IPC.Discord.pickAudioFiles, async () => {
+    if (!mainWindow) return [];
+    const res = await dialog.showOpenDialog(mainWindow, {
+      title: 'Pick soundboard audio files',
+      properties: ['openFile', 'multiSelections'],
+      filters: [{ name: 'Audio', extensions: ['mp3', 'wav', 'ogg', 'm4a', 'flac', 'webm'] }]
+    });
+    return res.canceled ? [] : res.filePaths;
+  });
 }
 
 app.whenReady().then(() => {
@@ -164,6 +179,8 @@ app.whenReady().then(() => {
   net = new NetProvider();
   calendarProv = new CalendarProvider();
   scriptsProv = new ScriptsProvider();
+  discord = new DiscordProvider();
+  discord.on((s) => broadcast('discord', s));
 
   registerIpc();
   createWindow();
@@ -172,6 +189,9 @@ app.whenReady().then(() => {
   sensors.start();
   ha.start();
   spotify.start();
+  const dTok = secrets.get('discordToken') ?? '';
+  discord.applySettings(initial.discord?.enabled ? initial.discord.clientId : '', initial.discord?.enabled ? dTok : '');
+  discord.start();
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) createWindow();
@@ -187,4 +207,5 @@ app.on('before-quit', () => {
   sensors?.stop();
   ha?.stop();
   spotify?.stop();
+  discord?.stop();
 });

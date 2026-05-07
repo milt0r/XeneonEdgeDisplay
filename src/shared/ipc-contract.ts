@@ -8,13 +8,15 @@ import type {
 } from './types';
 import type { StockHeadline, StockQuote } from './stocks';
 import type { League, SportsGame, SportsTeam } from './sports';
+import type { DiscordVoiceState } from './discord';
 
 export type ProviderEvent =
   | { kind: 'weather'; payload: WeatherSnapshot }
   | { kind: 'sensors'; payload: SensorSnapshot }
   | { kind: 'ha:state'; payload: HAEntityState }
   | { kind: 'ha:bulk'; payload: HAEntityState[] }
-  | { kind: 'spotify'; payload: SpotifyPlayback };
+  | { kind: 'spotify'; payload: SpotifyPlayback }
+  | { kind: 'discord'; payload: DiscordVoiceState };
 
 export type ProviderEventKind = ProviderEvent['kind'];
 
@@ -80,6 +82,11 @@ export interface IpcApi {
     run(cmd: string, timeoutMs?: number): Promise<{ ok: boolean; stdout: string; stderr: string; exitCode: number }>;
   };
 
+  discord: {
+    snapshot(): Promise<DiscordVoiceState>;
+    pickAudioFiles(): Promise<string[]>;
+  };
+
   window: {
     toggleFullscreen(): Promise<void>;
     quit(): Promise<void>;
@@ -120,5 +127,6 @@ export const IPC = {
   Net: { speedtest: 'net:speedtest', arp: 'net:arp' },
   Calendar: { fetchIcs: 'cal:fetchIcs' },
   Scripts: { run: 'scripts:run' },
+  Discord: { snapshot: 'discord:snapshot', pickAudioFiles: 'discord:pickAudioFiles' },
   Events: { provider: 'event:provider' }
 } as const;

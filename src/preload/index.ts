@@ -62,6 +62,10 @@ const api: IpcApi = {
   scripts: {
     run: (cmd, timeoutMs) => ipcRenderer.invoke(IPC.Scripts.run, cmd, timeoutMs)
   },
+  discord: {
+    snapshot: () => ipcRenderer.invoke(IPC.Discord.snapshot),
+    pickAudioFiles: () => ipcRenderer.invoke(IPC.Discord.pickAudioFiles)
+  },
   on(channel: ProviderEventKind, handler: (payload: any) => void) {
     const listener = (_e: unknown, msg: { kind: string; payload: unknown }) => {
       if (msg && msg.kind === channel) handler(msg.payload);

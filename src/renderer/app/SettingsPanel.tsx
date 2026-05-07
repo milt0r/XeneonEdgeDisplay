@@ -11,7 +11,9 @@ type OskField =
   | { kind: 'lhmUrl' }
   | { kind: 'haUrl' }
   | { kind: 'haToken' }
-  | { kind: 'spotifyClientId' };
+  | { kind: 'spotifyClientId' }
+  | { kind: 'discordClientId' }
+  | { kind: 'discordToken' };
 
 export function SettingsPanel() {
   const settings = useApp((s) => s.settings)!;
@@ -28,6 +30,10 @@ export function SettingsPanel() {
 
   const [spotifyClientId, setSpotifyClientId] = useState(settings.spotify.clientId);
   const [spotifyAuthed, setSpotifyAuthed] = useState(false);
+  const [discordClientId, setDiscordClientId] = useState(settings.discord?.clientId ?? '');
+  const [discordToken, setDiscordToken] = useState('');
+  const [discordHasToken, setDiscordHasToken] = useState(false);
+  React.useEffect(() => { window.api.hasSecret('discordToken').then(setDiscordHasToken); }, []);
   React.useEffect(() => {
     window.api.spotify.isAuthorized().then(setSpotifyAuthed);
   }, []);
@@ -99,6 +105,10 @@ export function SettingsPanel() {
         return { value: haToken, onChange: setHaToken, passwordMode: true };
       case 'spotifyClientId':
         return { value: spotifyClientId, onChange: setSpotifyClientId, passwordMode: false };
+      case 'discordClientId':
+        return { value: discordClientId, onChange: setDiscordClientId, passwordMode: false };
+      case 'discordToken':
+        return { value: discordToken, onChange: setDiscordToken, passwordMode: true };
     }
   })();
 
@@ -473,6 +483,52 @@ export function SettingsPanel() {
                 >
                   Logout
                 </button>
+              )}
+            </div>
+          </section>
+
+          <section className="settings-section">
+            <h3>
+              Discord
+              {discordHasToken && settings.discord?.enabled && <span className="status-pill ok">ENABLED</span>}
+            </h3>
+            <div className="muted mono" style={{ fontSize: 11, marginBottom: 8 }}>
+              Connects to your local Discord desktop client (RPC). Get a Client ID from
+              <a href="https://discord.com/developers/applications" target="_blank" rel="noopener" style={{ color: 'var(--accent)' }}> developers.discord.com</a>
+              and an OAuth access token with scopes <code>rpc rpc.voice.read identify</code>.
+            </div>
+            <div className="field-row">
+              <label>Client ID</label>
+              <input
+                value={discordClientId}
+                onFocus={() => setOskField({ kind: 'discordClientId' })}
+                onChange={(e) => setDiscordClientId(e.target.value)}
+              />
+            </div>
+            <div className="field-row">
+              <label>Access token (rpc, rpc.voice.read, identify)</label>
+              <input
+                type="password"
+                value={discordToken}
+                placeholder={discordHasToken ? '••• stored •••' : ''}
+                onFocus={() => setOskField({ kind: 'discordToken' })}
+                onChange={(e) => setDiscordToken(e.target.value)}
+              />
+            </div>
+            <div className="btn-row">
+              <button className="btn" onClick={async () => {
+                if (discordToken) await window.api.setSecret('discordToken', discordToken);
+                await update({ discord: { clientId: discordClientId, enabled: true } });
+                setDiscordHasToken(true);
+                setDiscordToken('');
+              }}>Save & Enable</button>
+              {(discordHasToken || settings.discord?.enabled) && (
+                <button className="btn" onClick={async () => {
+                  await window.api.clearSecret('discordToken');
+                  await update({ discord: { clientId: '', enabled: false } });
+                  setDiscordHasToken(false);
+                  setDiscordClientId('');
+                }}>Disable & Forget</button>
               )}
             </div>
           </section>

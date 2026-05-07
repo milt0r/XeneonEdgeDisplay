@@ -7,6 +7,7 @@ import type {
   WeatherSnapshot,
   WidgetLayoutItem
 } from '@shared/types';
+import type { DiscordVoiceState } from '@shared/discord';
 
 interface AppState {
   settings: AppSettings | null;
@@ -14,6 +15,7 @@ interface AppState {
   weather: WeatherSnapshot | null;
   sensors: SensorSnapshot | null;
   spotify: SpotifyPlayback | null;
+  discord: DiscordVoiceState | null;
   haEntities: Map<string, HAEntityState>;
   editing: boolean;
   showSettings: boolean;
@@ -35,28 +37,31 @@ export const useApp = create<AppState>((set, get) => ({
   weather: null,
   sensors: null,
   spotify: null,
+  discord: null,
   haEntities: new Map(),
   editing: false,
   showSettings: false,
 
   async init() {
-    const [settings, layout, weather, sensors, spotify, haList] = await Promise.all([
+    const [settings, layout, weather, sensors, spotify, discord, haList] = await Promise.all([
       window.api.getSettings(),
       window.api.getLayout(),
       window.api.weather.snapshot(),
       window.api.sensors.snapshot(),
       window.api.spotify.snapshot(),
+      window.api.discord.snapshot(),
       window.api.ha.listEntities()
     ]);
 
     const haMap = new Map<string, HAEntityState>();
     for (const e of haList) haMap.set(e.entityId, e);
 
-    set({ settings, layout, weather, sensors, spotify, haEntities: haMap });
+    set({ settings, layout, weather, sensors, spotify, discord, haEntities: haMap });
 
     window.api.on('weather', (s) => set({ weather: s }));
     window.api.on('sensors', (s) => set({ sensors: s }));
     window.api.on('spotify', (s) => set({ spotify: s }));
+    window.api.on('discord', (s) => set({ discord: s }));
     window.api.on('ha:bulk', (list: HAEntityState[]) => {
       const m = new Map(get().haEntities);
       for (const e of list) m.set(e.entityId, e);

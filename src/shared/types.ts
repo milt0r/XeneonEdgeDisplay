@@ -83,6 +83,10 @@ export interface AppSettings {
     clientId: string;
     enabled: boolean;
   };
+  discord: {
+    clientId: string;
+    enabled: boolean;
+  };
   layout: {
     locked: boolean;
   };

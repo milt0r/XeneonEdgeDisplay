@@ -22,6 +22,10 @@ export const DEFAULT_SETTINGS: AppSettings = {
     clientId: '',
     enabled: false
   },
+  discord: {
+    clientId: '',
+    enabled: false
+  },
   layout: {
     locked: false
   },
