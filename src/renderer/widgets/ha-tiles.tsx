@@ -216,6 +216,12 @@ function Picker({
 }) {
   const [filter, setFilter] = useState('all');
   const [search, setSearch] = useState('');
+  const [area, setArea] = useState<string>('any');           // 'any' | 'none' | <area name>
+  const [stateFilter, setStateFilter] = useState<'any' | 'on' | 'off' | 'unavail'>('any');
+  const [hideUnavailable, setHideUnavailable] = useState(true);
+  const [hideDiagnostic, setHideDiagnostic] = useState(true);
+  const [hideHidden, setHideHidden] = useState(true);
+  const [deviceClass, setDeviceClass] = useState<string>('any');
   const [oskOpen, setOskOpen] = useState(false);
 
   const filterRe = DOMAIN_FILTERS.find((d) => d.id === filter)?.match ?? /.*/;
@@ -223,26 +229,67 @@ function Picker({
 
   const entries = Array.from(allEntities.values());
 
+  // Discover all areas + device classes present in the current data
+  const allAreas = useMemo(() => {
+    const s = new Set<string>();
+    for (const e of entries) if (e.area) s.add(e.area);
+    return [...s].sort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entries.length]);
+
+  const allDeviceClasses = useMemo(() => {
+    const s = new Set<string>();
+    for (const e of entries) if (e.deviceClass && filterRe.test(e.entityId)) s.add(e.deviceClass);
+    return [...s].sort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [entries.length, filter]);
+
   const choices = useMemo(() => {
-    const filtered = entries
-      .filter((e) => filterRe.test(e.entityId))
-      .filter((e) => {
-        if (!q) return true;
+    const filtered = entries.filter((e) => {
+      if (!filterRe.test(e.entityId)) return false;
+      // Area
+      if (area === 'none') { if (e.area) return false; }
+      else if (area !== 'any') { if (e.area !== area) return false; }
+      // Device class sub-filter
+      if (deviceClass !== 'any' && e.deviceClass !== deviceClass) return false;
+      // Visibility filters
+      if (hideUnavailable && (e.state === 'unavailable' || e.state === 'unknown')) {
+        if (!ids.includes(e.entityId)) return false;
+      }
+      if (hideDiagnostic && e.entityCategory === 'diagnostic' && !ids.includes(e.entityId)) return false;
+      if (hideDiagnostic && e.entityCategory === 'config' && !ids.includes(e.entityId)) return false;
+      if (hideHidden && e.hidden && !ids.includes(e.entityId)) return false;
+      // State filter
+      if (stateFilter === 'on' && !isOnState(e.state)) return false;
+      if (stateFilter === 'off' && (isOnState(e.state) || e.state === 'unavailable' || e.state === 'unknown')) return false;
+      if (stateFilter === 'unavail' && !(e.state === 'unavailable' || e.state === 'unknown')) return false;
+      // Search
+      if (q) {
         const friendly = entityFriendlyName(e.entityId, e.attributes).toLowerCase();
-        return e.entityId.toLowerCase().includes(q) || friendly.includes(q);
-      });
+        const inName = e.entityId.toLowerCase().includes(q) || friendly.includes(q);
+        const inArea = (e.area ?? '').toLowerCase().includes(q);
+        const inDevice = (e.device ?? '').toLowerCase().includes(q);
+        const inMfr = (e.manufacturer ?? '').toLowerCase().includes(q);
+        if (!inName && !inArea && !inDevice && !inMfr) return false;
+      }
+      return true;
+    });
 
     const selectedSet = new Set(ids);
     return filtered.sort((a, b) => {
       const sa = selectedSet.has(a.entityId) ? 0 : 1;
       const sb = selectedSet.has(b.entityId) ? 0 : 1;
       if (sa !== sb) return sa - sb;
+      // group by area, then alpha within
+      const aa = a.area ?? 'zzzz';
+      const ab = b.area ?? 'zzzz';
+      if (aa !== ab) return aa.localeCompare(ab);
       return entityFriendlyName(a.entityId, a.attributes).localeCompare(
         entityFriendlyName(b.entityId, b.attributes)
       );
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [entries.length, q, filter, ids.join(',')]);
+  }, [entries.length, q, filter, area, stateFilter, hideUnavailable, hideDiagnostic, hideHidden, deviceClass, ids.join(',')]);
 
   const toggle = (entityId: string) => {
     if (ids.includes(entityId)) onChange(ids.filter((x) => x !== entityId));
@@ -255,7 +302,7 @@ function Picker({
         <button className="btn btn-icon" onClick={onClose} title="Back">←</button>
         <input
           className="ha-search"
-          placeholder={`Search entities for "${pageName}"…`}
+          placeholder={`Search "${pageName}" — name, id, area, device, manufacturer`}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           onFocus={() => oskEnabled && setOskOpen(true)}
@@ -265,6 +312,7 @@ function Picker({
         )}
         <button className="btn" onClick={onClose}>DONE ({ids.length})</button>
       </div>
+
       <div className="ha-filter-bar no-drag">
         {DOMAIN_FILTERS.map((d) => {
           const count = entries.filter((e) => d.match.test(e.entityId)).length;
@@ -272,41 +320,114 @@ function Picker({
             <button
               key={d.id}
               className={`chip ${filter === d.id ? 'active' : ''}`}
-              onClick={() => setFilter(d.id)}
+              onClick={() => { setFilter(d.id); setDeviceClass('any'); }}
             >
               {d.label} <span className="chip-count">{count}</span>
             </button>
           );
         })}
       </div>
+
+      <div className="ha-filter-bar no-drag">
+        <select
+          className="ha-select"
+          value={area}
+          onChange={(e) => setArea(e.target.value)}
+          title="Filter by area"
+        >
+          <option value="any">All areas</option>
+          <option value="none">— No area —</option>
+          {allAreas.map((a) => <option key={a} value={a}>{a}</option>)}
+        </select>
+
+        {allDeviceClasses.length > 0 && (
+          <select
+            className="ha-select"
+            value={deviceClass}
+            onChange={(e) => setDeviceClass(e.target.value)}
+            title="Sub-filter by device class"
+          >
+            <option value="any">All classes</option>
+            {allDeviceClasses.map((dc) => <option key={dc} value={dc}>{dc}</option>)}
+          </select>
+        )}
+
+        <button
+          className={`chip ${stateFilter === 'any' ? 'active' : ''}`}
+          onClick={() => setStateFilter('any')}
+        >Any</button>
+        <button
+          className={`chip ${stateFilter === 'on' ? 'active' : ''}`}
+          onClick={() => setStateFilter(stateFilter === 'on' ? 'any' : 'on')}
+        >On</button>
+        <button
+          className={`chip ${stateFilter === 'off' ? 'active' : ''}`}
+          onClick={() => setStateFilter(stateFilter === 'off' ? 'any' : 'off')}
+        >Off</button>
+        <button
+          className={`chip ${stateFilter === 'unavail' ? 'active' : ''}`}
+          onClick={() => setStateFilter(stateFilter === 'unavail' ? 'any' : 'unavail')}
+        >Unavailable</button>
+
+        <label className="chip" style={{ cursor: 'pointer' }}>
+          <input type="checkbox" checked={hideUnavailable} onChange={(e) => setHideUnavailable(e.target.checked)} style={{ marginRight: 4 }} />
+          Hide unavailable
+        </label>
+        <label className="chip" style={{ cursor: 'pointer' }}>
+          <input type="checkbox" checked={hideDiagnostic} onChange={(e) => setHideDiagnostic(e.target.checked)} style={{ marginRight: 4 }} />
+          Hide diagnostic
+        </label>
+        <label className="chip" style={{ cursor: 'pointer' }}>
+          <input type="checkbox" checked={hideHidden} onChange={(e) => setHideHidden(e.target.checked)} style={{ marginRight: 4 }} />
+          Hide hidden
+        </label>
+      </div>
+
       <div className="ha-picker-list no-drag">
         {choices.length === 0 ? (
           <div className="ha-empty">
             <div style={{ fontSize: 16 }}>No matches</div>
             <div className="muted mono" style={{ fontSize: 12, marginTop: 4 }}>
-              Try a different filter or clear your search
+              Loosen filters or clear search
             </div>
           </div>
         ) : (
-          choices.slice(0, 500).map((e) => {
-            const name = entityFriendlyName(e.entityId, e.attributes);
-            const selected = ids.includes(e.entityId);
-            return (
-              <button
-                key={e.entityId}
-                className={`ha-pick-row ${selected ? 'selected' : ''}`}
-                onClick={() => toggle(e.entityId)}
-              >
-                <span className="pick-icon">{entityIcon(e.entityId, e.attributes, 24)}</span>
-                <div className="pick-text">
-                  <div className="pick-name">{name}</div>
-                  <div className="pick-id">{e.entityId}</div>
-                </div>
-                <span className="pick-state mono">{e.state}</span>
-                <span className={`pick-add ${selected ? 'on' : ''}`}>{selected ? '✓' : '+'}</span>
-              </button>
-            );
-          })
+          (() => {
+            // Insert area separators inline.
+            const out: React.ReactNode[] = [];
+            let lastArea = '__init__';
+            for (const e of choices.slice(0, 500)) {
+              const name = entityFriendlyName(e.entityId, e.attributes);
+              const selected = ids.includes(e.entityId);
+              const a = e.area ?? '— no area —';
+              if (a !== lastArea) {
+                out.push(
+                  <div key={`hdr-${a}`} className="ha-area-header mono">{a}</div>
+                );
+                lastArea = a;
+              }
+              out.push(
+                <button
+                  key={e.entityId}
+                  className={`ha-pick-row ${selected ? 'selected' : ''}`}
+                  onClick={() => toggle(e.entityId)}
+                >
+                  <span className="pick-icon">{entityIcon(e.entityId, e.attributes, 24)}</span>
+                  <div className="pick-text">
+                    <div className="pick-name">{name}</div>
+                    <div className="pick-id">
+                      {e.entityId}
+                      {e.device && <span className="pick-device"> · {e.device}</span>}
+                      {e.deviceClass && <span className="pick-class"> · {e.deviceClass}</span>}
+                    </div>
+                  </div>
+                  <span className="pick-state mono">{e.state}</span>
+                  <span className={`pick-add ${selected ? 'on' : ''}`}>{selected ? '✓' : '+'}</span>
+                </button>
+              );
+            }
+            return out;
+          })()
         )}
       </div>
       <div className="ha-picker-footer mono muted">

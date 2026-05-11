@@ -39,6 +39,20 @@ export interface HAEntityState {
   state: string;
   attributes: Record<string, unknown>;
   lastChanged: string;
+  /** Area name (resolved from registry). */
+  area?: string | null;
+  /** Device name (resolved from registry). */
+  device?: string | null;
+  /** Device manufacturer (resolved from registry). */
+  manufacturer?: string | null;
+  /** sensor/binary_sensor device_class. */
+  deviceClass?: string | null;
+  /** 'config' | 'diagnostic' | undefined — if set, mostly internal. */
+  entityCategory?: string | null;
+  /** True if user disabled in HA. */
+  disabled?: boolean;
+  /** True if user hid in HA. */
+  hidden?: boolean;
 }
 
 export interface SpotifyTrack {

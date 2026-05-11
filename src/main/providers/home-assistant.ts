@@ -7,6 +7,21 @@ interface Hooks {
   onBulk(s: HAEntityState[]): void;
 }
 
+interface AreaInfo { name: string; }
+interface DeviceInfo { name: string | null; areaId: string | null; manufacturer: string | null; model: string | null; }
+interface EntityRegInfo {
+  areaId: string | null;
+  deviceId: string | null;
+  entityCategory: string | null;
+  hidden: boolean;
+  disabled: boolean;
+  deviceClass: string | null;
+}
+
+const REQ_AREAS = -1;
+const REQ_DEVICES = -2;
+const REQ_ENTITIES = -3;
+
 export class HomeAssistantProvider {
   private settings: AppSettings;
   private secrets: SecretsStore;
@@ -16,6 +31,11 @@ export class HomeAssistantProvider {
   private msgId = 1;
   private cache = new Map<string, HAEntityState>();
   private connected = false;
+
+  private areas = new Map<string, AreaInfo>();
+  private devices = new Map<string, DeviceInfo>();
+  private entityReg = new Map<string, EntityRegInfo>();
+  private pendingReg = new Set<number>();
 
   constructor(settings: AppSettings, secrets: SecretsStore, hooks: Hooks) {
     this.settings = settings;
@@ -108,28 +128,45 @@ export class HomeAssistantProvider {
           this.ws?.send(JSON.stringify({ type: 'auth', access_token: token }));
         } else if (msg.type === 'auth_ok') {
           this.connected = true;
-          this.send({ type: 'get_states' });
+          // Fetch registries first, then states. The result handler below will
+          // run get_states once all three registries have come back.
+          this.sendId({ type: 'config/area_registry/list' }, REQ_AREAS);
+          this.sendId({ type: 'config/device_registry/list' }, REQ_DEVICES);
+          this.sendId({ type: 'config/entity_registry/list' }, REQ_ENTITIES);
+          this.pendingReg = new Set([REQ_AREAS, REQ_DEVICES, REQ_ENTITIES]);
           this.send({ type: 'subscribe_events', event_type: 'state_changed' });
-        } else if (msg.type === 'result' && Array.isArray(msg.result)) {
-          const states: HAEntityState[] = msg.result.map((s: any) => ({
-            entityId: s.entity_id,
-            state: s.state,
-            attributes: s.attributes ?? {},
-            lastChanged: s.last_changed
-          }));
-          for (const s of states) this.cache.set(s.entityId, s);
-          this.hooks.onBulk(states);
+          this.send({ type: 'subscribe_events', event_type: 'area_registry_updated' });
+          this.send({ type: 'subscribe_events', event_type: 'device_registry_updated' });
+          this.send({ type: 'subscribe_events', event_type: 'entity_registry_updated' });
+        } else if (msg.type === 'result') {
+          this.handleResult(msg);
         } else if (msg.type === 'event' && msg.event?.event_type === 'state_changed') {
           const ns = msg.event.data?.new_state;
           if (ns) {
-            const e: HAEntityState = {
+            const e = this.enrich({
               entityId: ns.entity_id,
               state: ns.state,
               attributes: ns.attributes ?? {},
               lastChanged: ns.last_changed
-            };
+            });
             this.cache.set(e.entityId, e);
             this.hooks.onState(e);
+          }
+        } else if (msg.type === 'event' && (
+          msg.event?.event_type === 'area_registry_updated' ||
+          msg.event?.event_type === 'device_registry_updated' ||
+          msg.event?.event_type === 'entity_registry_updated'
+        )) {
+          // Refetch the affected registry; cheap operation.
+          if (msg.event.event_type === 'area_registry_updated') {
+            this.sendId({ type: 'config/area_registry/list' }, REQ_AREAS);
+            this.pendingReg.add(REQ_AREAS);
+          } else if (msg.event.event_type === 'device_registry_updated') {
+            this.sendId({ type: 'config/device_registry/list' }, REQ_DEVICES);
+            this.pendingReg.add(REQ_DEVICES);
+          } else {
+            this.sendId({ type: 'config/entity_registry/list' }, REQ_ENTITIES);
+            this.pendingReg.add(REQ_ENTITIES);
           }
         }
       } catch {}
@@ -147,6 +184,99 @@ export class HomeAssistantProvider {
     if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
     if (payload.type !== 'auth') (payload as any).id = this.msgId++;
     this.ws.send(JSON.stringify(payload));
+  }
+
+  /** Send with a caller-supplied id (used to correlate registry responses). */
+  private sendId(payload: Record<string, unknown>, id: number) {
+    if (!this.ws || this.ws.readyState !== WebSocket.OPEN) return;
+    (payload as any).id = id;
+    this.ws.send(JSON.stringify(payload));
+  }
+
+  private handleResult(msg: any) {
+    if (msg.id === REQ_AREAS && Array.isArray(msg.result)) {
+      this.areas.clear();
+      for (const a of msg.result) {
+        if (a?.area_id) this.areas.set(a.area_id, { name: a.name ?? a.area_id });
+      }
+      this.pendingReg.delete(REQ_AREAS);
+      this.maybeFetchStates();
+      this.refreshAllEnrichments();
+    } else if (msg.id === REQ_DEVICES && Array.isArray(msg.result)) {
+      this.devices.clear();
+      for (const d of msg.result) {
+        if (d?.id) this.devices.set(d.id, {
+          name: d.name_by_user ?? d.name ?? null,
+          areaId: d.area_id ?? null,
+          manufacturer: d.manufacturer ?? null,
+          model: d.model ?? null
+        });
+      }
+      this.pendingReg.delete(REQ_DEVICES);
+      this.maybeFetchStates();
+      this.refreshAllEnrichments();
+    } else if (msg.id === REQ_ENTITIES && Array.isArray(msg.result)) {
+      this.entityReg.clear();
+      for (const e of msg.result) {
+        if (!e?.entity_id) continue;
+        this.entityReg.set(e.entity_id, {
+          areaId: e.area_id ?? null,
+          deviceId: e.device_id ?? null,
+          entityCategory: e.entity_category ?? null,
+          hidden: !!e.hidden_by,
+          disabled: !!e.disabled_by,
+          deviceClass: e.device_class ?? e.original_device_class ?? null
+        });
+      }
+      this.pendingReg.delete(REQ_ENTITIES);
+      this.maybeFetchStates();
+      this.refreshAllEnrichments();
+    } else if (Array.isArray(msg.result) && msg.result[0]?.entity_id) {
+      // get_states response
+      const states: HAEntityState[] = msg.result.map((s: any) => this.enrich({
+        entityId: s.entity_id,
+        state: s.state,
+        attributes: s.attributes ?? {},
+        lastChanged: s.last_changed
+      }));
+      for (const s of states) this.cache.set(s.entityId, s);
+      this.hooks.onBulk(states);
+    }
+  }
+
+  private maybeFetchStates() {
+    if (this.pendingReg.size === 0 && this.cache.size === 0) {
+      this.send({ type: 'get_states' });
+    }
+  }
+
+  private refreshAllEnrichments() {
+    if (this.cache.size === 0) return;
+    const updated: HAEntityState[] = [];
+    for (const [id, e] of this.cache) {
+      const en = this.enrich(e);
+      this.cache.set(id, en);
+      updated.push(en);
+    }
+    this.hooks.onBulk(updated);
+  }
+
+  private enrich(e: HAEntityState): HAEntityState {
+    const reg = this.entityReg.get(e.entityId);
+    const dev = reg?.deviceId ? this.devices.get(reg.deviceId) : null;
+    const areaId = reg?.areaId ?? dev?.areaId ?? null;
+    const area = areaId ? this.areas.get(areaId)?.name ?? null : null;
+    const attrDevClass = (e.attributes as any)?.device_class as string | undefined;
+    return {
+      ...e,
+      area,
+      device: dev?.name ?? null,
+      manufacturer: dev?.manufacturer ?? null,
+      deviceClass: reg?.deviceClass ?? attrDevClass ?? null,
+      entityCategory: reg?.entityCategory ?? null,
+      disabled: reg?.disabled ?? false,
+      hidden: reg?.hidden ?? false
+    };
   }
 
   private disconnect() {
@@ -173,6 +303,11 @@ export class HomeAssistantProvider {
         try { ws.removeAllListeners(); } catch {}
       });
     }
+    this.cache.clear();
+    this.areas.clear();
+    this.devices.clear();
+    this.entityReg.clear();
+    this.pendingReg.clear();
     this.connected = false;
   }
 
