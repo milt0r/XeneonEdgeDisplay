@@ -138,6 +138,14 @@ export class HomeAssistantProvider {
           this.send({ type: 'subscribe_events', event_type: 'area_registry_updated' });
           this.send({ type: 'subscribe_events', event_type: 'device_registry_updated' });
           this.send({ type: 'subscribe_events', event_type: 'entity_registry_updated' });
+          // Safety net: if registries are slow / blocked / erroring, still
+          // fetch states after 3s so the picker isn't empty forever.
+          setTimeout(() => {
+            if (this.cache.size === 0) {
+              this.pendingReg.clear();
+              this.send({ type: 'get_states' });
+            }
+          }, 3000);
         } else if (msg.type === 'result') {
           this.handleResult(msg);
         } else if (msg.type === 'event' && msg.event?.event_type === 'state_changed') {
@@ -194,6 +202,15 @@ export class HomeAssistantProvider {
   }
 
   private handleResult(msg: any) {
+    // Discord-style success false response: still clear the pending bucket
+    // so we don't block get_states forever.
+    if (msg && msg.success === false) {
+      if (msg.id === REQ_AREAS) this.pendingReg.delete(REQ_AREAS);
+      else if (msg.id === REQ_DEVICES) this.pendingReg.delete(REQ_DEVICES);
+      else if (msg.id === REQ_ENTITIES) this.pendingReg.delete(REQ_ENTITIES);
+      this.maybeFetchStates();
+      return;
+    }
     if (msg.id === REQ_AREAS && Array.isArray(msg.result)) {
       this.areas.clear();
       for (const a of msg.result) {

@@ -218,7 +218,7 @@ function Picker({
   const [search, setSearch] = useState('');
   const [area, setArea] = useState<string>('any');           // 'any' | 'none' | <area name>
   const [stateFilter, setStateFilter] = useState<'any' | 'on' | 'off' | 'unavail'>('any');
-  const [hideUnavailable, setHideUnavailable] = useState(true);
+  const [hideUnavailable, setHideUnavailable] = useState(false);
   const [hideDiagnostic, setHideDiagnostic] = useState(true);
   const [hideHidden, setHideHidden] = useState(true);
   const [deviceClass, setDeviceClass] = useState<string>('any');
