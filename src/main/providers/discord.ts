@@ -128,18 +128,27 @@ export class DiscordProvider {
     }
     this.disconnect();
     try {
-      // Need a connected socket for AUTHORIZE
       let sock: net.Socket | null = null;
+      let connectErr: any = null;
       for (let i = 0; i < 10; i++) {
-        try { sock = await connectPipe(i); break; } catch {}
+        try {
+          sock = await connectPipe(i);
+          console.error('[discord] connected to pipe ' + i);
+          break;
+        } catch (e) { connectErr = e; }
       }
-      if (!sock) return { ok: false, error: 'Discord client not running' };
+      if (!sock) {
+        console.error('[discord] no pipe found, last error:', connectErr);
+        return { ok: false, error: 'Discord client not running (no IPC pipe found)' };
+      }
       this.sock = sock;
       sock.on('data', (chunk: Buffer) => this.onData(chunk));
-      sock.on('error', () => this.handleClose());
-      sock.on('close', () => this.handleClose());
+      sock.on('error', (e: any) => { console.error('[discord] sock error', e); this.handleClose(); });
+      sock.on('close', () => { console.error('[discord] sock close'); this.handleClose(); });
 
+      console.error('[discord] sending HANDSHAKE with client_id=' + this.settings.clientId);
       await this.handshake();
+      console.error('[discord] handshake OK, sending AUTHORIZE');
       const auth = await this.send('AUTHORIZE', {
         client_id: this.settings.clientId,
         scopes: SCOPES
@@ -147,7 +156,6 @@ export class DiscordProvider {
       const code = auth?.code;
       if (!code) return { ok: false, error: 'No authorization code returned' };
 
-      // Exchange code -> tokens
       const body = new URLSearchParams({
         client_id: this.settings.clientId,
         client_secret: this.settings.clientSecret,
@@ -177,6 +185,7 @@ export class DiscordProvider {
       this.emit();
       return { ok: true };
     } catch (e: any) {
+      console.error('[discord] beginAuth error', e);
       this.disconnect();
       return { ok: false, error: String(e?.message ?? e) };
     }
@@ -238,10 +247,12 @@ export class DiscordProvider {
     const header = Buffer.alloc(8);
     header.writeUInt32LE(op, 0);
     header.writeUInt32LE(json.length, 4);
+    console.error('[discord] write op=' + op + ' len=' + json.length + ' body=' + json.toString('utf8').slice(0, 200));
     this.sock.write(Buffer.concat([header, json]));
   }
 
   private onData(chunk: Buffer) {
+    console.error('[discord] data chunk len=' + chunk.length);
     this.buf = Buffer.concat([this.buf, chunk]);
     while (this.buf.length >= 8) {
       const op = this.buf.readUInt32LE(0);
@@ -249,10 +260,13 @@ export class DiscordProvider {
       if (this.buf.length < 8 + len) break;
       const body = this.buf.subarray(8, 8 + len).toString('utf8');
       this.buf = this.buf.subarray(8 + len);
+      console.error('[discord] frame op=' + op + ' len=' + len + ' body=' + body.slice(0, 300));
       try {
         const msg = JSON.parse(body);
         this.dispatch(op, msg);
-      } catch {}
+      } catch (e) {
+        console.error('[discord] parse error', e);
+      }
     }
   }
 
