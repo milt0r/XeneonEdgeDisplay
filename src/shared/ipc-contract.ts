@@ -85,6 +85,7 @@ export interface IpcApi {
   discord: {
     snapshot(): Promise<DiscordVoiceState>;
     pickAudioFiles(): Promise<string[]>;
+    beginAuth(): Promise<{ ok: boolean; error?: string }>;
   };
 
   window: {
@@ -127,6 +128,6 @@ export const IPC = {
   Net: { speedtest: 'net:speedtest', arp: 'net:arp' },
   Calendar: { fetchIcs: 'cal:fetchIcs' },
   Scripts: { run: 'scripts:run' },
-  Discord: { snapshot: 'discord:snapshot', pickAudioFiles: 'discord:pickAudioFiles' },
+  Discord: { snapshot: 'discord:snapshot', pickAudioFiles: 'discord:pickAudioFiles', beginAuth: 'discord:beginAuth' },
   Events: { provider: 'event:provider' }
 } as const;

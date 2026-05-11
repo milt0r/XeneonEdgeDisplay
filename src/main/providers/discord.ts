@@ -8,8 +8,14 @@ import type { DiscordVoiceState, DiscordVoiceUser } from '../../shared/discord';
  * read the user's current voice-channel state and subscribe to who's
  * speaking. Requires:
  *   - a Discord application (Developer Portal) with redirect URI set,
- *   - an OAuth access token with `rpc rpc.voice.read identify` scopes,
  *   - the Discord desktop client running and signed in.
+ *
+ * Auth flow (handled by .authorize()):
+ *   1. RPC HANDSHAKE with client_id
+ *   2. RPC AUTHORIZE with scopes -> Discord prompts the user
+ *   3. POST /api/oauth2/token with code + client_secret -> access_token
+ *   4. RPC AUTHENTICATE with access_token
+ *   5. cache refresh_token via the secrets store for next launch
  */
 
 const OP_HANDSHAKE = 0;
@@ -20,6 +26,17 @@ const OP_CLOSE = 2;
 
 type Listener = (state: DiscordVoiceState) => void;
 
+const SCOPES = ['rpc', 'rpc.voice.read', 'identify'];
+const REDIRECT_URI = 'http://localhost';
+const TOKEN_URL = 'https://discord.com/api/oauth2/token';
+
+interface SecretsLike {
+  get(key: string): string | null;
+  set(key: string, value: string): void;
+  has(key: string): boolean;
+  clear(key: string): void;
+}
+
 export class DiscordProvider {
   private sock: net.Socket | null = null;
   private buf = Buffer.alloc(0);
@@ -27,20 +44,25 @@ export class DiscordProvider {
   private listeners = new Set<Listener>();
   private state: DiscordVoiceState = emptyState();
   private currentChannelId: string | null = null;
-  private settings: { clientId: string; accessToken: string } = { clientId: '', accessToken: '' };
+  private settings: { clientId: string; clientSecret: string } = { clientId: '', clientSecret: '' };
+  private accessToken: string | null = null;
   private reconnectTimer: NodeJS.Timeout | null = null;
+  private secrets: SecretsLike | null = null;
 
-  applySettings(clientId: string, accessToken: string) {
-    const changed = clientId !== this.settings.clientId || accessToken !== this.settings.accessToken;
-    this.settings = { clientId, accessToken };
+  setSecrets(s: SecretsLike) { this.secrets = s; }
+
+  applySettings(clientId: string, clientSecret: string) {
+    const changed = clientId !== this.settings.clientId || clientSecret !== this.settings.clientSecret;
+    this.settings = { clientId, clientSecret };
     if (changed) {
       this.disconnect();
-      if (clientId && accessToken) this.connect().catch(() => {});
+      this.accessToken = null;
+      if (clientId && clientSecret) this.connect().catch(() => {});
     }
   }
 
   start() {
-    if (this.settings.clientId && this.settings.accessToken) this.connect().catch(() => {});
+    if (this.settings.clientId && this.settings.clientSecret) this.connect().catch(() => {});
   }
 
   stop() { this.disconnect(); }
@@ -77,6 +99,7 @@ export class DiscordProvider {
 
     try {
       await this.handshake();
+      await this.ensureToken();
       await this.authenticate();
       await this.subscribe('VOICE_CHANNEL_SELECT');
       const cur = await this.send('GET_SELECTED_VOICE_CHANNEL', {});
@@ -89,6 +112,93 @@ export class DiscordProvider {
       this.disconnect();
       this.scheduleReconnect();
     }
+  }
+
+  /**
+   * One-time interactive setup: prompts Discord to ask the user to authorize
+   * this app, exchanges the resulting code for access + refresh tokens,
+   * stores the refresh token, then completes the connect flow.
+   * Called from the renderer via IPC `discord.beginAuth`.
+   */
+  async beginAuth(): Promise<{ ok: boolean; error?: string }> {
+    if (!this.settings.clientId || !this.settings.clientSecret) {
+      return { ok: false, error: 'Set Client ID and Client Secret first' };
+    }
+    this.disconnect();
+    try {
+      // Need a connected socket for AUTHORIZE
+      let sock: net.Socket | null = null;
+      for (let i = 0; i < 10; i++) {
+        try { sock = await connectPipe(i); break; } catch {}
+      }
+      if (!sock) return { ok: false, error: 'Discord client not running' };
+      this.sock = sock;
+      sock.on('data', (chunk: Buffer) => this.onData(chunk));
+      sock.on('error', () => this.handleClose());
+      sock.on('close', () => this.handleClose());
+
+      await this.handshake();
+      const auth = await this.send('AUTHORIZE', {
+        client_id: this.settings.clientId,
+        scopes: SCOPES
+      });
+      const code = auth?.code;
+      if (!code) return { ok: false, error: 'No authorization code returned' };
+
+      // Exchange code -> tokens
+      const body = new URLSearchParams({
+        client_id: this.settings.clientId,
+        client_secret: this.settings.clientSecret,
+        grant_type: 'authorization_code',
+        code,
+        redirect_uri: REDIRECT_URI
+      });
+      const res = await fetch(TOKEN_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body
+      });
+      if (!res.ok) {
+        const txt = await res.text();
+        this.disconnect();
+        return { ok: false, error: `Token exchange failed: HTTP ${res.status} ${txt.slice(0, 200)}` };
+      }
+      const tok: any = await res.json();
+      this.accessToken = tok.access_token;
+      if (tok.refresh_token && this.secrets) this.secrets.set('discordRefresh', tok.refresh_token);
+
+      await this.authenticate();
+      await this.subscribe('VOICE_CHANNEL_SELECT');
+      const cur = await this.send('GET_SELECTED_VOICE_CHANNEL', {});
+      if (cur && cur.id) await this.enterChannel(cur);
+      this.state = { ...this.state, connected: true, error: undefined };
+      this.emit();
+      return { ok: true };
+    } catch (e: any) {
+      this.disconnect();
+      return { ok: false, error: String(e?.message ?? e) };
+    }
+  }
+
+  private async ensureToken(): Promise<void> {
+    if (this.accessToken) return;
+    const refresh = this.secrets?.get('discordRefresh');
+    if (!refresh) throw new Error('Not authorized — open Settings → Providers → Discord and click Authorize');
+    const body = new URLSearchParams({
+      client_id: this.settings.clientId,
+      client_secret: this.settings.clientSecret,
+      grant_type: 'refresh_token',
+      refresh_token: refresh
+    });
+    const res = await fetch(TOKEN_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body
+    });
+    if (!res.ok) throw new Error(`Refresh failed: HTTP ${res.status}`);
+    const tok: any = await res.json();
+    this.accessToken = tok.access_token;
+    if (tok.refresh_token && this.secrets) this.secrets.set('discordRefresh', tok.refresh_token);
   }
 
   private disconnect() {
@@ -113,7 +223,7 @@ export class DiscordProvider {
 
   private scheduleReconnect() {
     if (this.reconnectTimer) return;
-    if (!this.settings.clientId || !this.settings.accessToken) return;
+    if (!this.settings.clientId || !this.settings.clientSecret) return;
     this.reconnectTimer = setTimeout(() => {
       this.reconnectTimer = null;
       this.connect().catch(() => {});
@@ -221,7 +331,8 @@ export class DiscordProvider {
   }
 
   private async authenticate(): Promise<void> {
-    const data = await this.send('AUTHENTICATE', { access_token: this.settings.accessToken });
+    if (!this.accessToken) throw new Error('No access token');
+    const data = await this.send('AUTHENTICATE', { access_token: this.accessToken });
     if (data?.user?.id) this.state = { ...this.state, selfUserId: data.user.id };
   }
 

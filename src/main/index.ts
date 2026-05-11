@@ -94,8 +94,8 @@ function registerIpc() {
     sensors.applySettings(next);
     ha.applySettings(next);
     spotify.applySettings(next);
-    const dToken = secrets.get('discordToken') ?? '';
-    discord.applySettings(next.discord?.enabled ? next.discord.clientId : '', next.discord?.enabled ? dToken : '');
+    const dSecret = secrets.get('discordSecret') ?? '';
+    discord.applySettings(next.discord?.enabled ? next.discord.clientId : '', next.discord?.enabled ? dSecret : '');
     if (mainWindow && !mainWindow.isDestroyed()) {
       const scale = Math.max(0.6, Math.min(2.0, next.ui?.fontScale ?? 1.0));
       try { mainWindow.webContents.setZoomFactor(scale); } catch {}
@@ -152,6 +152,7 @@ function registerIpc() {
   ipcMain.handle(IPC.Scripts.run, (_e, cmd: string, t?: number) => scriptsProv.run(cmd, t));
 
   ipcMain.handle(IPC.Discord.snapshot, () => discord.snapshot());
+  ipcMain.handle(IPC.Discord.beginAuth, () => discord.beginAuth());
   ipcMain.handle(IPC.Discord.pickAudioFiles, async () => {
     if (!mainWindow) return [];
     const res = await dialog.showOpenDialog(mainWindow, {
@@ -180,6 +181,7 @@ app.whenReady().then(() => {
   calendarProv = new CalendarProvider();
   scriptsProv = new ScriptsProvider();
   discord = new DiscordProvider();
+  discord.setSecrets(secrets);
   discord.on((s) => broadcast('discord', s));
 
   registerIpc();
@@ -189,8 +191,8 @@ app.whenReady().then(() => {
   sensors.start();
   ha.start();
   spotify.start();
-  const dTok = secrets.get('discordToken') ?? '';
-  discord.applySettings(initial.discord?.enabled ? initial.discord.clientId : '', initial.discord?.enabled ? dTok : '');
+  const dSecret = secrets.get('discordSecret') ?? '';
+  discord.applySettings(initial.discord?.enabled ? initial.discord.clientId : '', initial.discord?.enabled ? dSecret : '');
   discord.start();
 
   app.on('activate', () => {

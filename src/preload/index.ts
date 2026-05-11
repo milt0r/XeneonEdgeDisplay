@@ -64,7 +64,8 @@ const api: IpcApi = {
   },
   discord: {
     snapshot: () => ipcRenderer.invoke(IPC.Discord.snapshot),
-    pickAudioFiles: () => ipcRenderer.invoke(IPC.Discord.pickAudioFiles)
+    pickAudioFiles: () => ipcRenderer.invoke(IPC.Discord.pickAudioFiles),
+    beginAuth: () => ipcRenderer.invoke(IPC.Discord.beginAuth)
   },
   on(channel: ProviderEventKind, handler: (payload: any) => void) {
     const listener = (_e: unknown, msg: { kind: string; payload: unknown }) => {

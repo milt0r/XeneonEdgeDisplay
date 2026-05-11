@@ -13,7 +13,7 @@ type OskField =
   | { kind: 'haToken' }
   | { kind: 'spotifyClientId' }
   | { kind: 'discordClientId' }
-  | { kind: 'discordToken' };
+  | { kind: 'discordSecret' };
 
 export function SettingsPanel() {
   const settings = useApp((s) => s.settings)!;
@@ -31,9 +31,15 @@ export function SettingsPanel() {
   const [spotifyClientId, setSpotifyClientId] = useState(settings.spotify.clientId);
   const [spotifyAuthed, setSpotifyAuthed] = useState(false);
   const [discordClientId, setDiscordClientId] = useState(settings.discord?.clientId ?? '');
-  const [discordToken, setDiscordToken] = useState('');
-  const [discordHasToken, setDiscordHasToken] = useState(false);
-  React.useEffect(() => { window.api.hasSecret('discordToken').then(setDiscordHasToken); }, []);
+  const [discordSecret, setDiscordSecret] = useState('');
+  const [discordHasSecret, setDiscordHasSecret] = useState(false);
+  const [discordHasRefresh, setDiscordHasRefresh] = useState(false);
+  const [discordAuthMsg, setDiscordAuthMsg] = useState<{ ok: boolean; text: string } | null>(null);
+  const [discordAuthing, setDiscordAuthing] = useState(false);
+  React.useEffect(() => {
+    window.api.hasSecret('discordSecret').then(setDiscordHasSecret);
+    window.api.hasSecret('discordRefresh').then(setDiscordHasRefresh);
+  }, []);
   React.useEffect(() => {
     window.api.spotify.isAuthorized().then(setSpotifyAuthed);
   }, []);
@@ -107,8 +113,8 @@ export function SettingsPanel() {
         return { value: spotifyClientId, onChange: setSpotifyClientId, passwordMode: false };
       case 'discordClientId':
         return { value: discordClientId, onChange: setDiscordClientId, passwordMode: false };
-      case 'discordToken':
-        return { value: discordToken, onChange: setDiscordToken, passwordMode: true };
+      case 'discordSecret':
+        return { value: discordSecret, onChange: setDiscordSecret, passwordMode: true };
     }
   })();
 
@@ -490,12 +496,14 @@ export function SettingsPanel() {
           <section className="settings-section">
             <h3>
               Discord
-              {discordHasToken && settings.discord?.enabled && <span className="status-pill ok">ENABLED</span>}
+              {discordHasRefresh && settings.discord?.enabled && <span className="status-pill ok">CONNECTED</span>}
             </h3>
             <div className="muted mono" style={{ fontSize: 11, marginBottom: 8 }}>
-              Connects to your local Discord desktop client (RPC). Get a Client ID from
-              <a href="https://discord.com/developers/applications" target="_blank" rel="noopener" style={{ color: 'var(--accent)' }}> developers.discord.com</a>
-              and an OAuth access token with scopes <code>rpc rpc.voice.read identify</code>.
+              Reads your voice channel from the local Discord client (no bot needed).
+              <br />1) Create an app at
+              {' '}<a href="https://discord.com/developers/applications" target="_blank" rel="noopener" style={{ color: 'var(--accent)' }}>developers.discord.com</a>.
+              <br />2) Under <b>OAuth2</b>, add redirect URI <code>http://localhost</code>.
+              <br />3) Copy the <b>Client ID</b> and <b>Client Secret</b> here, save, then click <b>Authorize</b> — Discord will pop up a confirmation in the desktop client.
             </div>
             <div className="field-row">
               <label>Client ID</label>
@@ -506,31 +514,58 @@ export function SettingsPanel() {
               />
             </div>
             <div className="field-row">
-              <label>Access token (rpc, rpc.voice.read, identify)</label>
+              <label>Client Secret</label>
               <input
                 type="password"
-                value={discordToken}
-                placeholder={discordHasToken ? '••• stored •••' : ''}
-                onFocus={() => setOskField({ kind: 'discordToken' })}
-                onChange={(e) => setDiscordToken(e.target.value)}
+                value={discordSecret}
+                placeholder={discordHasSecret ? '••• stored •••' : ''}
+                onFocus={() => setOskField({ kind: 'discordSecret' })}
+                onChange={(e) => setDiscordSecret(e.target.value)}
               />
             </div>
             <div className="btn-row">
               <button className="btn" onClick={async () => {
-                if (discordToken) await window.api.setSecret('discordToken', discordToken);
+                if (discordSecret) await window.api.setSecret('discordSecret', discordSecret);
                 await update({ discord: { clientId: discordClientId, enabled: true } });
-                setDiscordHasToken(true);
-                setDiscordToken('');
-              }}>Save & Enable</button>
-              {(discordHasToken || settings.discord?.enabled) && (
+                setDiscordHasSecret((prev) => prev || !!discordSecret);
+                setDiscordSecret('');
+                setDiscordAuthMsg({ ok: true, text: 'Saved. Now click Authorize.' });
+              }}>Save</button>
+              <button className="btn btn-active" disabled={discordAuthing || !discordClientId || !(discordHasSecret || discordSecret)} onClick={async () => {
+                setDiscordAuthing(true);
+                setDiscordAuthMsg(null);
+                if (discordSecret) await window.api.setSecret('discordSecret', discordSecret);
+                if (discordClientId !== settings.discord?.clientId) {
+                  await update({ discord: { clientId: discordClientId, enabled: true } });
+                }
+                const res = await window.api.discord.beginAuth();
+                setDiscordAuthing(false);
+                if (res.ok) {
+                  setDiscordHasRefresh(true);
+                  setDiscordHasSecret(true);
+                  setDiscordSecret('');
+                  setDiscordAuthMsg({ ok: true, text: 'Authorized! Discord widget should now show your voice channel.' });
+                } else {
+                  setDiscordAuthMsg({ ok: false, text: res.error ?? 'Authorize failed' });
+                }
+              }}>{discordAuthing ? '⏳ Waiting for Discord…' : '🔐 Authorize'}</button>
+              {(discordHasSecret || discordHasRefresh || settings.discord?.enabled) && (
                 <button className="btn" onClick={async () => {
-                  await window.api.clearSecret('discordToken');
+                  await window.api.clearSecret('discordSecret');
+                  await window.api.clearSecret('discordRefresh');
                   await update({ discord: { clientId: '', enabled: false } });
-                  setDiscordHasToken(false);
+                  setDiscordHasSecret(false);
+                  setDiscordHasRefresh(false);
                   setDiscordClientId('');
-                }}>Disable & Forget</button>
+                  setDiscordAuthMsg({ ok: true, text: 'Disconnected.' });
+                }}>Disconnect</button>
               )}
             </div>
+            {discordAuthMsg && (
+              <div className={`mono`} style={{ fontSize: 12, marginTop: 8, color: discordAuthMsg.ok ? 'var(--good)' : 'var(--warn)' }}>
+                {discordAuthMsg.text}
+              </div>
+            )}
           </section>
           </>)}
 
