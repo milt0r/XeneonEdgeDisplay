@@ -48,6 +48,8 @@ export class DiscordProvider {
   private accessToken: string | null = null;
   private reconnectTimer: NodeJS.Timeout | null = null;
   private secrets: SecretsLike | null = null;
+  private readyResolve: (() => void) | null = null;
+  private readyReject: ((e: Error) => void) | null = null;
 
   setSecrets(s: SecretsLike) { this.secrets = s; }
 
@@ -255,6 +257,11 @@ export class DiscordProvider {
   }
 
   private dispatch(_op: number, msg: any) {
+    if (msg.cmd === 'DISPATCH' && msg.evt === 'READY') {
+      const r = this.readyResolve; this.readyResolve = null; this.readyReject = null;
+      if (r) r();
+      return;
+    }
     if (msg.cmd === 'DISPATCH') {
       this.handleEvent(msg.evt, msg.data);
       return;
@@ -305,28 +312,15 @@ export class DiscordProvider {
 
   private handshake(): Promise<void> {
     return new Promise((resolve, reject) => {
-      const onReady = (msg: any) => { if (msg.cmd === 'DISPATCH' && msg.evt === 'READY') { off(); resolve(); } };
-      const onErr = () => { off(); reject(new Error('handshake failed')); };
-      const off = () => { this.sock?.off('data', wrap); this.sock?.off('error', onErr); };
-      const wrap = (chunk: Buffer) => {
-        this.buf = Buffer.concat([this.buf, chunk]);
-        while (this.buf.length >= 8) {
-          const op = this.buf.readUInt32LE(0);
-          const len = this.buf.readUInt32LE(4);
-          if (this.buf.length < 8 + len) break;
-          const body = this.buf.subarray(8, 8 + len).toString('utf8');
-          this.buf = this.buf.subarray(8 + len);
-          try {
-            const msg = JSON.parse(body);
-            if (op === OP_FRAME) { onReady(msg); return; }
-            if (op === OP_CLOSE) { reject(new Error(msg.message ?? 'closed')); return; }
-          } catch {}
-        }
-      };
-      this.sock?.on('data', wrap);
-      this.sock?.on('error', onErr);
+      this.readyResolve = resolve;
+      this.readyReject = reject;
       this.writeFrame(OP_HANDSHAKE, { v: 1, client_id: this.settings.clientId });
-      setTimeout(() => { off(); reject(new Error('handshake timeout')); }, 5000);
+      setTimeout(() => {
+        if (this.readyResolve) {
+          const r = this.readyReject; this.readyResolve = null; this.readyReject = null;
+          r?.(new Error('handshake timeout'));
+        }
+      }, 5000);
     });
   }
 
