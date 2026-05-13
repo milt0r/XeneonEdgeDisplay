@@ -1,0 +1,147 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 14px 18px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 12px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 110px;
+    gap: 8px;
+  }
+  .tile {
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 4px; padding: 9px 10px;
+    display: flex; flex-direction: column; gap: 4px;
+    position: relative; overflow: hidden;
+  }
+  .tile.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-hot); }
+  .span2  { grid-column: span 2; }
+  .vbig   { font-family: 'Monoton','VT323',monospace; font-size: 22px; color: var(--accent); line-height: 1; }
+  .tile.on .vbig { color: var(--accent-hot); }
+  .nm     { font-family: 'VT323', monospace; font-size: 12px; color: var(--fg-muted); }
+  .tile.on .nm { color: var(--accent-hot); }
+  .sub    { font-family: var(--font-mono); font-size: 9px; color: var(--fg-muted); letter-spacing: 0.14em; text-transform: uppercase; }
+  .top    { display: flex; gap: 6px; align-items: center; color: var(--fg-muted); }
+  .tile.on .top { color: var(--accent-hot); }
+  .icon   { color: var(--accent); }
+  .tile.on .icon { color: var(--accent-hot); }
+  .center { display: flex; flex-direction: column; align-items: center; justify-content: center; flex: 1; gap: 4px; }
+  .avatar {
+    width: 38px; height: 38px; border-radius: 50%;
+    background: var(--accent); color: var(--bg);
+    border: 2px solid var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Monoton','VT323',monospace; font-size: 14px;
+  }
+  .avatar.away { background: var(--bg-panel); color: var(--accent); }
+  .gauge { height: 5px; background: var(--bg-panel); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; }
+  .gauge-fill { height: 100%; background: var(--accent); }
+  .live-dot { display: inline-block; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; animation: lp 1.2s ease-in-out infinite; margin-right: 4px; }
+  @keyframes lp { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:0.5; transform:scale(0.8);} }
+  .danger { border-color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.3); }
+  .danger .vbig { color: #ff5050; }
+</style>
+</head>
+<body>
+  <div class="name">HA TILE VARIANTS · WEATHER · PERSON · MOTION · AUTOMATION · VACUUM · UPDATE · ALARM</div>
+  <div class="grid">
+    <!-- Weather (2x1) -->
+    <div class="tile span2">
+      <div class="top">
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="13" r="4"/><path d="M13 9a4 4 0 015 4M5 17h12"/></svg>
+        <span class="nm">DETROIT · HOME</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:36px;line-height:1">⛅</span>
+        <span class="vbig" style="font-size:28px">64°F</span>
+      </div>
+      <div class="sub">PARTLYCLOUDY · FEELS 61°F</div>
+    </div>
+
+    <!-- Person — home -->
+    <div class="tile on">
+      <div class="center">
+        <div class="avatar">MK</div>
+        <div class="nm" style="color:var(--accent-hot)">Mark</div>
+        <div class="sub" style="color:var(--accent-hot)">HOME · 78%</div>
+      </div>
+    </div>
+
+    <!-- Person — away -->
+    <div class="tile">
+      <div class="center">
+        <div class="avatar away">HN</div>
+        <div class="nm">Hannah</div>
+        <div class="sub">DOWNTOWN · 42%</div>
+      </div>
+    </div>
+
+    <!-- Motion detected -->
+    <div class="tile on">
+      <div class="top">
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" style="animation: lp 1.2s ease-in-out infinite"><circle cx="12" cy="5" r="2"/><path d="M9 9h6l-2 6 4 5M11 13l-3 7"/></svg>
+        <span class="nm">FRONT MOTION</span>
+      </div>
+      <div class="vbig" style="font-size:18px">DETECTED</div>
+      <div class="sub">2 MIN AGO</div>
+    </div>
+
+    <!-- Update available -->
+    <div class="tile on span2">
+      <div class="top">
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 4v8M8 8l4-4 4 4M5 16a7 7 0 0014 0"/></svg>
+        <span class="nm">HOME ASSISTANT CORE</span>
+      </div>
+      <div class="vbig" style="font-size:15px">2026.5.1 → 2026.5.3</div>
+      <div class="sub">UPDATE AVAILABLE</div>
+    </div>
+
+    <!-- Automation -->
+    <div class="tile on span2">
+      <div class="top">
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M5 19l2-2M17 7l2-2"/></svg>
+        <span class="nm">MORNING ROUTINE</span>
+      </div>
+      <div class="vbig" style="font-size:16px">ENABLED</div>
+      <div class="sub">LAST · TODAY 06:30</div>
+    </div>
+
+    <!-- Vacuum -->
+    <div class="tile span2">
+      <div class="top">
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>
+        <span class="nm">ROBOROCK S8</span>
+      </div>
+      <div class="vbig" style="font-size:17px">CHARGING</div>
+      <div class="sub">BATTERY · 92%</div>
+      <div class="gauge"><div class="gauge-fill" style="width:92%"></div></div>
+    </div>
+
+    <!-- Alarm panel armed -->
+    <div class="tile on span2">
+      <div class="top">
+        <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6z"/><path d="M9 12l2 2 4-4"/></svg>
+        <span class="nm">HOUSE ALARM</span>
+      </div>
+      <div class="vbig" style="font-size:16px">ARMED · HOME</div>
+      <div class="sub">TAP TO DISARM</div>
+    </div>
+
+    <!-- Alarm triggered -->
+    <div class="tile danger span2">
+      <div class="top" style="color:#ff5050">
+        <svg style="color:#ff5050" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l9 4v6c0 5-4 9-9 10-5-1-9-5-9-10V6z"/></svg>
+        <span class="nm" style="color:#ff5050"><span class="live-dot"></span>HOUSE ALARM</span>
+      </div>
+      <div class="vbig" style="font-size:16px">TRIGGERED</div>
+      <div class="sub" style="color:#ff5050">INTRUSION · 00:12</div>
+    </div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,69 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  .tile {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex; flex-direction: column; gap: 6px;
+    min-height: 96px;
+  }
+  .tile.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-hot); }
+  .top { display: flex; gap: 6px; align-items: center; color: var(--fg-muted); }
+  .tile.on .top { color: var(--accent-hot); }
+  .icon { display: inline-flex; color: var(--accent); }
+  .tile.on .icon { color: var(--accent-hot); }
+  .nm { font-family: 'VT323', monospace; font-size: 13px; letter-spacing: 0.05em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .v {
+    font-family: 'Monoton','VT323',monospace;
+    font-size: 26px; color: var(--accent); line-height: 1;
+  }
+  .tile.on .v { color: var(--accent-hot); }
+  .u { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); margin-left: 3px; }
+  .tile.on .u { color: var(--accent-hot); opacity: 0.85; }
+  .state { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+</style>
+</head>
+<body>
+  <div class="name">HOME ASSISTANT · TILES</div>
+  <div class="grid">
+    <div class="tile on">
+      <div class="top"><span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M9 18h6"/><path d="M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.7.6 1 1.5 1 2.3v1h6v-1c0-.8.3-1.7 1-2.3A7 7 0 0 0 12 2z"/></svg>
+      </span><span class="nm">LIVING RM</span></div>
+      <div class="v">78<span class="u">%</span></div>
+      <div class="state">LIGHT · ON</div>
+    </div>
+    <div class="tile">
+      <div class="top"><span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3v9"/><circle cx="12" cy="17" r="4"/></svg>
+      </span><span class="nm">THERMOSTAT</span></div>
+      <div class="v">68<span class="u">°F</span></div>
+      <div class="state">HEAT · IDLE</div>
+    </div>
+    <div class="tile">
+      <div class="top"><span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="11" width="18" height="10" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </span><span class="nm">FRONT DOOR</span></div>
+      <div class="v" style="font-size:22px">LOCKED</div>
+      <div class="state">SECURE · 14m</div>
+    </div>
+    <div class="tile on">
+      <div class="top"><span class="icon">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M3 17l6-6 4 4 8-8"/><path d="M14 7h7v7"/></svg>
+      </span><span class="nm">GARAGE</span></div>
+      <div class="v" style="font-size:22px">OPEN</div>
+      <div class="state">DOOR · 3m</div>
+    </div>
+  </div>
+</body>
+</html>

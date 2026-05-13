@@ -1,0 +1,64 @@
+<!doctype html>
+<html class="theme-xfiles">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body {
+    background: radial-gradient(ellipse at center, #001a00 0%, #000 100%);
+    padding: 18px 20px;
+    position: relative;
+  }
+  body::after {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0, rgba(0,0,0,0.18) 1px, transparent 2px, transparent 4px);
+    pointer-events: none; mix-blend-mode: multiply;
+  }
+  .name { font-family: 'Special Elite', 'VT323', monospace; font-size: 26px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 4px; text-shadow: 0 0 4px var(--accent); }
+  .sub  { font-family: 'Special Elite', monospace; font-size: 12px; color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .sw {
+    height: 96px;
+    border: 1px solid var(--border);
+    border-radius: 0;
+    padding: 9px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'Special Elite', monospace;
+    font-size: 10px;
+  }
+  .sw .role { text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.85; }
+  .stamp {
+    position: absolute; top: 16px; right: 24px;
+    font-family: 'Special Elite', monospace; font-size: 11px;
+    color: #ff5555; border: 1px solid #ff5555;
+    padding: 3px 10px; transform: rotate(8deg);
+    letter-spacing: 0.18em;
+    opacity: 0.85;
+  }
+</style>
+</head>
+<body>
+  <div class="stamp">CLASSIFIED</div>
+  <div class="name">X-FILES</div>
+  <div class="sub">The truth is out there · radius 0 · scanlines + noise</div>
+  <div class="grid">
+    <div class="sw" style="background:#000000; color:#33ff33"><span class="role">bg</span><span>#000000</span></div>
+    <div class="sw" style="background:#031003; color:#33ff33"><span class="role">elev</span><span>#031003</span></div>
+    <div class="sw" style="background:#062006; color:#33ff33"><span class="role">panel</span><span>#062006</span></div>
+    <div class="sw" style="background:#0a2a0a; color:#aaffaa; border-color:#33ff33"><span class="role">a-soft</span><span>#0a2a0a</span></div>
+    <div class="sw" style="background:#33ff33; color:#000"><span class="role">accent</span><span>#33ff33</span></div>
+    <div class="sw" style="background:#aaffaa; color:#000"><span class="role">a-hot</span><span>#aaffaa</span></div>
+  </div>
+  <div class="grid" style="margin-top:8px">
+    <div class="sw" style="background:#062006; color:#33ff33"><span class="role">fg</span><span>#33ff33</span></div>
+    <div class="sw" style="background:#062006; color:#1a8a1a"><span class="role">muted</span><span>#1a8a1a</span></div>
+    <div class="sw" style="background:#062006; color:#ff5555"><span class="role">warn</span><span>#ff5555</span></div>
+    <div class="sw" style="background:#062006; color:#33ff33"><span class="role">good</span><span>#33ff33</span></div>
+    <div class="sw" style="background:#062006; color:#33ff33"><span class="role">border</span><span>#1a5a1a</span></div>
+    <div class="sw" style="background:#062006; color:#ff5555"><span class="role">danger</span><span>#ff5555</span></div>
+  </div>
+</body>
+</html>

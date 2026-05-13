@@ -1,0 +1,133 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 16px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 12px; }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-auto-rows: 80px;
+    gap: 8px;
+  }
+  .cell { position: relative; }
+  .tile {
+    width: 100%; height: 100%;
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 4px; padding: 8px 10px;
+    display: flex; flex-direction: column; gap: 4px;
+    overflow: hidden;
+  }
+  .tile.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-hot); }
+  .top { display: flex; align-items: center; gap: 6px; color: var(--fg-muted); }
+  .tile.on .top { color: var(--accent-hot); }
+  .icon { color: var(--accent); display: inline-flex; }
+  .tile.on .icon { color: var(--accent-hot); }
+  .nm { font-family: 'VT323', monospace; font-size: 13px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .v {
+    font-family: 'Monoton','VT323',monospace;
+    font-size: 22px; color: var(--accent); line-height: 1;
+  }
+  .tile.on .v { color: var(--accent-hot); }
+  .state { font-family: var(--font-mono); font-size: 9px; color: var(--fg-muted); text-transform: uppercase; letter-spacing: 0.15em; }
+  .size {
+    position: absolute; top: 4px; left: 4px;
+    background: var(--accent-soft); color: var(--accent-hot);
+    border: 1px solid var(--accent); border-radius: 999px;
+    font-family: var(--font-mono); font-size: 9px;
+    padding: 2px 6px; letter-spacing: 0.06em;
+    z-index: 2;
+  }
+  .v2 { font-size: 40px; }
+  .v3 { font-size: 56px; }
+  .camera {
+    background: linear-gradient(135deg, #0a3a55 0%, #14506b 60%, #0a1a22 100%);
+    color: #cfeeff;
+    position: relative;
+  }
+  .camera::after {
+    content: '';
+    position: absolute; left: 50%; top: 40%;
+    transform: translate(-50%, -50%);
+    width: 36px; height: 36px;
+    border: 2px solid rgba(255,255,255,0.18);
+    border-radius: 50%;
+  }
+  .camera-cap { position: absolute; left: 8px; right: 8px; bottom: 6px; font-family: var(--font-mono); font-size: 10px; color: #cfeeff; letter-spacing: 0.1em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="name">HA TILE SIZES · 1×1 → 3×1 · 1×2 · 2×2</div>
+  <div class="grid">
+    <!-- Row 1 -->
+    <div class="cell" style="grid-column: span 1; grid-row: span 2">
+      <div class="size">1×2</div>
+      <div class="tile on">
+        <div class="top"><span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="9" r="5"/><path d="M9 18h6M10 21h4"/></svg>
+        </span><span class="nm">FLOOR LAMP</span></div>
+        <div class="v v2">78%</div>
+        <div class="state">DIM · WARM</div>
+      </div>
+    </div>
+    <div class="cell" style="grid-column: span 2">
+      <div class="size">2×1</div>
+      <div class="tile">
+        <div class="top"><span class="icon">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14 14V5a2 2 0 10-4 0v9a4 4 0 104 0z"/></svg>
+        </span><span class="nm">LIVING ROOM CLIMATE</span></div>
+        <div class="v">68°F → 72°F</div>
+      </div>
+    </div>
+    <div class="cell" style="grid-column: span 3; grid-row: span 2">
+      <div class="size">3×2</div>
+      <div class="tile camera">
+        <div class="top" style="color:#cfeeff"><span class="nm" style="font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em">FRONT DOOR · LIVE</span></div>
+        <div class="camera-cap">PORCH · 1080p · 2s</div>
+      </div>
+    </div>
+    <!-- Row 2 (continuing) -->
+    <div class="cell" style="grid-column: span 2; grid-row: span 1">
+      <div class="size">2×1</div>
+      <div class="tile">
+        <div class="top"><span class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><polygon points="9,7 18,12 9,17" fill="currentColor" stroke="none"/></svg>
+        </span><span class="nm">KITCHEN SPEAKER</span></div>
+        <div style="font-family:var(--font-mono); font-size:12px; color:var(--fg)">Atomic Heart Bar · Mick Gordon</div>
+      </div>
+    </div>
+    <!-- Row 3 -->
+    <div class="cell" style="grid-column: span 1">
+      <div class="size">1×1</div>
+      <div class="tile">
+        <div class="top"><span class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="6" y="11" width="12" height="9" rx="2"/><path d="M9 11V8a3 3 0 016 0v3"/></svg>
+        </span><span class="nm">DOOR</span></div>
+        <div class="v" style="font-size:16px">LOCKED</div>
+      </div>
+    </div>
+    <div class="cell" style="grid-column: span 1">
+      <div class="size">1×1</div>
+      <div class="tile on">
+        <div class="top"><span class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 17l6-6 4 4 8-8"/></svg>
+        </span><span class="nm">GARAGE</span></div>
+        <div class="v" style="font-size:16px">OPEN</div>
+      </div>
+    </div>
+    <div class="cell" style="grid-column: span 1">
+      <div class="size">1×1</div>
+      <div class="tile">
+        <div class="top"><span class="icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 7h16M6 12h12M9 17h6"/></svg>
+        </span><span class="nm">SCENE</span></div>
+        <div class="v" style="font-size:14px">EVENING</div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

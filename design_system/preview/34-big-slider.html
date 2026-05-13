@@ -1,0 +1,54 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .slider { display: flex; flex-direction: column; gap: 8px; margin-bottom: 16px; }
+  .slider-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider-label { font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); }
+  .slider-value { font-family: 'Monoton','VT323',monospace; font-size: 26px; color: var(--accent); }
+  .track {
+    position: relative; height: 36px;
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 18px;
+  }
+  .fill { position: absolute; top: 0; left: 0; bottom: 0; border-radius: 18px; background: var(--accent); }
+  .thumb {
+    position: absolute; top: 50%;
+    transform: translate(-50%, -50%);
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent);
+    border: 3px solid var(--bg-panel);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+</style>
+</head>
+<body>
+  <div class="name">BIG SLIDER · 36-PX TRACK</div>
+  <div class="slider">
+    <div class="slider-row">
+      <span class="slider-label">VOLUME</span>
+      <span class="slider-value">68%</span>
+    </div>
+    <div class="track">
+      <div class="fill" style="width:68%"></div>
+      <div class="thumb" style="left:68%"></div>
+    </div>
+  </div>
+  <div class="slider">
+    <div class="slider-row">
+      <span class="slider-label">BRIGHTNESS · LIVING ROOM</span>
+      <span class="slider-value">42%</span>
+    </div>
+    <div class="track">
+      <div class="fill" style="width:42%"></div>
+      <div class="thumb" style="left:42%"></div>
+    </div>
+  </div>
+</body>
+</html>

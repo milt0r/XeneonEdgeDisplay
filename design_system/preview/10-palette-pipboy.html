@@ -1,0 +1,49 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 22px; color: var(--accent); letter-spacing: 0.1em; margin-bottom: 4px; }
+  .sub  { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .sw {
+    height: 96px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 9px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+  }
+  .sw .role { text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.85; }
+  .sw .hex  { font-size: 10px; opacity: 0.85; }
+</style>
+</head>
+<body>
+  <div class="name">PIP-BOY</div>
+  <div class="sub">Vault-Tec approved · CRT terminal aesthetic</div>
+  <div class="grid">
+    <div class="sw" style="background:#020a04; color:#7cff8a; border-color:#1f7a35"><span class="role">bg</span><span class="hex">#020a04</span></div>
+    <div class="sw" style="background:#04140a; color:#7cff8a; border-color:#1f7a35"><span class="role">elev</span><span class="hex">#04140a</span></div>
+    <div class="sw" style="background:#062012; color:#7cff8a; border-color:#1f7a35"><span class="role">panel</span><span class="hex">#062012</span></div>
+    <div class="sw" style="background:#1f5a2a; color:#b6ffae; border-color:#7cff8a"><span class="role">accent-soft</span><span class="hex">#1f5a2a</span></div>
+    <div class="sw" style="background:#7cff8a; color:#020a04; border-color:#7cff8a"><span class="role">accent</span><span class="hex">#7cff8a</span></div>
+    <div class="sw" style="background:#b6ffae; color:#020a04; border-color:#b6ffae"><span class="role">accent-hot</span><span class="hex">#b6ffae</span></div>
+  </div>
+  <div class="grid" style="margin-top:8px">
+    <div class="sw" style="background:#062012; color:#7cff8a; border-color:#1f7a35"><span class="role">fg</span><span class="hex">#7cff8a</span></div>
+    <div class="sw" style="background:#062012; color:#3aa84a; border-color:#1f7a35"><span class="role">fg-muted</span><span class="hex">#3aa84a</span></div>
+    <div class="sw" style="background:#062012; color:#ffb14a; border-color:#1f7a35"><span class="role">warn</span><span class="hex">#ffb14a</span></div>
+    <div class="sw" style="background:#062012; color:#7cff8a; border-color:#1f7a35"><span class="role">good</span><span class="hex">#7cff8a</span></div>
+    <div class="sw" style="background:#062012; color:#7cff8a; border-color:#1f7a35"><span class="role">border</span><span class="hex">#1f7a35</span></div>
+    <div class="sw" style="background:#062012; color:#ff5050; border-color:#1f7a35"><span class="role">danger</span><span class="hex">#ff5050</span></div>
+  </div>
+</body>
+</html>

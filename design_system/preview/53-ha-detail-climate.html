@@ -1,0 +1,101 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 14px 18px; }
+  .modal {
+    background: rgba(6,32,18,0.95);
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+    box-shadow: 0 12px 60px rgba(0,0,0,0.7);
+    overflow: hidden;
+  }
+  .header {
+    display: flex; gap: 14px; align-items: center;
+    background: var(--bg-elevated);
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .icon-box { color: var(--accent); display: inline-flex; }
+  .titles { flex: 1; min-width: 0; }
+  .nm { font-family: 'Monoton','VT323',monospace; font-size: 20px; color: var(--accent); line-height: 1; }
+  .id { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); margin-top: 4px; letter-spacing: 0.12em; }
+  .close {
+    background: transparent; border: 1px solid var(--border); color: var(--fg);
+    border-radius: 4px; min-height: 36px; padding: 0 10px;
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em;
+  }
+  .body { padding: 14px 16px; display: flex; flex-direction: column; gap: 12px; }
+
+  .readout { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; align-items: end; }
+  .metric-label { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 4px; }
+  .metric-big { font-family: 'Monoton','VT323',monospace; font-size: 48px; color: var(--accent); line-height: 1; text-shadow: 0 0 4px var(--accent), 0 0 14px rgba(124,255,138,0.25); }
+  .unit { font-family: var(--font-mono); font-size: 14px; color: var(--fg-muted); margin-left: 4px; }
+  .mode { font-family: 'Monoton','VT323',monospace; font-size: 28px; color: var(--accent); text-transform: capitalize; }
+
+  .slider { display: flex; flex-direction: column; gap: 8px; }
+  .slider-row { display: flex; justify-content: space-between; align-items: baseline; }
+  .slider-lbl { font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--fg-muted); }
+  .slider-val { font-family: 'Monoton','VT323',monospace; font-size: 22px; color: var(--accent); }
+  .track { position: relative; height: 32px; background: var(--bg-elevated); border: 1px solid var(--border); border-radius: 16px; }
+  .fill { position: absolute; top: 0; left: 0; bottom: 0; border-radius: 16px; background: var(--accent); }
+  .thumb { position: absolute; top: 50%; transform: translate(-50%, -50%); width: 28px; height: 28px; border-radius: 50%; background: var(--accent); border: 3px solid var(--bg-panel); box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+
+  .modes { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    background: var(--bg-elevated); color: var(--fg-muted);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 14px; min-height: 36px;
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    display: inline-flex; align-items: center;
+  }
+  .chip.active { background: var(--accent-soft); color: var(--accent-hot); border-color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="modal">
+    <div class="header">
+      <span class="icon-box">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v12"/><circle cx="12" cy="18" r="3"/><path d="M9 9l3-3 3 3"/></svg>
+      </span>
+      <div class="titles">
+        <div class="nm">Main Floor — Thermostat</div>
+        <div class="id">climate.main_floor</div>
+      </div>
+      <button class="close">CLOSE ✕</button>
+    </div>
+    <div class="body">
+      <div class="readout">
+        <div>
+          <div class="metric-label">Current</div>
+          <div class="metric-big">68<span class="unit">°F</span></div>
+        </div>
+        <div>
+          <div class="metric-label">Mode</div>
+          <div class="mode">Heat</div>
+        </div>
+      </div>
+      <div class="slider">
+        <div class="slider-row"><span class="slider-lbl">TARGET</span><span class="slider-val">72°F</span></div>
+        <div class="track">
+          <div class="fill" style="width:55%"></div>
+          <div class="thumb" style="left:55%"></div>
+        </div>
+      </div>
+      <div class="modes">
+        <span class="chip">off</span>
+        <span class="chip active">heat</span>
+        <span class="chip">cool</span>
+        <span class="chip">heat_cool</span>
+        <span class="chip">fan_only</span>
+        <span class="chip">dry</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

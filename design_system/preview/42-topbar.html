@@ -1,0 +1,50 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .topbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 8px 16px;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--border);
+    height: 48px;
+    box-sizing: border-box;
+    border-radius: 4px 4px 0 0;
+  }
+  .left, .right { display: flex; align-items: center; gap: 12px; }
+  .brand { font-family: 'Monoton','VT323',monospace; font-size: 18px; letter-spacing: 0.2em; color: var(--accent); }
+  .pill { font-family: var(--font-mono); font-size: 11px; padding: 2px 8px; border: 1px solid var(--border); border-radius: 999px; color: var(--fg-muted); }
+  .clock { font-family: 'VT323', monospace; font-size: 18px; color: var(--accent); }
+  .btn {
+    font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em;
+    background: var(--bg-panel); color: var(--fg);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 8px 14px; min-height: 32px;
+    text-transform: uppercase;
+  }
+  .btn.active { background: var(--accent-soft); color: var(--accent-hot); border-color: var(--accent); }
+  .note { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.15em; text-transform: uppercase; margin-top: 10px; }
+</style>
+</head>
+<body>
+  <div class="name">TOPBAR · 48-PX FIXED CHROME</div>
+  <div class="topbar">
+    <div class="left">
+      <span class="brand">XENEON//EDGE</span>
+      <span class="pill">Pip-Boy</span>
+    </div>
+    <div class="right">
+      <span class="clock">12:48</span>
+      <button class="btn">EDIT</button>
+      <button class="btn active">SETTINGS</button>
+    </div>
+  </div>
+  <div class="note">Wordmark · theme pill · clock · edit mode · settings drawer</div>
+</body>
+</html>

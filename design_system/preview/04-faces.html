@@ -1,0 +1,34 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 22px 24px; }
+  .face { padding: 14px 0; border-top: 1px solid var(--border); display: grid; grid-template-columns: 110px 1fr; align-items: baseline; gap: 16px; }
+  .face:first-child { border-top: 0; padding-top: 0; }
+  .face-label { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--fg-muted); }
+  .face-label small { display: block; color: var(--fg); opacity: 0.7; font-size: 10px; margin-top: 4px; text-transform: none; letter-spacing: 0; }
+  .specimen { color: var(--fg); font-size: 22px; line-height: 1; }
+  .display { font-family: 'Monoton','VT323',monospace; font-size: 38px; color: var(--accent); letter-spacing: 0.04em; }
+  .ui      { font-family: 'VT323', monospace; font-size: 22px; }
+  .mono    { font-family: 'VT323','Share Tech Mono', monospace; font-size: 22px; }
+</style>
+</head>
+<body>
+  <div class="face">
+    <div class="face-label">DISPLAY<small>Monoton / VT323</small></div>
+    <div class="display">XENEON//EDGE 12:48</div>
+  </div>
+  <div class="face">
+    <div class="face-label">UI<small>VT323</small></div>
+    <div class="ui">The quick brown fox jumps over the lazy dog 0123</div>
+  </div>
+  <div class="face">
+    <div class="face-label">MONO<small>VT323 / Share Tech Mono</small></div>
+    <div class="mono">cpu.load 47% · gpu.temp 64°C · mem 12.3/32 GB</div>
+  </div>
+</body>
+</html>

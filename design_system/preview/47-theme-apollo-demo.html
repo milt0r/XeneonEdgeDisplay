@@ -1,0 +1,71 @@
+<!doctype html>
+<html class="theme-apollo">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: linear-gradient(180deg, #2a2e34 0%, #1f2228 100%); padding: 14px 18px; }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .widget {
+    background: #353a42;
+    border: 1px solid #3a3f48;
+    border-radius: 4px;
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .head {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    color: #00b4b4; letter-spacing: 0.18em; text-transform: uppercase;
+    border-bottom: 1px solid #3a3f48; padding-bottom: 6px;
+    display: flex; justify-content: space-between;
+  }
+  .lcd {
+    background: #14171b;
+    border: 1px solid #3a3f48;
+    border-radius: 2px;
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .clock-time {
+    font-family: 'IBM Plex Mono', monospace; font-weight: 700;
+    font-size: 56px; color: #00b4b4; line-height: 1; text-align: center;
+    letter-spacing: 0.08em;
+  }
+  .clock-mode {
+    font-family: 'IBM Plex Mono', monospace; font-size: 10px;
+    color: #9aa0a8; text-align: center; letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+  .row { display: grid; grid-template-columns: 1fr auto; gap: 8px; align-items: baseline; }
+  .lbl { font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #9aa0a8; letter-spacing: 0.18em; text-transform: uppercase; }
+  .val { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 22px; color: #00b4b4; }
+  .val.warn { color: #ffb14a; }
+  .bar { height: 6px; background: #14171b; border: 1px solid #3a3f48; border-radius: 1px; }
+  .bar-fill { height: 100%; background: #00b4b4; }
+  .bar-fill.warn { background: #ffb14a; }
+  .telemetry { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #9aa0a8; letter-spacing: 0.12em; }
+  .telemetry .ok { color: #5fe39a; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="widget">
+      <div class="head"><span>MET · MISSION CLOCK</span><span style="color:#9aa0a8">T+05:14:22</span></div>
+      <div class="lcd">
+        <div class="clock-time">12:48:33</div>
+        <div class="clock-mode">UTC · DAY 5 · NOMINAL</div>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="head"><span>FLIGHT DYN · SENSORS</span></div>
+      <div class="row"><span class="lbl">CPU CORE TEMP</span><span class="val">61°C</span></div>
+      <div class="bar"><div class="bar-fill" style="width:61%"></div></div>
+      <div class="row" style="margin-top:6px"><span class="lbl">GPU LOAD</span><span class="val warn">94%</span></div>
+      <div class="bar"><div class="bar-fill warn" style="width:94%"></div></div>
+      <div class="telemetry" style="margin-top:4px">LHM · 1 HZ · UPLINK <span class="ok">[ACQ]</span></div>
+    </div>
+  </div>
+</body>
+</html>

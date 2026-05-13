@@ -1,0 +1,112 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 14px 18px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 12px; }
+
+  .search-row { display: flex; gap: 8px; margin-bottom: 10px; }
+  .search {
+    flex: 1;
+    background: var(--bg-elevated); color: var(--fg);
+    border: 1px solid var(--accent); box-shadow: 0 0 0 2px var(--accent-soft);
+    border-radius: 4px;
+    padding: 10px 14px;
+    font-family: 'VT323', monospace; font-size: 18px;
+  }
+  .search::after {
+    content: '_';
+    color: var(--accent);
+    animation: blink 0.7s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+  .btn {
+    background: var(--bg-panel); color: var(--fg);
+    border: 1px solid var(--border); border-radius: 4px;
+    padding: 0 14px; font-family: 'VT323', monospace; font-size: 14px;
+    letter-spacing: 0.1em; min-height: 44px; text-transform: uppercase;
+  }
+  .btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+
+  .chips { display: flex; gap: 6px; margin-bottom: 10px; overflow: hidden; }
+  .chip {
+    background: var(--bg-elevated); color: var(--fg-muted);
+    border: 1px solid var(--border); border-radius: 999px;
+    padding: 6px 12px; font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 6px;
+    white-space: nowrap;
+  }
+  .chip.active { background: var(--accent-soft); color: var(--accent-hot); border-color: var(--accent); }
+  .chip .count { font-size: 9px; opacity: 0.7; }
+
+  .area-header {
+    font-family: var(--font-mono); font-size: 10px;
+    letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent);
+    background: var(--accent-soft); padding: 4px 10px; border-radius: 4px;
+    margin: 6px 0 4px;
+  }
+  .row {
+    display: grid; grid-template-columns: 28px 1fr 110px 36px; gap: 12px;
+    align-items: center;
+    background: var(--bg-elevated); border: 1px solid var(--border);
+    border-radius: 4px; padding: 8px 12px; margin-bottom: 4px;
+    min-height: 50px;
+  }
+  .row.selected { background: var(--accent-soft); border-color: var(--accent); }
+  .row-icon { display: inline-flex; color: var(--accent); }
+  .row .nm { font-family: 'VT323', monospace; font-size: 16px; color: var(--fg); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .id { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .row .state { font-family: var(--font-mono); font-size: 12px; color: var(--fg-muted); text-align: right; text-transform: uppercase; letter-spacing: 0.1em; }
+  .row.selected .state { color: var(--accent-hot); }
+  .add {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--bg-panel); color: var(--accent);
+    border: 1px solid var(--border);
+    display: inline-flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono); font-size: 18px; font-weight: bold;
+  }
+  .row.selected .add { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="name">HOME ASSISTANT · ENTITY PICKER</div>
+  <div class="search-row">
+    <div class="search">light.living<span style="display:inline-block;width:8px;height:18px;background:var(--accent);vertical-align:-3px;animation:blink 0.7s steps(1) infinite;margin-left:2px"></span></div>
+    <button class="btn">⌨ KEYS</button>
+    <button class="btn primary">DONE</button>
+  </div>
+  <div class="chips">
+    <span class="chip">ALL <span class="count">128</span></span>
+    <span class="chip active">LIGHTS <span class="count">14</span></span>
+    <span class="chip">SWITCHES <span class="count">9</span></span>
+    <span class="chip">SCENES <span class="count">7</span></span>
+    <span class="chip">CLIMATE <span class="count">3</span></span>
+    <span class="chip">MEDIA <span class="count">5</span></span>
+  </div>
+  <div class="area-header">LIVING ROOM · 3 MATCHES</div>
+  <div class="row selected">
+    <span class="row-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="9" r="5"/><path d="M9 18h6M10 21h4"/></svg></span>
+    <div><div class="nm">Living Room — Floor Lamp</div><div class="id">light.living_room_floor_lamp</div></div>
+    <span class="state">ON · 78%</span>
+    <span class="add">✓</span>
+  </div>
+  <div class="row">
+    <span class="row-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="9" r="5"/><path d="M9 18h6M10 21h4"/></svg></span>
+    <div><div class="nm">Living Room — Accent</div><div class="id">light.living_room_accent</div></div>
+    <span class="state">OFF</span>
+    <span class="add">+</span>
+  </div>
+  <div class="row">
+    <span class="row-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="9" r="5"/><path d="M9 18h6M10 21h4"/></svg></span>
+    <div><div class="nm">Living Room — Ceiling</div><div class="id">light.living_room_ceiling</div></div>
+    <span class="state">ON · 40%</span>
+    <span class="add">+</span>
+  </div>
+</body>
+</html>

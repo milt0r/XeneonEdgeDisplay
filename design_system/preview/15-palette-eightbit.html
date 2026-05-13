@@ -1,0 +1,46 @@
+<!doctype html>
+<html class="theme-eightbit">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: linear-gradient(180deg, #00479c 0%, #00479c 70%, #58e000 70%, #58e000 100%); padding: 18px 20px; }
+  .name { font-family: 'Press Start 2P', monospace; font-size: 14px; color: var(--accent); margin-bottom: 4px; letter-spacing: 0.04em; line-height: 1.4; text-shadow: 2px 2px 0 #000; }
+  .sub  { font-family: 'Press Start 2P', monospace; font-size: 8px; color: #fff; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 14px; text-shadow: 1px 1px 0 #000; line-height: 1.6; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; }
+  .sw {
+    height: 96px;
+    border: 2px solid #000;
+    border-radius: 0;
+    padding: 7px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'Press Start 2P', monospace;
+    font-size: 7px;
+    line-height: 1.4;
+  }
+  .sw .role { text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="name">8-BIT</div>
+  <div class="sub">NES era · Press Start 2P · 0 px corners</div>
+  <div class="grid">
+    <div class="sw" style="background:#00479c; color:#fff"><span class="role">bg</span><span>#00479c</span></div>
+    <div class="sw" style="background:#1b2a4e; color:#fff"><span class="role">elev</span><span>#1b2a4e</span></div>
+    <div class="sw" style="background:#0a0a23; color:#fff"><span class="role">panel</span><span>#0a0a23</span></div>
+    <div class="sw" style="background:#3e2d00; color:#ff5050"><span class="role">a-soft</span><span>#3e2d00</span></div>
+    <div class="sw" style="background:#ffd866; color:#0a0a23"><span class="role">accent</span><span>#ffd866</span></div>
+    <div class="sw" style="background:#ff5050; color:#0a0a23"><span class="role">a-hot</span><span>#ff5050</span></div>
+  </div>
+  <div class="grid" style="margin-top:6px">
+    <div class="sw" style="background:#0a0a23; color:#fff"><span class="role">fg</span><span>#ffffff</span></div>
+    <div class="sw" style="background:#0a0a23; color:#a0c0ff"><span class="role">muted</span><span>#a0c0ff</span></div>
+    <div class="sw" style="background:#0a0a23; color:#ff5050"><span class="role">warn</span><span>#ff5050</span></div>
+    <div class="sw" style="background:#0a0a23; color:#58e000"><span class="role">good</span><span>#58e000</span></div>
+    <div class="sw" style="background:#0a0a23; color:#fff; border-color:#000"><span class="role">border</span><span>#000000</span></div>
+    <div class="sw" style="background:#0a0a23; color:#ff5050"><span class="role">danger</span><span>#ff5050</span></div>
+  </div>
+</body>
+</html>

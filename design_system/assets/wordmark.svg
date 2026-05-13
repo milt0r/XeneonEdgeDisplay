@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 140" width="800" height="140">
+  <defs>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="3" result="blur"></feGaussianBlur>
+      <feMerge>
+        <feMergeNode in="blur"></feMergeNode>
+        <feMergeNode in="SourceGraphic"></feMergeNode>
+      </feMerge>
+    </filter>
+    
+  </defs>
+  <rect width="800" height="140" fill="transparent"></rect>
+  <g filter="url(#glow)">
+    <text x="20" y="92" class="word">XENEON<tspan class="slash">//</tspan>EDGE</text>
+  </g>
+  <text x="22" y="124" class="sub">VAULT-TEC APPROVED · CRT TERMINAL</text>
+</svg>

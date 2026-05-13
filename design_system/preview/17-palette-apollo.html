@@ -1,0 +1,48 @@
+<!doctype html>
+<html class="theme-apollo">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body {
+    background: linear-gradient(180deg, #2a2e34 0%, #1f2228 100%), radial-gradient(circle at 80% 20%, rgba(0,180,180,0.08), transparent 50%);
+    padding: 18px 20px;
+  }
+  .name { font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 22px; color: var(--accent); letter-spacing: 0.06em; margin-bottom: 4px; }
+  .sub  { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .sw {
+    height: 96px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 9px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 9px;
+  }
+  .sw .role { text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.85; }
+</style>
+</head>
+<body>
+  <div class="name">APOLLO MOCR</div>
+  <div class="sub">Mission control · gunmetal grey + telemetry teal</div>
+  <div class="grid">
+    <div class="sw" style="background:#1f2228; color:#eaeaea"><span class="role">bg</span><span>#1f2228</span></div>
+    <div class="sw" style="background:#2a2e34; color:#eaeaea"><span class="role">elev</span><span>#2a2e34</span></div>
+    <div class="sw" style="background:#353a42; color:#eaeaea"><span class="role">panel</span><span>#353a42</span></div>
+    <div class="sw" style="background:#0a3a3a; color:#fff; border-color:#00b4b4"><span class="role">a-soft</span><span>#0a3a3a</span></div>
+    <div class="sw" style="background:#00b4b4; color:#1f2228"><span class="role">accent</span><span>#00b4b4</span></div>
+    <div class="sw" style="background:#fff; color:#1f2228"><span class="role">a-hot</span><span>#ffffff</span></div>
+  </div>
+  <div class="grid" style="margin-top:8px">
+    <div class="sw" style="background:#353a42; color:#eaeaea"><span class="role">fg</span><span>#eaeaea</span></div>
+    <div class="sw" style="background:#353a42; color:#9aa0a8"><span class="role">muted</span><span>#9aa0a8</span></div>
+    <div class="sw" style="background:#353a42; color:#ffb14a"><span class="role">warn</span><span>#ffb14a</span></div>
+    <div class="sw" style="background:#353a42; color:#5fe39a"><span class="role">good</span><span>#5fe39a</span></div>
+    <div class="sw" style="background:#353a42; color:#eaeaea"><span class="role">border</span><span>#3a3f48</span></div>
+    <div class="sw" style="background:#353a42; color:#ff5050"><span class="role">danger</span><span>#ff5050</span></div>
+  </div>
+</body>
+</html>

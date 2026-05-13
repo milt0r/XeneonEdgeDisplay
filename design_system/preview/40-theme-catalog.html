@@ -1,0 +1,50 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; }
+  .tile {
+    height: 92px;
+    border-radius: 4px;
+    padding: 9px 10px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    border: 1px solid rgba(255,255,255,0.10);
+  }
+  .tile-name { font-size: 15px; letter-spacing: 0.04em; }
+  .tile-desc { font-size: 10px; opacity: 0.7; line-height: 1.2; }
+
+  /* per-theme tile recipes — mini reproductions of each theme's BG and accent */
+  .pipboy {
+    background: radial-gradient(ellipse at 50% 60%, rgba(31,122,53,0.45), transparent 70%), repeating-linear-gradient(0deg, rgba(31,122,53,0.10) 0, rgba(31,122,53,0.10) 1px, transparent 2px, transparent 5px), #020a04;
+    color: #7cff8a; border-color: #1f7a35;
+    font-family: 'Monoton','VT323',monospace;
+  }
+  .dark { background: radial-gradient(circle at 0% 0%, rgba(90,169,255,0.18), transparent 50%), #0b0d10; color: #5aa9ff; border-color: #262d36; font-family: 'Inter', system-ui, sans-serif; font-weight: 700; }
+  .synthwave { background: linear-gradient(180deg, #1a0933 0%, #2a1052 35%, #ff4ad8 75%, #ffe14a 100%); color: #ffd0ff; border-color: #5c1a8a; font-family: 'Audiowide', 'Orbitron', sans-serif; }
+  .nord { background: linear-gradient(180deg, #2e3440 0%, #3b4252 100%); color: #88c0d0; border-color: #4c566a; font-family: 'Inter', system-ui, sans-serif; font-weight: 700; }
+  .cyberpunk { background: radial-gradient(ellipse at 80% 0%, rgba(255,43,214,0.32), transparent 50%), radial-gradient(ellipse at 0% 100%, rgba(0,255,213,0.22), transparent 50%), #05060a; color: #fcee0c; border-color: #2a1a55; font-family: 'Orbitron', sans-serif; font-weight: 700; }
+  .lcars { background: radial-gradient(ellipse at 0% 0%, rgba(255,153,102,0.35), transparent 50%), radial-gradient(ellipse at 100% 100%, rgba(204,153,204,0.28), transparent 50%), #000; color: #ff9966; border-color: #cc6666; border-radius: 18px; font-family: 'Antonio', 'Oswald', sans-serif; font-weight: 700; }
+  .severance { background: repeating-radial-gradient(circle at 30% 30%, rgba(0,0,0,0.06) 0 1px, transparent 1px 8px), #d8d4c4; color: #2a5a90; border-color: #9a9580; font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+  .apollo { background: radial-gradient(circle at 80% 20%, rgba(0,180,180,0.20), transparent 50%), #1f2228; color: #00b4b4; border-color: #3a3f48; font-family: 'IBM Plex Mono', monospace; font-weight: 700; }
+</style>
+</head>
+<body>
+  <div class="name">THEME CATALOG · 8 of 30+</div>
+  <div class="grid">
+    <div class="tile pipboy"><span class="tile-name">PIP-BOY</span><span class="tile-desc">Vault-Tec CRT</span></div>
+    <div class="tile dark"><span class="tile-name">Dark</span><span class="tile-desc">Minimalist</span></div>
+    <div class="tile synthwave"><span class="tile-name">SYNTHWAVE</span><span class="tile-desc">Neon sunset</span></div>
+    <div class="tile nord"><span class="tile-name">Nord</span><span class="tile-desc">Arctic palette</span></div>
+    <div class="tile cyberpunk"><span class="tile-name">CYBERPUNK</span><span class="tile-desc">Night City</span></div>
+    <div class="tile lcars"><span class="tile-name">LCARS</span><span class="tile-desc">Okudagram</span></div>
+    <div class="tile severance"><span class="tile-name">SEVERANCE</span><span class="tile-desc">Lumon beige</span></div>
+    <div class="tile apollo"><span class="tile-name">APOLLO</span><span class="tile-desc">Mission control</span></div>
+  </div>
+</body>
+</html>

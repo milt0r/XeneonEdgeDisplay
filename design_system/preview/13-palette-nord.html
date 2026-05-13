@@ -1,0 +1,45 @@
+<!doctype html>
+<html class="theme-nord">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: linear-gradient(180deg, #2e3440 0%, #3b4252 100%); padding: 18px 20px; }
+  .name { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 22px; color: var(--accent); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .sub  { font-family: 'JetBrains Mono', monospace; font-size: 10px; color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .sw {
+    height: 96px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 8px 10px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+  }
+  .sw .role { text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.85; }
+</style>
+</head>
+<body>
+  <div class="name">Nord</div>
+  <div class="sub">Calm arctic palette · radius 10</div>
+  <div class="grid">
+    <div class="sw" style="background:#2e3440; color:#eceff4; border-color:#4c566a"><span class="role">bg</span><span>#2e3440</span></div>
+    <div class="sw" style="background:#3b4252; color:#eceff4; border-color:#4c566a"><span class="role">elev</span><span>#3b4252</span></div>
+    <div class="sw" style="background:#434c5e; color:#eceff4; border-color:#4c566a"><span class="role">panel</span><span>#434c5e</span></div>
+    <div class="sw" style="background:#4c566a; color:#8fbcbb; border-color:#88c0d0"><span class="role">accent-soft</span><span>#4c566a</span></div>
+    <div class="sw" style="background:#88c0d0; color:#2e3440; border-color:#88c0d0"><span class="role">accent</span><span>#88c0d0</span></div>
+    <div class="sw" style="background:#8fbcbb; color:#2e3440; border-color:#8fbcbb"><span class="role">accent-hot</span><span>#8fbcbb</span></div>
+  </div>
+  <div class="grid" style="margin-top:8px">
+    <div class="sw" style="background:#434c5e; color:#eceff4; border-color:#4c566a"><span class="role">fg</span><span>#eceff4</span></div>
+    <div class="sw" style="background:#434c5e; color:#a9b1c0; border-color:#4c566a"><span class="role">fg-muted</span><span>#a9b1c0</span></div>
+    <div class="sw" style="background:#434c5e; color:#ebcb8b; border-color:#4c566a"><span class="role">warn</span><span>#ebcb8b</span></div>
+    <div class="sw" style="background:#434c5e; color:#a3be8c; border-color:#4c566a"><span class="role">good</span><span>#a3be8c</span></div>
+    <div class="sw" style="background:#434c5e; color:#eceff4; border-color:#4c566a"><span class="role">border</span><span>#4c566a</span></div>
+    <div class="sw" style="background:#434c5e; color:#bf616a; border-color:#4c566a"><span class="role">danger</span><span>#bf616a</span></div>
+  </div>
+</body>
+</html>

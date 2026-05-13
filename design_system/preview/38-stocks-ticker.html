@@ -1,0 +1,82 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 14px; }
+  .stock {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--fg-muted);
+    border-radius: 4px;
+    padding: 10px 12px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .stock.up   { border-left-color: #22c55e; }
+  .stock.down { border-left-color: #ef4444; }
+  .sym { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.12em; color: var(--fg-muted); text-transform: uppercase; }
+  .px  { font-family: 'Monoton','VT323',monospace; font-size: 26px; color: var(--accent); line-height: 1; }
+  .stock.up .px   { color: #22c55e; }
+  .stock.down .px { color: #ef4444; }
+  .chg { display: flex; justify-content: space-between; font-family: var(--font-mono); font-size: 12px; }
+  .stock.up .chg { color: #22c55e; }
+  .stock.down .chg { color: #ef4444; }
+
+  .ticker {
+    height: 36px;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden; position: relative;
+    display: flex; align-items: center;
+    white-space: nowrap;
+  }
+  .ticker-inner {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding-left: 12px;
+    animation: scroll 25s linear infinite;
+  }
+  @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  .item { display: inline-flex; align-items: center; gap: 6px; font-family: var(--font-mono); font-size: 12px; color: var(--fg); }
+  .item .pill { font-family: var(--font-mono); font-size: 10px; background: var(--accent-soft); color: var(--accent-hot); padding: 2px 8px; border-radius: 999px; letter-spacing: 0.1em; }
+  .sep { color: var(--fg-muted); margin: 0 4px; }
+</style>
+</head>
+<body>
+  <div class="name">STOCKS · CARDS &amp; TICKER</div>
+  <div class="grid">
+    <div class="stock up">
+      <span class="sym">AAPL</span>
+      <span class="px">187.42</span>
+      <div class="chg"><span>+2.23</span><span>+1.20%</span></div>
+    </div>
+    <div class="stock down">
+      <span class="sym">TSLA</span>
+      <span class="px">241.05</span>
+      <div class="chg"><span>−5.81</span><span>−2.35%</span></div>
+    </div>
+    <div class="stock up">
+      <span class="sym">NVDA</span>
+      <span class="px">912.31</span>
+      <div class="chg"><span>+14.04</span><span>+1.56%</span></div>
+    </div>
+  </div>
+  <div class="ticker">
+    <div class="ticker-inner">
+      <span class="item"><span class="pill">AAPL</span>187.42 +1.20%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">TSLA</span>241.05 −2.35%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">NVDA</span>912.31 +1.56%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">MSFT</span>411.84 +0.42%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">AAPL</span>187.42 +1.20%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">TSLA</span>241.05 −2.35%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">NVDA</span>912.31 +1.56%</span><span class="sep">·</span>
+      <span class="item"><span class="pill">MSFT</span>411.84 +0.42%</span><span class="sep">·</span>
+    </div>
+  </div>
+</body>
+</html>

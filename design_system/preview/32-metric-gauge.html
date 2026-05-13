@@ -1,0 +1,53 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .metric { display: flex; flex-direction: column; gap: 4px; }
+  .metric-label { font-family: var(--font-mono); font-size: 13px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); }
+  .metric-value {
+    font-family: 'Monoton','VT323',monospace;
+    font-size: 44px;
+    color: var(--accent);
+    line-height: 1;
+    text-shadow: 0 0 4px var(--accent), 0 0 14px rgba(124,255,138,0.25);
+  }
+  .metric-unit { font-family: 'VT323',monospace; font-size: 18px; color: var(--fg-muted); margin-left: 6px; vertical-align: top; }
+  .gauge { position: relative; height: 12px; background: var(--bg-elevated); border-radius: 6px; overflow: hidden; border: 1px solid var(--border); }
+  .gauge-fill { height: 100%; background: var(--accent); }
+  .gauge-fill.warn { background: var(--warn); }
+  .gauge-fill.hot  { background: #ff5a5a; }
+</style>
+</head>
+<body>
+  <div class="name">METRIC · WITH GAUGE</div>
+  <div class="grid">
+    <div class="metric">
+      <span class="metric-label">CPU TEMP</span>
+      <span class="metric-value">62<span class="metric-unit">°C</span></span>
+      <div class="gauge"><div class="gauge-fill" style="width:62%"></div></div>
+    </div>
+    <div class="metric">
+      <span class="metric-label">GPU LOAD</span>
+      <span class="metric-value">81<span class="metric-unit">%</span></span>
+      <div class="gauge"><div class="gauge-fill warn" style="width:81%"></div></div>
+    </div>
+    <div class="metric">
+      <span class="metric-label">CPU POWER</span>
+      <span class="metric-value">128<span class="metric-unit">W</span></span>
+      <div class="gauge"><div class="gauge-fill" style="width:64%"></div></div>
+    </div>
+    <div class="metric">
+      <span class="metric-label">GPU TEMP</span>
+      <span class="metric-value">94<span class="metric-unit">°C</span></span>
+      <div class="gauge"><div class="gauge-fill hot" style="width:94%"></div></div>
+    </div>
+  </div>
+</body>
+</html>

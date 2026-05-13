@@ -1,0 +1,74 @@
+<!doctype html>
+<html class="theme-eightbit">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: linear-gradient(180deg, #00479c 0%, #00479c 75%, #58e000 75%, #58e000 100%); padding: 14px 18px; }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .widget {
+    background: #0a0a23;
+    border: 3px solid #000;
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .head {
+    font-family: 'Press Start 2P', monospace; font-size: 8px;
+    color: #ffd866; letter-spacing: 0.06em;
+    border-bottom: 2px solid #000; padding-bottom: 6px;
+    text-transform: uppercase;
+  }
+  .clock-time {
+    font-family: 'Press Start 2P', monospace;
+    font-size: 32px;
+    color: #ffd866;
+    text-align: center;
+    text-shadow: 3px 3px 0 #000;
+    margin: 14px 0 4px;
+  }
+  .clock-date {
+    font-family: 'Press Start 2P', monospace; font-size: 9px;
+    color: #a0c0ff; text-align: center; text-shadow: 2px 2px 0 #000;
+  }
+  .gauge-stack { display: flex; flex-direction: column; gap: 6px; }
+  .lbl { font-family: 'Press Start 2P', monospace; font-size: 8px; color: #a0c0ff; }
+  .val { font-family: 'Press Start 2P', monospace; font-size: 16px; color: #ffd866; text-shadow: 2px 2px 0 #000; }
+  .bar { height: 12px; background: #1b2a4e; border: 2px solid #000; padding: 1px; }
+  .bar-fill { height: 100%; background: #58e000; }
+  .bar-fill.hot { background: #ff5050; }
+  .btn-row { display: flex; gap: 8px; margin-top: 8px; }
+  .btn {
+    background: #ffd866; color: #0a0a23; border: 2px solid #000;
+    font-family: 'Press Start 2P', monospace; font-size: 8px;
+    padding: 8px 10px; cursor: pointer;
+  }
+  .btn.on { background: #ff5050; color: #fff; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="widget">
+      <div class="head">CLOCK</div>
+      <div class="clock-time">12:48</div>
+      <div class="clock-date">FRI · MAY 12</div>
+      <div class="btn-row">
+        <button class="btn">EDIT</button>
+        <button class="btn on">⚙ ON</button>
+      </div>
+    </div>
+    <div class="widget">
+      <div class="head">SENSORS</div>
+      <div class="gauge-stack">
+        <div class="lbl">CPU TEMP</div>
+        <div class="val">61°C</div>
+        <div class="bar"><div class="bar-fill" style="width:61%"></div></div>
+        <div class="lbl">GPU LOAD</div>
+        <div class="val">94%</div>
+        <div class="bar"><div class="bar-fill hot" style="width:94%"></div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

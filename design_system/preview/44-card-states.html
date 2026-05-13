@@ -1,0 +1,59 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .card {
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 10px 12px;
+  }
+  .card.active { border-color: var(--accent); background: var(--accent-soft); }
+  .card.live   { border-color: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.25); }
+  .card.danger { border-color: #aa3a3a; background: rgba(255,80,80,0.10); }
+  .head { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--fg-muted); margin-bottom: 6px; display: flex; justify-content: space-between; }
+  .card.active .head { color: var(--accent-hot); }
+  .card.live   .head { color: #ff7a7a; }
+  .card.danger .head { color: #ff7a7a; }
+  .body { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); }
+  .card.active .body { color: var(--accent-hot); }
+  .card.live   .body { color: #ff5a5a; }
+  .card.danger .body { color: #ff7a7a; }
+  .sub { font-family: var(--font-mono); font-size: 11px; color: var(--fg-muted); margin-top: 2px; }
+  .dot { display: inline-block; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin-right: 4px; animation: lp 1.2s infinite; }
+  @keyframes lp { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:0.5; transform:scale(0.8);} }
+</style>
+</head>
+<body>
+  <div class="name">CARD STATES · IDLE / ACTIVE / LIVE / DANGER</div>
+  <div class="grid">
+    <div class="card">
+      <div class="head"><span>WIDGET · WEATHER</span><span>74°</span></div>
+      <div class="body">Detroit, MI</div>
+      <div class="sub">Partly cloudy · feels 71°</div>
+    </div>
+    <div class="card active">
+      <div class="head"><span>SELECTED</span><span>✓</span></div>
+      <div class="body">SETTINGS TAB</div>
+      <div class="sub">Border + soft fill = on</div>
+    </div>
+    <div class="card live">
+      <div class="head"><span><span class="dot"></span>LIVE</span><span>14:22</span></div>
+      <div class="body">DET · BUF · 3-1</div>
+      <div class="sub">Red border + 12px glow</div>
+    </div>
+    <div class="card danger">
+      <div class="head"><span>ERROR</span><span>!</span></div>
+      <div class="body">CONNECTION LOST</div>
+      <div class="sub">Home Assistant unreachable</div>
+    </div>
+  </div>
+</body>
+</html>

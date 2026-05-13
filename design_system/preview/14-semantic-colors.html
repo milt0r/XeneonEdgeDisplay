@@ -1,0 +1,61 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 12px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 12px; }
+  .sem {
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 12px;
+    background: var(--bg-elevated);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .pill {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 4px 10px; border-radius: 999px;
+    font-family: 'VT323', monospace; font-size: 14px; letter-spacing: 0.1em;
+    align-self: flex-start;
+  }
+  .pill.ok   { background: rgba(124,255,138,0.18); color: #7cff8a; }
+  .pill.bad  { background: rgba(255,80,80,0.18);  color: #ff7a7a; }
+  .pill.warn { background: rgba(255,177,74,0.18); color: #ffb14a; }
+  .pill.live { background: rgba(239,68,68,0.20);  color: #ff5a5a; }
+  .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .pill .dot.pulse { animation: lp 1.2s ease-in-out infinite; }
+  @keyframes lp { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:0.5; transform:scale(0.8);} }
+  .role { font-family: var(--font-mono); font-size: 10px; letter-spacing: 0.18em; color: var(--fg-muted); text-transform: uppercase; }
+  .hex { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); }
+</style>
+</head>
+<body>
+  <div class="name">SEMANTIC STATUS</div>
+  <div class="grid">
+    <div class="sem">
+      <span class="pill ok"><span class="dot"></span> ONLINE</span>
+      <div class="role">--good</div>
+      <div class="hex">#7cff8a</div>
+    </div>
+    <div class="sem">
+      <span class="pill warn"><span class="dot"></span> WARN</span>
+      <div class="role">--warn</div>
+      <div class="hex">#ffb14a</div>
+    </div>
+    <div class="sem">
+      <span class="pill bad"><span class="dot"></span> ERROR</span>
+      <div class="role">--danger</div>
+      <div class="hex">#ff5050</div>
+    </div>
+    <div class="sem">
+      <span class="pill live"><span class="dot pulse"></span> LIVE</span>
+      <div class="role">--live</div>
+      <div class="hex">#ef4444</div>
+    </div>
+  </div>
+</body>
+</html>

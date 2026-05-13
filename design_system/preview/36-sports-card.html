@@ -1,0 +1,92 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .card {
+    background: rgba(4,20,10,0.9);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 8px 10px;
+    box-shadow: 0 0 12px rgba(239,68,68,0.25);
+    border-color: #ef4444;
+  }
+  .head {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--font-mono); font-size: 10px;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--fg-muted);
+    margin-bottom: 6px;
+  }
+  .league { background: var(--accent-soft); color: var(--accent-hot); padding: 2px 6px; border-radius: 4px; font-weight: 700; }
+  .live { color: #ef4444; }
+  .dot { display: inline-block; width: 8px; height: 8px; background: #ef4444; border-radius: 50%; margin-right: 4px; animation: lp 1.2s infinite; }
+  @keyframes lp { 0%,100% { opacity:1; transform:scale(1);} 50% { opacity:0.5; transform:scale(0.8);} }
+
+  .row { display: grid; grid-template-columns: 32px 1fr auto; align-items: center; gap: 10px; padding: 4px 0; }
+  .winner .team-name { color: var(--accent); font-weight: 700; }
+  .winner .score { color: var(--accent); }
+  .loser { opacity: 0.55; }
+  .logo {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: linear-gradient(135deg, #0c3a5a, #88c0d0);
+    display: inline-flex; align-items: center; justify-content: center;
+    color: #fff; font-family: 'VT323', monospace; font-size: 14px; font-weight: 700;
+  }
+  .logo.det { background: linear-gradient(135deg, #001f3f, #0076b6); }
+  .team-name { font-family: 'Monoton','VT323',monospace; font-size: 16px; color: var(--fg); }
+  .record    { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); }
+  .score     { font-family: 'Monoton','VT323',monospace; font-size: 22px; color: var(--fg); min-width: 28px; text-align: right; }
+  .meta {
+    margin-top: 6px;
+    font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted);
+    letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+</style>
+</head>
+<body>
+  <div class="name">SPORTS CARD · LIVE</div>
+  <div class="two">
+    <div class="card">
+      <div class="head">
+        <span><span class="league">NHL</span> · GAME 4</span>
+        <span class="live"><span class="dot"></span>LIVE · 2ND · 14:22</span>
+      </div>
+      <div class="row winner">
+        <span class="logo det">DET</span>
+        <span><span class="team-name">RED WINGS</span><div class="record">34-22-6</div></span>
+        <span class="score">3</span>
+      </div>
+      <div class="row loser">
+        <span class="logo">BUF</span>
+        <span><span class="team-name">SABRES</span><div class="record">29-25-8</div></span>
+        <span class="score">1</span>
+      </div>
+      <div class="meta">LITTLE CAESARS ARENA</div>
+    </div>
+    <div class="card" style="border-color: var(--border); box-shadow:none">
+      <div class="head">
+        <span><span class="league">NHL</span> · POST</span>
+        <span>F · 7:00 PM</span>
+      </div>
+      <div class="row loser">
+        <span class="logo">CHI</span>
+        <span><span class="team-name">BLACKHAWKS</span><div class="record">22-32-10</div></span>
+        <span class="score">2</span>
+      </div>
+      <div class="row winner">
+        <span class="logo det">DET</span>
+        <span><span class="team-name">RED WINGS</span><div class="record">34-22-6</div></span>
+        <span class="score">5</span>
+      </div>
+      <div class="meta">UNITED CENTER</div>
+    </div>
+  </div>
+</body>
+</html>

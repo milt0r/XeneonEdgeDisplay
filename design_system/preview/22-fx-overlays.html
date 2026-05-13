@@ -1,0 +1,67 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+  .demo {
+    position: relative;
+    height: 180px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 60%, rgba(31,122,53,0.25), transparent 70%), #020a04;
+  }
+  .demo .content {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    color: var(--accent);
+    font-family: 'Monoton', 'VT323', monospace; font-size: 56px;
+    text-shadow: 0 0 6px var(--accent), 0 0 18px rgba(124,255,138,0.35);
+  }
+  .scanlines {
+    position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.22) 0, rgba(0,0,0,0.22) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode: multiply;
+  }
+  .vignette {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,0.85) 100%);
+  }
+  .noise {
+    position: absolute; inset: 0; pointer-events: none; opacity: 0.18;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence baseFrequency='0.9'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+  .cap {
+    position: absolute; left: 8px; bottom: 6px;
+    font-family: var(--font-mono); font-size: 10px;
+    color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase;
+  }
+</style>
+</head>
+<body>
+  <div class="name">FX OVERLAYS · TOGGLE PER THEME</div>
+  <div class="row">
+    <div class="demo">
+      <div class="content">42°</div>
+      <div class="scanlines"></div>
+      <div class="cap">scanlines</div>
+    </div>
+    <div class="demo">
+      <div class="content">42°</div>
+      <div class="vignette"></div>
+      <div class="cap">vignette</div>
+    </div>
+    <div class="demo">
+      <div class="content">42°</div>
+      <div class="noise"></div>
+      <div class="cap">noise</div>
+    </div>
+  </div>
+</body>
+</html>

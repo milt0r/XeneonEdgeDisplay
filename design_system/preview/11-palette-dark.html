@@ -1,0 +1,46 @@
+<!doctype html>
+<html class="theme-dark">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #181d23; padding: 18px 20px; }
+  .name { font-family: 'Inter', system-ui, sans-serif; font-weight: 700; font-size: 22px; color: var(--accent); margin-bottom: 4px; letter-spacing: -0.01em; }
+  .sub  { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .sw {
+    height: 96px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 10px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.05em;
+  }
+  .sw .role { text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.85; }
+</style>
+</head>
+<body>
+  <div class="name">Dark</div>
+  <div class="sub">Modern minimalist dark UI · radius 12</div>
+  <div class="grid">
+    <div class="sw" style="background:#0b0d10; color:#e7ecf3; border-color:#262d36"><span class="role">bg</span><span>#0b0d10</span></div>
+    <div class="sw" style="background:#13171c; color:#e7ecf3; border-color:#262d36"><span class="role">elev</span><span>#13171c</span></div>
+    <div class="sw" style="background:#181d23; color:#e7ecf3; border-color:#262d36"><span class="role">panel</span><span>#181d23</span></div>
+    <div class="sw" style="background:#23344a; color:#7cc0ff; border-color:#5aa9ff"><span class="role">accent-soft</span><span>#23344a</span></div>
+    <div class="sw" style="background:#5aa9ff; color:#0b0d10; border-color:#5aa9ff"><span class="role">accent</span><span>#5aa9ff</span></div>
+    <div class="sw" style="background:#7cc0ff; color:#0b0d10; border-color:#7cc0ff"><span class="role">accent-hot</span><span>#7cc0ff</span></div>
+  </div>
+  <div class="grid" style="margin-top:8px">
+    <div class="sw" style="background:#181d23; color:#e7ecf3; border-color:#262d36"><span class="role">fg</span><span>#e7ecf3</span></div>
+    <div class="sw" style="background:#181d23; color:#8a93a0; border-color:#262d36"><span class="role">fg-muted</span><span>#8a93a0</span></div>
+    <div class="sw" style="background:#181d23; color:#ffb14a; border-color:#262d36"><span class="role">warn</span><span>#ffb14a</span></div>
+    <div class="sw" style="background:#181d23; color:#5fe39a; border-color:#262d36"><span class="role">good</span><span>#5fe39a</span></div>
+    <div class="sw" style="background:#181d23; color:#e7ecf3; border-color:#262d36"><span class="role">border</span><span>#262d36</span></div>
+    <div class="sw" style="background:#181d23; color:#ff5050; border-color:#262d36"><span class="role">danger</span><span>#ff5050</span></div>
+  </div>
+</body>
+</html>

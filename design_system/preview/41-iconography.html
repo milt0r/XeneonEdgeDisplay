@@ -1,0 +1,52 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .row { display: grid; grid-template-columns: repeat(8, 1fr); gap: 6px; margin-bottom: 10px; }
+  .glyph {
+    aspect-ratio: 1;
+    display: flex; align-items: center; justify-content: center;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--accent);
+    font-family: 'VT323', monospace;
+    font-size: 26px;
+    line-height: 1;
+  }
+  .glyph small { display: block; font-size: 8px; color: var(--fg-muted); letter-spacing: 0.1em; margin-top: 2px; text-transform: uppercase; }
+  .meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.15em; text-transform: uppercase; margin: 10px 0 6px; }
+</style>
+</head>
+<body>
+  <div class="name">ICONOGRAPHY · UNICODE GLYPHS</div>
+  <div class="meta">TRANSPORT &amp; UI</div>
+  <div class="row">
+    <div class="glyph">▶</div>
+    <div class="glyph">⏸</div>
+    <div class="glyph">⏮</div>
+    <div class="glyph">⏭</div>
+    <div class="glyph">🔉</div>
+    <div class="glyph">🔊</div>
+    <div class="glyph">⛶</div>
+    <div class="glyph">⚙</div>
+  </div>
+  <div class="meta">WEATHER · OPEN-METEO WMO CODES</div>
+  <div class="row">
+    <div class="glyph">☀</div>
+    <div class="glyph">🌤</div>
+    <div class="glyph">⛅</div>
+    <div class="glyph">☁</div>
+    <div class="glyph">🌫</div>
+    <div class="glyph">🌧</div>
+    <div class="glyph">⛈</div>
+    <div class="glyph">❄</div>
+  </div>
+</body>
+</html>

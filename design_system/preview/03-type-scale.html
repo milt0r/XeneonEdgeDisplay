@@ -1,0 +1,31 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; }
+  .row1 { display: flex; align-items: baseline; gap: 18px; }
+  .meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.12em; text-transform: uppercase; min-width: 90px; }
+  .h1 { font-family: 'Monoton','VT323',monospace; font-size: 84px; line-height: 1; color: var(--accent); }
+  .h2 { font-size: 44px; }
+  .h3 { font-size: 24px; letter-spacing: 0.05em; }
+  .label-row { color: var(--fg-muted); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; }
+  .body-row { color: var(--fg); font-family: var(--font-ui); font-size: 14px; }
+  .foot { color: var(--fg-muted); font-family: var(--font-mono); font-size: 10px; }
+  .stack > div + div { margin-top: 14px; }
+</style>
+</head>
+<body>
+  <div class="stack">
+    <div class="row1"><span class="meta">H1 · 84/96</span><span class="h1">12:48</span></div>
+    <div class="row1"><span class="meta">H2 · 44</span><span class="h2">72°C</span></div>
+    <div class="row1"><span class="meta">H3 · 24</span><span class="h3">SYSTEM SENSORS</span></div>
+    <div class="row1"><span class="meta">LABEL · 11</span><span class="label-row">CPU TEMP · GPU LOAD · MEM USED</span></div>
+    <div class="row1"><span class="meta">BODY · 14</span><span class="body-row">Open Settings → Spotify to connect</span></div>
+    <div class="row1"><span class="meta">FOOTER · 10</span><span class="foot">SOURCE: mock (install LibreHardwareMonitor for real data)</span></div>
+  </div>
+</body>
+</html>

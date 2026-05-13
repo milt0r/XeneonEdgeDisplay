@@ -1,0 +1,51 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .chip {
+    background: var(--bg-elevated);
+    color: var(--fg-muted);
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    padding: 8px 16px;
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    min-height: 40px;
+    display: inline-flex; align-items: center; gap: 6px;
+  }
+  .chip.active  { background: var(--accent-soft); color: var(--accent-hot); border-color: var(--accent); }
+  .chip.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
+  .chip .count  { font-size: 10px; opacity: 0.7; }
+  .pill { padding: 2px 8px; border-radius: 999px; font-family: 'VT323', monospace; font-size: 14px; }
+  .pill.ok  { background: var(--accent-soft); color: #7cff8a; }
+  .pill.bad { background: rgba(255,80,80,0.18); color: #ff7a7a; }
+  .meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.15em; text-transform: uppercase; margin: 14px 0 8px; }
+</style>
+</head>
+<body>
+  <div class="name">CHIPS &amp; STATUS PILLS</div>
+  <div class="group">
+    <button class="chip primary">ALL <span class="count">128</span></button>
+    <button class="chip active">LIGHTS <span class="count">14</span></button>
+    <button class="chip">CLIMATE <span class="count">6</span></button>
+    <button class="chip">MEDIA <span class="count">3</span></button>
+    <button class="chip">SCENES <span class="count">9</span></button>
+  </div>
+  <div class="meta">STATUS PILLS</div>
+  <div class="group">
+    <span class="pill ok">ONLINE</span>
+    <span class="pill ok">CONNECTED</span>
+    <span class="pill bad">DISCONNECTED</span>
+    <span class="pill bad">RATE LIMITED</span>
+  </div>
+</body>
+</html>

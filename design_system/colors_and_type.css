@@ -1,0 +1,431 @@
+/* ============================================================
+ * Xeneon Edge — Design Tokens
+ * ============================================================
+ *
+ * Drop in via:
+ *   <link rel="stylesheet" href="fonts.css">
+ *   <link rel="stylesheet" href="colors_and_type.css">
+ *
+ * Then put `class="theme-pipboy"` (or any other theme- class)
+ * on <body> or <html>. The active class drives every other
+ * design token — color, type, radius, spacing, FX flags.
+ *
+ * To author a new theme: add a `.theme-yourname { --bg: ...; }`
+ * block with the same set of vars and you're done.
+ *
+ * Source of truth: source_repo/src/renderer/themes/index.ts
+ * ============================================================ */
+
+/* ---------- DEFAULT: Pip-Boy (the marquee theme) ---------- */
+:root,
+.theme-pipboy {
+  /* color — base */
+  --bg:          #020a04;
+  --bg-elevated: #04140a;
+  --bg-panel:    #062012;
+  --fg:          #7cff8a;
+  --fg-muted:    #3aa84a;
+  --accent:      #7cff8a;
+  --accent-soft: #1f5a2a;
+  --accent-hot:  #b6ffae;
+  --warn:        #ffb14a;
+  --good:        #7cff8a;
+  --border:      #1f7a35;
+
+  /* color — semantic aliases */
+  --fg1: var(--fg);
+  --fg2: var(--fg-muted);
+  --fg3: color-mix(in srgb, var(--fg-muted) 60%, transparent);
+  --bg1: var(--bg);
+  --bg2: var(--bg-panel);
+  --bg3: var(--bg-elevated);
+  --link: var(--accent);
+  --link-hover: var(--accent-hot);
+  --danger: #ff5050;
+  --danger-soft: rgba(255, 80, 80, 0.15);
+  --live: #ef4444;
+
+  /* type — face stacks */
+  --font-ui:      'VT323', 'Share Tech Mono', 'Consolas', monospace;
+  --font-mono:    'VT323', 'Share Tech Mono', 'Consolas', monospace;
+  --font-display: 'Monoton', 'VT323', monospace;
+  --font-serif:   'Cinzel', 'IM Fell English', Georgia, serif;
+  --font-sans:    'Inter', system-ui, sans-serif;
+
+  /* type — semantic scale */
+  --h1-size: 96px;  --h1-weight: 400; --h1-leading: 1;     --h1-tracking: 0;
+  --h2-size: 44px;  --h2-weight: 400; --h2-leading: 1;     --h2-tracking: 0;
+  --h3-size: 24px;  --h3-weight: 400; --h3-leading: 1.1;   --h3-tracking: 0.05em;
+  --label-size: 11px;  --label-weight: 400; --label-tracking: 0.15em;
+  --chip-size:  12px;  --chip-weight:  400; --chip-tracking:  0.10em;
+  --body-size:  14px;  --body-weight:  400; --body-leading:   1.4;
+  --code-size:  13px;
+  --footer-size: 10px;
+
+  /* spacing */
+  --radius: 4px;
+  --pad:    14px;
+  --gap-xs: 4px;
+  --gap-sm: 6px;
+  --gap-md: 8px;
+  --gap-lg: 12px;
+  --gap-xl: 16px;
+  --hit:    44px;        /* min touch target */
+  --hit-lg: 72px;        /* primary action target */
+
+  /* effects flags (referenced by ::after rules below) */
+  --fx-scanlines: 1;
+  --fx-glow:      1;
+  --fx-vignette:  1;
+  --fx-noise:     1;
+}
+
+/* ---------- Dark — modern minimalist ---------- */
+.theme-dark {
+  --bg: #0b0d10;
+  --bg-elevated: #13171c;
+  --bg-panel: #181d23;
+  --fg: #e7ecf3;
+  --fg-muted: #8a93a0;
+  --accent: #5aa9ff;
+  --accent-soft: #23344a;
+  --accent-hot: #7cc0ff;
+  --warn: #ffb14a;
+  --good: #5fe39a;
+  --border: #262d36;
+
+  --font-ui: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', Consolas, monospace;
+  --font-display: system-ui, sans-serif;
+
+  --radius: 12px;
+  --pad: 16px;
+
+  --fx-scanlines: 0; --fx-glow: 0; --fx-vignette: 0; --fx-noise: 0;
+}
+
+/* ---------- Cyberpunk ---------- */
+.theme-cyberpunk {
+  --bg: #05060a;
+  --bg-elevated: #0c0e1a;
+  --bg-panel: #10142a;
+  --fg: #ffe14a;
+  --fg-muted: #7a86b8;
+  --accent: #fcee0c;
+  --accent-soft: #3a2c00;
+  --accent-hot: #ff2bd6;
+  --warn: #ff6f3c;
+  --good: #00ffd5;
+  --border: #2a1a55;
+
+  --font-ui: 'Rajdhani', 'Orbitron', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Share Tech Mono', monospace;
+  --font-display: 'Orbitron', 'Audiowide', 'Rajdhani', sans-serif;
+
+  --radius: 2px;
+  --pad: 14px;
+
+  --fx-scanlines: 0; --fx-glow: 1; --fx-vignette: 1; --fx-noise: 1;
+}
+
+/* ---------- Nord — calm arctic ---------- */
+.theme-nord {
+  --bg: #2e3440;
+  --bg-elevated: #3b4252;
+  --bg-panel: #434c5e;
+  --fg: #eceff4;
+  --fg-muted: #a9b1c0;
+  --accent: #88c0d0;
+  --accent-soft: #4c566a;
+  --accent-hot: #8fbcbb;
+  --warn: #ebcb8b;
+  --good: #a3be8c;
+  --border: #4c566a;
+
+  --font-ui: 'Inter', system-ui, sans-serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', monospace;
+  --font-display: 'Inter', sans-serif;
+
+  --radius: 10px;
+  --pad: 14px;
+
+  --fx-scanlines: 0; --fx-glow: 0; --fx-vignette: 0; --fx-noise: 0;
+}
+
+/* ---------- Synthwave ---------- */
+.theme-synthwave {
+  --bg: #1a0933;
+  --bg-elevated: #2a1052;
+  --bg-panel: #321461;
+  --fg: #ffd0ff;
+  --fg-muted: #a982e0;
+  --accent: #ff4ad8;
+  --accent-soft: #5c1a8a;
+  --accent-hot: #ffe14a;
+  --warn: #ffb14a;
+  --good: #4afff0;
+  --border: #5c1a8a;
+
+  --font-ui: 'Orbitron', 'Audiowide', system-ui, sans-serif;
+  --font-mono: ui-monospace, monospace;
+  --font-display: 'Audiowide', 'Orbitron', sans-serif;
+
+  --radius: 6px;
+  --pad: 14px;
+
+  --fx-scanlines: 0; --fx-glow: 1; --fx-vignette: 1; --fx-noise: 0;
+}
+
+/* ---------- 8-Bit — NES primaries on royal blue ---------- */
+.theme-eightbit {
+  --bg: #00479c;
+  --bg-elevated: #1b2a4e;
+  --bg-panel: #0a0a23;
+  --fg: #ffffff;
+  --fg-muted: #a0c0ff;
+  --accent: #ffd866;
+  --accent-soft: #3e2d00;
+  --accent-hot: #ff5050;
+  --warn: #ff5050;
+  --good: #58e000;
+  --border: #000000;
+
+  --font-ui: 'Press Start 2P', 'VT323', monospace;
+  --font-mono: 'Press Start 2P', 'VT323', monospace;
+  --font-display: 'Press Start 2P', 'VT323', monospace;
+
+  --radius: 0px;
+  --pad: 14px;
+
+  --fx-scanlines: 0; --fx-glow: 0; --fx-vignette: 0; --fx-noise: 0;
+}
+
+/* ---------- X-Files — green phosphor case file ---------- */
+.theme-xfiles {
+  --bg: #000000;
+  --bg-elevated: #031003;
+  --bg-panel: #062006;
+  --fg: #33ff33;
+  --fg-muted: #1a8a1a;
+  --accent: #33ff33;
+  --accent-soft: #0a2a0a;
+  --accent-hot: #aaffaa;
+  --warn: #ff5555;
+  --good: #33ff33;
+  --border: #1a5a1a;
+
+  --font-ui: 'Special Elite', 'VT323', monospace;
+  --font-mono: 'Special Elite', 'VT323', monospace;
+  --font-display: 'Special Elite', 'VT323', monospace;
+
+  --radius: 0px;
+  --pad: 14px;
+
+  --fx-scanlines: 1; --fx-glow: 1; --fx-vignette: 1; --fx-noise: 1;
+}
+
+/* ---------- Apollo MOCR — NASA gunmetal + teal ---------- */
+.theme-apollo {
+  --bg: #1f2228;
+  --bg-elevated: #2a2e34;
+  --bg-panel: #353a42;
+  --fg: #eaeaea;
+  --fg-muted: #9aa0a8;
+  --accent: #00b4b4;
+  --accent-soft: #0a3a3a;
+  --accent-hot: #ffffff;
+  --warn: #ffb14a;
+  --good: #5fe39a;
+  --border: #3a3f48;
+
+  --font-ui: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', monospace;
+  --font-display: 'IBM Plex Mono', 'Inter', monospace;
+
+  --radius: 4px;
+  --pad: 14px;
+
+  --fx-scanlines: 0; --fx-glow: 0; --fx-vignette: 1; --fx-noise: 0;
+}
+
+/* ============================================================
+ * Semantic primitives — wired to the active theme's tokens.
+ * Use these classes directly in markup, or copy the rules.
+ * ============================================================ */
+
+.h1 {
+  font-family: var(--font-display);
+  font-size: var(--h1-size, 96px);
+  font-weight: var(--h1-weight, 400);
+  line-height: var(--h1-leading, 1);
+  letter-spacing: var(--h1-tracking, 0);
+  color: var(--accent);
+}
+
+.h2 {
+  font-family: var(--font-display);
+  font-size: var(--h2-size, 44px);
+  font-weight: var(--h2-weight, 400);
+  line-height: var(--h2-leading, 1);
+  color: var(--accent);
+}
+
+.h3 {
+  font-family: var(--font-display);
+  font-size: var(--h3-size, 24px);
+  letter-spacing: var(--h3-tracking, 0.05em);
+  color: var(--accent);
+}
+
+.label, .widget-title {
+  font-family: var(--font-mono);
+  font-size: var(--label-size, 11px);
+  letter-spacing: var(--label-tracking, 0.15em);
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: var(--chip-size, 12px);
+  letter-spacing: var(--chip-tracking, 0.1em);
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg-elevated);
+  color: var(--fg-muted);
+  border: 1px solid var(--border);
+}
+
+.chip.active {
+  background: var(--accent-soft);
+  color: var(--accent-hot);
+  border-color: var(--accent);
+}
+
+.body {
+  font-family: var(--font-ui);
+  font-size: var(--body-size, 14px);
+  line-height: var(--body-leading, 1.4);
+  color: var(--fg);
+}
+
+.code, code, kbd, .mono {
+  font-family: var(--font-mono);
+  font-size: var(--code-size, 13px);
+}
+
+.muted { color: var(--fg-muted); }
+
+.footer-line {
+  font-family: var(--font-mono);
+  font-size: var(--footer-size, 10px);
+  color: var(--fg-muted);
+}
+
+/* Buttons + cards (recipe shared with src/renderer/app/styles.css) */
+.btn {
+  font-family: var(--font-ui);
+  font-size: 14px;
+  letter-spacing: 0.1em;
+  background: var(--bg-panel);
+  color: var(--fg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 18px;
+  min-height: var(--hit);
+  min-width: 64px;
+  cursor: pointer;
+  transition: background 120ms, color 120ms, border-color 120ms;
+}
+
+.btn:hover, .btn:active, .btn.active, .btn-active {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent-hot);
+}
+
+.card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 10px 12px;
+}
+
+.card.active {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+/* metric — the canonical "big number on top of a label" stack */
+.metric { display: flex; flex-direction: column; gap: 4px; }
+.metric-value {
+  font-family: var(--font-display);
+  font-size: 44px;
+  color: var(--accent);
+  line-height: 1;
+}
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+/* gauge — used by sensors */
+.gauge {
+  position: relative;
+  width: 100%;
+  height: 12px;
+  background: var(--bg-elevated);
+  border-radius: 6px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+}
+.gauge-fill { height: 100%; background: var(--accent); transition: width 250ms; }
+.gauge-fill.warn { background: var(--warn); }
+.gauge-fill.hot  { background: #ff5a5a; }
+
+/* status pills */
+.status-pill {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+.status-pill.ok  { background: var(--accent-soft); color: var(--good); }
+.status-pill.bad { background: var(--danger-soft); color: var(--warn); }
+
+/* The wordmark */
+.brand {
+  font-family: var(--font-display);
+  font-size: 18px;
+  letter-spacing: 0.2em;
+  color: var(--accent);
+}
+
+/* Live dot — used by sports cards, network status, etc. */
+.live-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: var(--live);
+  border-radius: 50%;
+  animation: xeneon-live-pulse 1.2s ease-in-out infinite;
+}
+@keyframes xeneon-live-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.8); }
+}
+
+/* Blinking terminal cursor */
+.cursor {
+  display: inline-block;
+  animation: xeneon-blink 0.7s steps(1) infinite;
+}
+@keyframes xeneon-blink { 50% { opacity: 0; } }

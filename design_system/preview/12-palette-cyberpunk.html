@@ -1,0 +1,48 @@
+<!doctype html>
+<html class="theme-cyberpunk">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body {
+    background: radial-gradient(ellipse at 80% 0%, rgba(255,43,214,0.2), transparent 40%), radial-gradient(ellipse at 0% 100%, rgba(0,255,213,0.15), transparent 40%), linear-gradient(180deg, #05060a 60%, #1a0a2a 100%);
+    padding: 18px 20px;
+  }
+  .name { font-family: 'Orbitron', sans-serif; font-weight: 700; font-size: 22px; color: var(--accent); margin-bottom: 4px; letter-spacing: 0.08em; text-shadow: 2px 0 0 #ff2bd6, -2px 0 0 #00ffd5; }
+  .sub  { font-family: 'Rajdhani', sans-serif; font-size: 12px; color: var(--fg-muted); letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 14px; }
+  .grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; }
+  .sw {
+    height: 96px;
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    padding: 8px 10px;
+    display: flex; flex-direction: column; justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+  }
+  .sw .role { text-transform: uppercase; letter-spacing: 0.15em; opacity: 0.85; }
+</style>
+</head>
+<body>
+  <div class="name">CYBERPUNK</div>
+  <div class="sub">Night City · hot yellow + cyan + magenta · radius 2</div>
+  <div class="grid">
+    <div class="sw" style="background:#05060a; color:#ffe14a; border-color:#2a1a55"><span class="role">bg</span><span>#05060a</span></div>
+    <div class="sw" style="background:#0c0e1a; color:#ffe14a; border-color:#2a1a55"><span class="role">elev</span><span>#0c0e1a</span></div>
+    <div class="sw" style="background:#10142a; color:#ffe14a; border-color:#2a1a55"><span class="role">panel</span><span>#10142a</span></div>
+    <div class="sw" style="background:#3a2c00; color:#ff2bd6; border-color:#fcee0c"><span class="role">accent-soft</span><span>#3a2c00</span></div>
+    <div class="sw" style="background:#fcee0c; color:#05060a; border-color:#fcee0c"><span class="role">accent</span><span>#fcee0c</span></div>
+    <div class="sw" style="background:#ff2bd6; color:#05060a; border-color:#ff2bd6"><span class="role">accent-hot</span><span>#ff2bd6</span></div>
+  </div>
+  <div class="grid" style="margin-top:8px">
+    <div class="sw" style="background:#10142a; color:#ffe14a; border-color:#2a1a55"><span class="role">fg</span><span>#ffe14a</span></div>
+    <div class="sw" style="background:#10142a; color:#7a86b8; border-color:#2a1a55"><span class="role">fg-muted</span><span>#7a86b8</span></div>
+    <div class="sw" style="background:#10142a; color:#ff6f3c; border-color:#2a1a55"><span class="role">warn</span><span>#ff6f3c</span></div>
+    <div class="sw" style="background:#10142a; color:#00ffd5; border-color:#2a1a55"><span class="role">good</span><span>#00ffd5</span></div>
+    <div class="sw" style="background:#10142a; color:#ffe14a; border-color:#2a1a55"><span class="role">border</span><span>#2a1a55</span></div>
+    <div class="sw" style="background:#10142a; color:#ff5050; border-color:#2a1a55"><span class="role">danger</span><span>#ff5050</span></div>
+  </div>
+</body>
+</html>

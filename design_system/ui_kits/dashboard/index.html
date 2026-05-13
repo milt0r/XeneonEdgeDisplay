@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en" class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<title>Xeneon Edge — Dashboard</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="../../fonts.css">
+<link rel="stylesheet" href="../../colors_and_type.css">
+<link rel="stylesheet" href="styles.css">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+
+<!-- shared atoms -->
+<script type="text/babel" src="BootScreen.jsx"></script>
+<script type="text/babel" src="TopBar.jsx"></script>
+<script type="text/babel" src="Widget.jsx"></script>
+<script type="text/babel" src="OnScreenKeyboard.jsx"></script>
+<script type="text/babel" src="SettingsPanel.jsx"></script>
+
+<!-- widgets -->
+<script type="text/babel" src="widgets/Clock.jsx"></script>
+<script type="text/babel" src="widgets/Weather.jsx"></script>
+<script type="text/babel" src="widgets/Sensors.jsx"></script>
+<script type="text/babel" src="widgets/Spotify.jsx"></script>
+<script type="text/babel" src="widgets/HATiles.jsx"></script>
+<script type="text/babel" src="widgets/QuickLaunch.jsx"></script>
+<script type="text/babel" src="widgets/Sports.jsx"></script>
+<script type="text/babel" src="widgets/StocksTicker.jsx"></script>
+<script type="text/babel" src="widgets/Calendar.jsx"></script>
+
+<script type="text/babel">
+const THEME_NAMES = {
+  pipboy: 'Pip-Boy', dark: 'Dark', synthwave: 'Synthwave',
+  nord: 'Nord', cyberpunk: 'Cyberpunk'
+};
+const FX = {
+  pipboy:    { scanlines: true,  vignette: true,  noise: true  },
+  dark:      { scanlines: false, vignette: false, noise: false },
+  synthwave: { scanlines: false, vignette: true,  noise: false },
+  nord:      { scanlines: false, vignette: false, noise: false },
+  cyberpunk: { scanlines: false, vignette: true,  noise: true  }
+};
+
+function App() {
+  const [themeId, setThemeId]   = React.useState('pipboy');
+  const [editing, setEditing]   = React.useState(false);
+  const [settingsOpen, setSettingsOpen] = React.useState(false);
+
+  // re-apply theme class on <html> when it changes
+  React.useEffect(() => {
+    const root = document.documentElement;
+    Object.keys(THEME_NAMES).forEach((id) => root.classList.remove(`theme-${id}`));
+    root.classList.add(`theme-${themeId}`);
+  }, [themeId]);
+
+  const fx = FX[themeId] || {};
+  const onPing = () => {};
+  const wrap = (Cmp, extra = {}) => (
+    <Cmp editing={editing} onRemove={() => {}} {...extra} />
+  );
+
+  return (
+    <>
+      {Boot.show && <BootScreen />}
+      <div className="stage">
+        <TopBar
+          themeId={themeId}
+          themeName={THEME_NAMES[themeId]}
+          editing={editing}
+          setEditing={setEditing}
+          settingsOpen={settingsOpen}
+          setSettingsOpen={setSettingsOpen}
+        />
+        <main className="dashboard">
+          <div className="cell-clock">    {wrap(ClockWidget)} </div>
+          <div className="cell-weather">  {wrap(WeatherWidget)} </div>
+          <div className="cell-sensors">  {wrap(SensorsWidget)} </div>
+          <div className="cell-spotify">  {wrap(SpotifyWidget)} </div>
+          <div className="cell-ha">       {wrap(HATilesWidget)} </div>
+          <div className="cell-ql">       {wrap(QuickLaunchWidget, { onOpenSettings: () => setSettingsOpen(true), onPing })} </div>
+          <div className="cell-sports">   {wrap(SportsWidget)} </div>
+          <div className="cell-cal">      {wrap(CalendarWidget)} </div>
+          <div className="cell-ticker">   {wrap(StocksTickerWidget)} </div>
+        </main>
+        {fx.scanlines && <div className="fx-scanlines" />}
+        {fx.vignette  && <div className="fx-vignette" />}
+        {fx.noise     && <div className="fx-noise" />}
+      </div>
+      {settingsOpen && (
+        <SettingsPanel
+          themeId={themeId}
+          setThemeId={setThemeId}
+          onClose={() => setSettingsOpen(false)}
+        />
+      )}
+    </>
+  );
+}
+
+// Boot screen — show once per session.
+const Boot = { show: !sessionStorage.getItem('booted') };
+if (Boot.show) setTimeout(() => sessionStorage.setItem('booted', '1'), 3000);
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

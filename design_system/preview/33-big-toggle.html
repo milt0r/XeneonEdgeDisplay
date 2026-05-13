@@ -1,0 +1,44 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #062012; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .big-toggle {
+    width: 100%; min-height: 96px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+    background: var(--bg-elevated); border: 2px solid var(--border);
+    border-radius: 4px;
+    color: var(--fg);
+  }
+  .big-toggle.on {
+    background: var(--accent-soft); border-color: var(--accent);
+    color: var(--accent-hot);
+    box-shadow: 0 0 24px var(--accent-soft);
+  }
+  .knob { font-size: 36px; font-family: 'Monoton','VT323',monospace; }
+  .label { font-family: 'VT323',monospace; font-size: 14px; letter-spacing: 0.12em; opacity: 0.85; text-transform: uppercase; }
+  .state { font-family: var(--font-mono); font-size: 10px; opacity: 0.75; text-transform: uppercase; letter-spacing: 0.18em; }
+</style>
+</head>
+<body>
+  <div class="name">BIG TOGGLE · TOUCH</div>
+  <div class="row">
+    <div class="big-toggle">
+      <div class="knob">○</div>
+      <div class="label">Living Room</div>
+      <div class="state">OFF</div>
+    </div>
+    <div class="big-toggle on">
+      <div class="knob">●</div>
+      <div class="label">Living Room</div>
+      <div class="state">ON · 78%</div>
+    </div>
+  </div>
+</body>
+</html>

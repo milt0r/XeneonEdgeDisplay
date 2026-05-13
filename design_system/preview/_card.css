@@ -1,0 +1,40 @@
+/* Shared base for every preview card.
+   Each card is rendered solo (no overall page chrome) into a 700x?? viewport.
+   The card itself is the entire page body — no extra framing. */
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: transparent;
+  font-family: var(--font-ui);
+  color: var(--fg);
+}
+
+body {
+  width: 700px;
+  padding: 18px 20px;
+  box-sizing: border-box;
+}
+
+/* Useful primitives for the cards */
+.row    { display: flex; align-items: center; gap: 12px; }
+.col    { display: flex; flex-direction: column; gap: 12px; }
+.between{ display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.wrap   { flex-wrap: wrap; }
+.fill   { flex: 1 1 auto; }
+.tiny   { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); letter-spacing: 0.12em; text-transform: uppercase; }
+.section-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  margin: 0 0 10px;
+}
+
+/* themed surface for "this looks like the actual product" cards */
+.surface {
+  background: var(--bg);
+  border-radius: 6px;
+  padding: 14px;
+}

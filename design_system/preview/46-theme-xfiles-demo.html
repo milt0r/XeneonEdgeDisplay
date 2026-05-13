@@ -1,0 +1,72 @@
+<!doctype html>
+<html class="theme-xfiles">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body {
+    background: radial-gradient(ellipse at center, #001a00 0%, #000 100%);
+    padding: 14px 18px;
+    position: relative;
+  }
+  body::after {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background: repeating-linear-gradient(0deg, rgba(0,0,0,0.2) 0, rgba(0,0,0,0.2) 1px, transparent 2px, transparent 4px);
+    mix-blend-mode: multiply;
+  }
+  .stage { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .widget {
+    background: rgba(6,32,6,0.9);
+    border: 1px solid #1a5a1a;
+    padding: 12px;
+    display: flex; flex-direction: column; gap: 8px;
+    position: relative;
+  }
+  .crosshair { position: absolute; top: 0; right: 0; bottom: 0; left: 0; pointer-events: none; opacity: 0.18; }
+  .crosshair::before, .crosshair::after { content: ''; position: absolute; background: #33ff33; }
+  .crosshair::before { left: 50%; top: 14px; bottom: 14px; width: 1px; transform: translateX(-50%); }
+  .crosshair::after { top: 50%; left: 14px; right: 14px; height: 1px; transform: translateY(-50%); }
+  .head {
+    font-family: 'Special Elite', monospace; font-size: 12px;
+    color: #33ff33; letter-spacing: 0.18em; text-transform: uppercase;
+    border-bottom: 1px solid #1a5a1a; padding-bottom: 6px;
+    display: flex; justify-content: space-between;
+  }
+  .badge { color: #ff5555; border: 1px solid #ff5555; padding: 1px 6px; font-size: 9px; letter-spacing: 0.15em; }
+  .clock-time {
+    font-family: 'Special Elite', monospace;
+    font-size: 56px; color: #33ff33; line-height: 1; text-align: center;
+    text-shadow: 0 0 4px #33ff33, 0 0 14px rgba(51,255,51,0.5);
+  }
+  .clock-date {
+    font-family: 'Special Elite', monospace; font-size: 12px;
+    color: #1a8a1a; text-align: center; letter-spacing: 0.18em; text-transform: uppercase;
+  }
+  .case {
+    font-family: 'Special Elite', monospace; font-size: 10px;
+    color: #1a8a1a; letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .read { font-family: 'Special Elite', monospace; font-size: 32px; color: #33ff33; line-height: 1; text-shadow: 0 0 4px #33ff33; }
+  .row { display: flex; justify-content: space-between; align-items: baseline; }
+</style>
+</head>
+<body>
+  <div class="stage">
+    <div class="widget">
+      <div class="crosshair"></div>
+      <div class="head"><span>CHRONOMETER</span><span class="badge">CLASSIFIED</span></div>
+      <div class="clock-time">12:48</div>
+      <div class="clock-date">FRIDAY · 12 MAY · CASE 7012-X</div>
+    </div>
+    <div class="widget">
+      <div class="head"><span>VITAL SENSORS</span></div>
+      <div class="case">CPU CORE TEMPERATURE</div>
+      <div class="row"><span class="read">61°C</span><span class="case" style="color:#33ff33">NOMINAL</span></div>
+      <div class="case" style="margin-top:6px">GPU CORE LOAD</div>
+      <div class="row"><span class="read" style="color:#ff5555">94%</span><span class="case" style="color:#ff5555">ANOMALOUS</span></div>
+    </div>
+  </div>
+</body>
+</html>

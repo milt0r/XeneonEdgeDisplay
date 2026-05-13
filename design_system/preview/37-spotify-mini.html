@@ -1,0 +1,58 @@
+<!doctype html>
+<html class="theme-pipboy">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../fonts.css">
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="stylesheet" href="_card.css">
+<style>
+  body { background: #020a04; padding: 18px 20px; }
+  .name { font-family: 'Monoton','VT323',monospace; font-size: 18px; color: var(--accent); letter-spacing: 0.08em; margin-bottom: 14px; }
+  .widget {
+    background: rgba(6,32,18,0.9);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 14px;
+    display: flex; gap: 14px; align-items: center;
+  }
+  .art {
+    width: 96px; height: 96px;
+    border-radius: 4px; flex: 0 0 auto;
+    background: radial-gradient(circle at 30% 30%, #59f, #073) ;
+    border: 1px solid var(--border);
+    position: relative; overflow: hidden;
+  }
+  .art::after { content: '♪'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 44px; color: rgba(255,255,255,0.55); font-family: serif; }
+  .info { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 8px; }
+  .track { font-family: 'Monoton','VT323',monospace; font-size: 22px; color: var(--accent); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .artist { font-family: var(--font-mono); font-size: 13px; color: var(--fg-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .transport { display: flex; gap: 8px; align-items: center; }
+  .btn {
+    font-family: 'VT323', monospace; font-size: 22px;
+    background: var(--bg-panel); color: var(--fg);
+    border: 1px solid var(--border); border-radius: 4px;
+    width: 44px; height: 44px;
+    display: inline-flex; align-items: center; justify-content: center;
+    cursor: pointer;
+  }
+  .btn.on { background: var(--accent-soft); color: var(--accent-hot); border-color: var(--accent); }
+  .meta { font-family: var(--font-mono); font-size: 10px; color: var(--fg-muted); margin-left: auto; letter-spacing: 0.12em; text-transform: uppercase; }
+</style>
+</head>
+<body>
+  <div class="name">SPOTIFY · NOW PLAYING</div>
+  <div class="widget">
+    <div class="art"></div>
+    <div class="info">
+      <div class="track">Atomic Heart Bar</div>
+      <div class="artist">Mick Gordon · Doom Eternal OST</div>
+      <div class="transport">
+        <button class="btn">⏮</button>
+        <button class="btn on">⏸</button>
+        <button class="btn">⏭</button>
+        <span class="meta">PC · 60%</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
