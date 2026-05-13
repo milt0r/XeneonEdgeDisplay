@@ -36,11 +36,14 @@ interface EntityRegInfo {
   deviceClass: string | null;
 }
 
-// HA's websocket API requires positive integer ids. Use high values
-// that won't collide with the auto-incrementing msgId.
-const REQ_AREAS = 900001;
-const REQ_DEVICES = 900002;
-const REQ_ENTITIES = 900003;
+// Reserve the first three IDs of the connection for the initial registry
+// fetches. HA requires monotonically increasing ids on a single connection,
+// so we then bump msgId past these. For later refetches (triggered by
+// *_registry_updated events) we use auto-incremented ids and remember which
+// one belongs to which registry via refetchKind.
+const REQ_AREAS = 1;
+const REQ_DEVICES = 2;
+const REQ_ENTITIES = 3;
 
 export class HomeAssistantProvider {
   private settings: AppSettings;
@@ -56,6 +59,8 @@ export class HomeAssistantProvider {
   private devices = new Map<string, DeviceInfo>();
   private entityReg = new Map<string, EntityRegInfo>();
   private pendingReg = new Set<number>();
+  /** For refetches that use auto-incremented ids, remember which kind. */
+  private refetchKind = new Map<number, 'areas' | 'devices' | 'entities'>();
 
   constructor(settings: AppSettings, secrets: SecretsStore, hooks: Hooks) {
     this.settings = settings;
@@ -197,16 +202,18 @@ export class HomeAssistantProvider {
           msg.event?.event_type === 'device_registry_updated' ||
           msg.event?.event_type === 'entity_registry_updated'
         )) {
-          // Refetch the affected registry; cheap operation.
+          // Refetch with auto-incremented id (HA requires monotonic ids);
+          // remember which registry the response is for via refetchKind.
+          const id = this.msgId++;
           if (msg.event.event_type === 'area_registry_updated') {
-            this.sendId({ type: 'config/area_registry/list' }, REQ_AREAS);
-            this.pendingReg.add(REQ_AREAS);
+            this.refetchKind.set(id, 'areas');
+            this.sendId({ type: 'config/area_registry/list' }, id);
           } else if (msg.event.event_type === 'device_registry_updated') {
-            this.sendId({ type: 'config/device_registry/list' }, REQ_DEVICES);
-            this.pendingReg.add(REQ_DEVICES);
+            this.refetchKind.set(id, 'devices');
+            this.sendId({ type: 'config/device_registry/list' }, id);
           } else {
-            this.sendId({ type: 'config/entity_registry/list' }, REQ_ENTITIES);
-            this.pendingReg.add(REQ_ENTITIES);
+            this.refetchKind.set(id, 'entities');
+            this.sendId({ type: 'config/entity_registry/list' }, id);
           }
         }
       } catch {}
@@ -239,10 +246,13 @@ export class HomeAssistantProvider {
       if (msg.id === REQ_AREAS) this.pendingReg.delete(REQ_AREAS);
       else if (msg.id === REQ_DEVICES) this.pendingReg.delete(REQ_DEVICES);
       else if (msg.id === REQ_ENTITIES) this.pendingReg.delete(REQ_ENTITIES);
+      this.refetchKind.delete(msg.id);
       this.maybeFetchStates();
       return;
     }
-    if (msg.id === REQ_AREAS && Array.isArray(msg.result)) {
+    const refetch = this.refetchKind.get(msg.id);
+    if (refetch) this.refetchKind.delete(msg.id);
+    if ((msg.id === REQ_AREAS || refetch === 'areas') && Array.isArray(msg.result)) {
       log('[ha] processing AREAS, count=' + msg.result.length);
       this.areas.clear();
       for (const a of msg.result) {
@@ -251,7 +261,7 @@ export class HomeAssistantProvider {
       this.pendingReg.delete(REQ_AREAS);
       this.maybeFetchStates();
       this.refreshAllEnrichments();
-    } else if (msg.id === REQ_DEVICES && Array.isArray(msg.result)) {
+    } else if ((msg.id === REQ_DEVICES || refetch === 'devices') && Array.isArray(msg.result)) {
       log('[ha] processing DEVICES, count=' + msg.result.length);
       this.devices.clear();
       for (const d of msg.result) {
@@ -265,7 +275,7 @@ export class HomeAssistantProvider {
       this.pendingReg.delete(REQ_DEVICES);
       this.maybeFetchStates();
       this.refreshAllEnrichments();
-    } else if (msg.id === REQ_ENTITIES && Array.isArray(msg.result)) {
+    } else if ((msg.id === REQ_ENTITIES || refetch === 'entities') && Array.isArray(msg.result)) {
       log('[ha] processing ENTITIES reg, count=' + msg.result.length);
       this.entityReg.clear();
       for (const e of msg.result) {
@@ -361,6 +371,8 @@ export class HomeAssistantProvider {
     this.devices.clear();
     this.entityReg.clear();
     this.pendingReg.clear();
+    this.refetchKind.clear();
+    this.msgId = 1;
     this.connected = false;
   }
 
