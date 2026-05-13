@@ -18,9 +18,11 @@ interface EntityRegInfo {
   deviceClass: string | null;
 }
 
-const REQ_AREAS = -1;
-const REQ_DEVICES = -2;
-const REQ_ENTITIES = -3;
+// HA's websocket API requires positive integer ids. Use high values
+// that won't collide with the auto-incrementing msgId.
+const REQ_AREAS = 900001;
+const REQ_DEVICES = 900002;
+const REQ_ENTITIES = 900003;
 
 export class HomeAssistantProvider {
   private settings: AppSettings;
@@ -124,6 +126,9 @@ export class HomeAssistantProvider {
     this.ws.on('message', (raw) => {
       try {
         const msg = JSON.parse(raw.toString());
+        if (msg.type === 'result' && (msg.id === REQ_AREAS || msg.id === REQ_DEVICES || msg.id === REQ_ENTITIES)) {
+          console.error('[ha] result id=' + msg.id + ' success=' + msg.success + ' rows=' + (Array.isArray(msg.result) ? msg.result.length : 'n/a') + (msg.error ? ' err=' + JSON.stringify(msg.error) : ''));
+        }
         if (msg.type === 'auth_required') {
           this.ws?.send(JSON.stringify({ type: 'auth', access_token: token }));
         } else if (msg.type === 'auth_ok') {
