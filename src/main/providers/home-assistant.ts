@@ -64,7 +64,14 @@ export class HomeAssistantProvider {
   }
 
   applySettings(s: AppSettings) {
+    const baseChanged = s.homeAssistant.baseUrl !== this.settings?.homeAssistant.baseUrl;
+    const enabledChanged = s.homeAssistant.enabled !== this.settings?.homeAssistant.enabled;
+    log('[ha] applySettings baseChanged=' + baseChanged + ' enabledChanged=' + enabledChanged + ' enabled=' + s.homeAssistant.enabled + ' url=' + s.homeAssistant.baseUrl);
     this.settings = s;
+    if (!baseChanged && !enabledChanged) {
+      log('[ha]   no relevant change, skipping disconnect/reconnect');
+      return;
+    }
     this.disconnect();
     if (s.homeAssistant.enabled && s.homeAssistant.baseUrl) this.connect();
   }
