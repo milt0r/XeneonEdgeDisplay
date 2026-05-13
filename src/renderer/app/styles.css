@@ -1348,6 +1348,62 @@ body[data-theme='dnd'] .sensor-value {
 .pick-device { color: var(--fg-muted); }
 .pick-class { color: var(--accent-hot); opacity: 0.7; }
 
+/* ---------- Rooms drill-down ---------- */
+.ha-rooms-grid {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+  padding-right: 4px;
+  align-content: start;
+}
+.ha-room-card {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px 16px;
+  cursor: pointer;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-height: 110px;
+  font-family: inherit;
+  color: var(--fg);
+  transition: border-color 120ms, background 120ms;
+}
+.ha-room-card:hover { border-color: var(--accent); background: var(--accent-soft); }
+.ha-room-name {
+  font-family: var(--font-display);
+  font-size: 18px;
+  color: var(--accent);
+}
+.ha-room-stats { display: flex; gap: 12px; align-items: baseline; flex-wrap: wrap; }
+.ha-room-stat {
+  display: inline-flex; align-items: baseline; gap: 4px;
+  font-family: var(--font-display);
+  font-size: 22px;
+  color: var(--fg);
+}
+.ha-room-stat small {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--fg-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.ha-room-stat.on { color: var(--good); }
+.ha-room-stat.sel { color: var(--accent-hot); }
+.ha-room-domains {
+  font-size: 11px;
+  color: var(--fg-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ---------- HA toolbar ---------- */
 .ha-toolbar {
   display: flex; align-items: center; gap: 8px; flex: 0 0 auto;
