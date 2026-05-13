@@ -17,7 +17,7 @@ const LOG_PATH = (() => {
 function log(...args: any[]) {
   const line = '[' + new Date().toISOString() + '] ' + args.map((a) => typeof a === 'string' ? a : JSON.stringify(a)).join(' ') + '\n';
   try { fs.appendFileSync(LOG_PATH, line); } catch {}
-  log(...args);
+  process.stderr.write(line);
 }
 
 interface Hooks {
