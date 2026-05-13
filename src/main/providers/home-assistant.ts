@@ -1,6 +1,24 @@
 import type { AppSettings, HAEntityState } from '../../shared/types';
 import type { SecretsStore } from '../secrets';
 import WebSocket from 'ws';
+import { app } from 'electron';
+import fs from 'node:fs';
+import path from 'node:path';
+
+const LOG_PATH = (() => {
+  try {
+    const dir = app.getPath('userData');
+    return path.join(dir, 'ha-debug.log');
+  } catch {
+    return path.join(process.cwd(), 'ha-debug.log');
+  }
+})();
+
+function log(...args: any[]) {
+  const line = '[' + new Date().toISOString() + '] ' + args.map((a) => typeof a === 'string' ? a : JSON.stringify(a)).join(' ') + '\n';
+  try { fs.appendFileSync(LOG_PATH, line); } catch {}
+  log(...args);
+}
 
 interface Hooks {
   onState(s: HAEntityState): void;
@@ -112,12 +130,14 @@ export class HomeAssistantProvider {
   private connect() {
     const token = this.secrets.get('haToken');
     const base = this.settings.homeAssistant.baseUrl.replace(/\/$/, '');
-    if (!token || !base) return;
+    if (!token || !base) { log('[ha] connect skipped (no token or baseUrl)'); return; }
     const wsUrl = base.replace(/^http/, 'ws') + '/api/websocket';
+    log('[ha] connecting to ' + wsUrl);
 
     try {
       this.ws = new WebSocket(wsUrl);
-    } catch {
+    } catch (e) {
+      log('[ha] ws constructor threw', e);
       this.scheduleReconnect();
       return;
     }
@@ -127,7 +147,7 @@ export class HomeAssistantProvider {
       try {
         const msg = JSON.parse(raw.toString());
         if (msg.type === 'result' && (msg.id === REQ_AREAS || msg.id === REQ_DEVICES || msg.id === REQ_ENTITIES)) {
-          console.error('[ha] result id=' + msg.id + ' success=' + msg.success + ' rows=' + (Array.isArray(msg.result) ? msg.result.length : 'n/a') + (msg.error ? ' err=' + JSON.stringify(msg.error) : ''));
+          log('[ha] result id=' + msg.id + ' success=' + msg.success + ' rows=' + (Array.isArray(msg.result) ? msg.result.length : 'n/a') + (msg.error ? ' err=' + JSON.stringify(msg.error) : ''));
         }
         if (msg.type === 'auth_required') {
           this.ws?.send(JSON.stringify({ type: 'auth', access_token: token }));
@@ -207,9 +227,8 @@ export class HomeAssistantProvider {
   }
 
   private handleResult(msg: any) {
-    // Discord-style success false response: still clear the pending bucket
-    // so we don't block get_states forever.
     if (msg && msg.success === false) {
+      log('[ha] result error id=' + msg.id + ' err=' + JSON.stringify(msg.error));
       if (msg.id === REQ_AREAS) this.pendingReg.delete(REQ_AREAS);
       else if (msg.id === REQ_DEVICES) this.pendingReg.delete(REQ_DEVICES);
       else if (msg.id === REQ_ENTITIES) this.pendingReg.delete(REQ_ENTITIES);
@@ -217,6 +236,7 @@ export class HomeAssistantProvider {
       return;
     }
     if (msg.id === REQ_AREAS && Array.isArray(msg.result)) {
+      log('[ha] processing AREAS, count=' + msg.result.length);
       this.areas.clear();
       for (const a of msg.result) {
         if (a?.area_id) this.areas.set(a.area_id, { name: a.name ?? a.area_id });
@@ -225,6 +245,7 @@ export class HomeAssistantProvider {
       this.maybeFetchStates();
       this.refreshAllEnrichments();
     } else if (msg.id === REQ_DEVICES && Array.isArray(msg.result)) {
+      log('[ha] processing DEVICES, count=' + msg.result.length);
       this.devices.clear();
       for (const d of msg.result) {
         if (d?.id) this.devices.set(d.id, {
@@ -238,6 +259,7 @@ export class HomeAssistantProvider {
       this.maybeFetchStates();
       this.refreshAllEnrichments();
     } else if (msg.id === REQ_ENTITIES && Array.isArray(msg.result)) {
+      log('[ha] processing ENTITIES reg, count=' + msg.result.length);
       this.entityReg.clear();
       for (const e of msg.result) {
         if (!e?.entity_id) continue;
@@ -254,13 +276,15 @@ export class HomeAssistantProvider {
       this.maybeFetchStates();
       this.refreshAllEnrichments();
     } else if (Array.isArray(msg.result) && msg.result[0]?.entity_id) {
-      // get_states response
+      log('[ha] processing get_states, count=' + msg.result.length + ' areas=' + this.areas.size + ' devices=' + this.devices.size + ' entityReg=' + this.entityReg.size);
       const states: HAEntityState[] = msg.result.map((s: any) => this.enrich({
         entityId: s.entity_id,
         state: s.state,
         attributes: s.attributes ?? {},
         lastChanged: s.last_changed
       }));
+      const withArea = states.filter(s => s.area).length;
+      log('[ha]   ' + withArea + ' / ' + states.length + ' have area populated');
       for (const s of states) this.cache.set(s.entityId, s);
       this.hooks.onBulk(states);
     }
