@@ -187,15 +187,104 @@
   background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence baseFrequency='0.9' /></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
-/* pip-boy glow */
-body[data-theme='pipboy'] .theme-root {
-  text-shadow: 0 0 4px var(--accent), 0 0 12px var(--accent-soft);
+/* ---------- Pip-Boy: phosphor CRT (per design system) ---------- */
+body[data-theme='pipboy'] {
+  /* Subtle terminal flicker on the whole canvas. Very low amplitude
+     so it doesn't distract during normal use. */
+  animation: pipboy-flicker 6s infinite;
 }
-body[data-theme='pipboy'] .widget {
-  box-shadow: inset 0 0 30px rgba(124, 255, 138, 0.05);
+@keyframes pipboy-flicker {
+  0%, 92%, 100% { filter: none; }
+  93%   { filter: brightness(1.05); }
+  93.5% { filter: brightness(0.92); }
+  94%   { filter: brightness(1.04); }
+  94.5% { filter: brightness(0.96); }
 }
 
-/* cyberpunk glitch tint + chromatic accent */
+/* Every prominent green digit gets a soft phosphor halo */
+body[data-theme='pipboy'] .clock-time,
+body[data-theme='pipboy'] .metric-value,
+body[data-theme='pipboy'] .sensor-value,
+body[data-theme='pipboy'] .stock-price,
+body[data-theme='pipboy'] .spotify-track,
+body[data-theme='pipboy'] .ha-detail-name,
+body[data-theme='pipboy'] .cal-next-title,
+body[data-theme='pipboy'] .topbar-clock,
+body[data-theme='pipboy'] .ha-room-name,
+body[data-theme='pipboy'] .theme-card-name,
+body[data-theme='pipboy'] .big-toggle-knob,
+body[data-theme='pipboy'] .big-slider-value {
+  text-shadow:
+    0 0 4px var(--accent),
+    0 0 14px rgba(124, 255, 138, 0.35),
+    0 0 28px rgba(124, 255, 138, 0.15);
+}
+
+/* Brand mark gets a terminal-prompt prefix */
+body[data-theme='pipboy'] .brand::before {
+  content: '> ';
+  color: var(--accent);
+  opacity: 0.65;
+}
+
+/* Headers and labels glow softly so they read like CRT prompts */
+body[data-theme='pipboy'] .widget-title,
+body[data-theme='pipboy'] .metric-label,
+body[data-theme='pipboy'] .ha-area-header,
+body[data-theme='pipboy'] .settings-tab,
+body[data-theme='pipboy'] .chip {
+  text-shadow: 0 0 6px rgba(58, 168, 74, 0.4);
+}
+
+/* Inset CRT bloom on every widget panel + crisper border */
+body[data-theme='pipboy'] .widget {
+  box-shadow:
+    inset 0 0 30px rgba(124, 255, 138, 0.06),
+    inset 0 0 1px rgba(124, 255, 138, 0.4);
+  border-color: rgba(124, 255, 138, 0.35);
+}
+body[data-theme='pipboy'] .widget-header {
+  border-bottom-color: rgba(124, 255, 138, 0.25);
+  background: color-mix(in srgb, var(--bg-elevated) 90%, var(--accent-soft));
+}
+
+/* Inputs & search bars get the phosphor treatment too */
+body[data-theme='pipboy'] .ha-search,
+body[data-theme='pipboy'] .field-row input,
+body[data-theme='pipboy'] .field-row select {
+  text-shadow: 0 0 4px var(--accent);
+  border-color: rgba(124, 255, 138, 0.35);
+}
+body[data-theme='pipboy'] .ha-search:focus {
+  box-shadow:
+    0 0 0 2px var(--accent-soft),
+    0 0 12px rgba(124, 255, 138, 0.25);
+}
+
+/* Active chips and toggles get a stronger phosphor halo */
+body[data-theme='pipboy'] .chip.active,
+body[data-theme='pipboy'] .btn-active,
+body[data-theme='pipboy'] .ha-tab.active,
+body[data-theme='pipboy'] .settings-tab.active {
+  box-shadow: 0 0 12px rgba(124, 255, 138, 0.35);
+}
+
+/* On HA tiles, mark "on" state with a pulsing CRT ring */
+body[data-theme='pipboy'] .toggle-card.on,
+body[data-theme='pipboy'] .ha-tile.on {
+  box-shadow:
+    inset 0 0 24px rgba(124, 255, 138, 0.15),
+    0 0 18px rgba(124, 255, 138, 0.25);
+}
+
+/* Theme card preview (in Settings → Themes) for pipboy */
+body[data-theme='pipboy'] .theme-card.active {
+  box-shadow:
+    0 0 0 2px var(--accent-soft),
+    0 0 18px rgba(124, 255, 138, 0.3);
+}
+
+/* Cyberpunk glitch tint + chromatic accent */
 body[data-theme='cyberpunk'] .theme-root {
   background:
     radial-gradient(circle at 80% 0%, rgba(255, 43, 214, 0.10), transparent 40%),
@@ -249,10 +338,24 @@ body[data-theme='dnd'] .sensor-value {
 .boot-text {
   font-family: var(--font-mono);
   color: var(--accent);
-  font-size: 18px;
-  text-shadow: 0 0 6px var(--accent);
+  font-size: 22px;
+  line-height: 1.25;
+  text-shadow:
+    0 0 5px var(--accent),
+    0 0 14px rgba(124, 255, 138, 0.25);
   white-space: pre-wrap;
   max-width: 800px;
+}
+/* Block cursor like a real terminal, not an underscore */
+body[data-theme='pipboy'] .cursor {
+  display: inline-block;
+  width: 12px;
+  height: 22px;
+  vertical-align: -4px;
+  margin-left: 2px;
+  background: var(--accent);
+  color: transparent;
+  box-shadow: 0 0 10px var(--accent);
 }
 .cursor { animation: blink 0.7s steps(1) infinite; }
 @keyframes blink { 50% { opacity: 0; } }

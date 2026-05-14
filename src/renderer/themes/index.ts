@@ -4,7 +4,8 @@ export type { Theme } from './theme';
 /* ---------- backgrounds (pure CSS, no network) ---------- */
 
 const PIPBOY_BG =
-  "radial-gradient(ellipse at 50% 60%, rgba(31, 122, 53, 0.25), transparent 70%), repeating-linear-gradient(0deg, rgba(31, 122, 53, 0.08) 0, rgba(31, 122, 53, 0.08) 1px, transparent 2px, transparent 5px), #020a04";
+  // Stacked phosphor canvas — soft green spotlight + tight scanlines + base
+  "radial-gradient(ellipse at 50% 60%, rgba(31, 122, 53, 0.30), transparent 70%), repeating-linear-gradient(0deg, rgba(31, 122, 53, 0.10) 0, rgba(31, 122, 53, 0.10) 1px, transparent 2px, transparent 4px), #020a04";
 
 const DARK_BG =
   "radial-gradient(circle at 0% 0%, rgba(90, 169, 255, 0.08), transparent 40%), radial-gradient(circle at 100% 100%, rgba(95, 227, 154, 0.06), transparent 50%), #0b0d10";
@@ -140,7 +141,7 @@ export const pipboy: Theme = {
     warn: '#ffb14a', good: '#7cff8a', border: '#1f7a35',
     fontUi: '"VT323", "Share Tech Mono", "Consolas", monospace',
     fontMono: '"VT323", "Share Tech Mono", "Consolas", monospace',
-    fontDisplay: '"Monoton", "VT323", monospace',
+    fontDisplay: '"Monoton", "VT323", "Share Tech Mono", monospace',
     radius: '4px', pad: '14px',
     scanlines: true, glow: true, vignette: true, noise: true
   },
