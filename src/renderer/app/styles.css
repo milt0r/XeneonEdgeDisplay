@@ -284,7 +284,12 @@ body[data-theme='pipboy'] .theme-card.active {
     0 0 18px rgba(124, 255, 138, 0.3);
 }
 
-/* Cyberpunk glitch tint + chromatic accent */
+/* ============================================================
+ * Per-theme decorations — sourced from design_system/preview/
+ * Pip-Boy stays above; the rest live here.
+ * ============================================================ */
+
+/* Cyberpunk: hot chromatic split + neon underline */
 body[data-theme='cyberpunk'] .theme-root {
   background:
     radial-gradient(circle at 80% 0%, rgba(255, 43, 214, 0.10), transparent 40%),
@@ -296,11 +301,238 @@ body[data-theme='cyberpunk'] .brand {
 }
 body[data-theme='cyberpunk'] .metric-value,
 body[data-theme='cyberpunk'] .clock-time,
-body[data-theme='cyberpunk'] .sensor-value {
+body[data-theme='cyberpunk'] .sensor-value,
+body[data-theme='cyberpunk'] .stock-price,
+body[data-theme='cyberpunk'] .ha-detail-name {
   text-shadow: 0 0 8px var(--accent);
 }
 body[data-theme='cyberpunk'] .widget {
   border-image: linear-gradient(135deg, var(--accent) 0%, transparent 50%, var(--accent-hot) 100%) 1;
+}
+
+/* X-Files: typewriter phosphor + crosshair on every panel */
+body[data-theme='xfiles'] .clock-time,
+body[data-theme='xfiles'] .metric-value,
+body[data-theme='xfiles'] .sensor-value,
+body[data-theme='xfiles'] .stock-price,
+body[data-theme='xfiles'] .ha-detail-name,
+body[data-theme='xfiles'] .topbar-clock,
+body[data-theme='xfiles'] .ha-room-name,
+body[data-theme='xfiles'] .theme-card-name {
+  text-shadow: 0 0 4px #33ff33, 0 0 14px rgba(51, 255, 51, 0.5);
+}
+body[data-theme='xfiles'] .widget { position: relative; }
+body[data-theme='xfiles'] .widget::after {
+  /* Subtle dossier crosshair behind the content */
+  content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0.10;
+  background:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), #33ff33 calc(50% - 0.5px), #33ff33 calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+    linear-gradient(0deg,  transparent calc(50% - 0.5px), #33ff33 calc(50% - 0.5px), #33ff33 calc(50% + 0.5px), transparent calc(50% + 0.5px));
+  z-index: 0;
+}
+body[data-theme='xfiles'] .widget > * { position: relative; z-index: 1; }
+body[data-theme='xfiles'] .widget {
+  background: rgba(6, 32, 6, 0.9);
+  box-shadow: inset 0 0 1px rgba(51, 255, 51, 0.3);
+}
+
+/* Apollo: LCD readout treatment for big values */
+body[data-theme='apollo'] .clock-time,
+body[data-theme='apollo'] .metric-value,
+body[data-theme='apollo'] .sensor-value,
+body[data-theme='apollo'] .stock-price {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  background: #14171b;
+  padding: 8px 14px;
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  display: inline-block;
+}
+body[data-theme='apollo'] .widget-header {
+  background: var(--bg-elevated);
+  text-transform: uppercase;
+}
+body[data-theme='apollo'] .widget {
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+/* 8-Bit: hard pixel shadow on every value, chunky black borders */
+body[data-theme='eightbit'] .widget {
+  border-width: 3px;
+  border-color: #000;
+  box-shadow: 4px 4px 0 #000;
+}
+body[data-theme='eightbit'] .clock-time,
+body[data-theme='eightbit'] .metric-value,
+body[data-theme='eightbit'] .sensor-value,
+body[data-theme='eightbit'] .stock-price,
+body[data-theme='eightbit'] .ha-detail-name {
+  text-shadow: 3px 3px 0 #000;
+}
+body[data-theme='eightbit'] .widget-title,
+body[data-theme='eightbit'] .metric-label,
+body[data-theme='eightbit'] .clock-date,
+body[data-theme='eightbit'] .topbar-clock {
+  text-shadow: 2px 2px 0 #000;
+}
+body[data-theme='eightbit'] .btn,
+body[data-theme='eightbit'] .chip {
+  border-width: 2px;
+  border-color: #000;
+  box-shadow: 2px 2px 0 #000;
+}
+body[data-theme='eightbit'] .gauge {
+  border-width: 2px;
+  border-color: #000;
+  border-radius: 0;
+}
+
+/* BBS: tight CRT scanlines + bright cyan brand */
+body[data-theme='bbs'] .clock-time,
+body[data-theme='bbs'] .metric-value,
+body[data-theme='bbs'] .sensor-value,
+body[data-theme='bbs'] .stock-price,
+body[data-theme='bbs'] .ha-detail-name,
+body[data-theme='bbs'] .topbar-clock {
+  text-shadow: 0 0 4px var(--accent), 0 0 12px rgba(85, 255, 255, 0.4);
+}
+body[data-theme='bbs'] .brand::before {
+  content: '> ';
+  color: var(--accent-hot);
+}
+body[data-theme='bbs'] .widget {
+  box-shadow: inset 0 0 0 1px rgba(170, 170, 170, 0.2);
+}
+
+/* Synthwave: neon underline on big text + hot-pink brand */
+body[data-theme='synthwave'] .clock-time,
+body[data-theme='synthwave'] .metric-value,
+body[data-theme='synthwave'] .sensor-value,
+body[data-theme='synthwave'] .stock-price,
+body[data-theme='synthwave'] .ha-detail-name {
+  text-shadow:
+    0 0 6px var(--accent),
+    0 0 18px rgba(255, 74, 216, 0.45),
+    0 2px 0 var(--accent-hot);
+}
+body[data-theme='synthwave'] .brand {
+  text-shadow: 0 0 8px var(--accent), 0 0 16px var(--accent-hot);
+}
+
+/* Dragon Lair: fire-glow on accent text */
+body[data-theme='dnd'] .clock-time,
+body[data-theme='dnd'] .metric-value,
+body[data-theme='dnd'] .sensor-value,
+body[data-theme='dnd'] .stock-price,
+body[data-theme='dnd'] .ha-detail-name,
+body[data-theme='dnd'] .brand {
+  text-shadow:
+    0 0 6px rgba(255, 106, 61, 0.6),
+    0 0 18px rgba(230, 176, 74, 0.35);
+}
+
+/* Detroit Techno: punch + UV glow */
+body[data-theme='detroittechno'] .clock-time,
+body[data-theme='detroittechno'] .metric-value,
+body[data-theme='detroittechno'] .sensor-value,
+body[data-theme='detroittechno'] .stock-price,
+body[data-theme='detroittechno'] .ha-detail-name,
+body[data-theme='detroittechno'] .brand {
+  text-shadow: 0 0 8px var(--accent), 0 0 24px rgba(255, 0, 128, 0.4);
+}
+
+/* Vaporwave: chrome stack — pink-cyan slice */
+body[data-theme='vaporwave'] .clock-time,
+body[data-theme='vaporwave'] .metric-value,
+body[data-theme='vaporwave'] .sensor-value,
+body[data-theme='vaporwave'] .stock-price,
+body[data-theme='vaporwave'] .ha-detail-name,
+body[data-theme='vaporwave'] .brand {
+  text-shadow:
+    -2px 0 0 var(--accent),
+    2px 0 0 var(--accent-hot),
+    0 0 12px rgba(255, 113, 206, 0.3);
+}
+
+/* Nostromo: green CRT, dimmer than Pip-Boy */
+body[data-theme='nostromo'] .clock-time,
+body[data-theme='nostromo'] .metric-value,
+body[data-theme='nostromo'] .sensor-value,
+body[data-theme='nostromo'] .stock-price,
+body[data-theme='nostromo'] .ha-detail-name,
+body[data-theme='nostromo'] .brand,
+body[data-theme='nostromo'] .topbar-clock {
+  text-shadow:
+    0 0 4px var(--accent),
+    0 0 12px rgba(51, 255, 102, 0.4);
+}
+body[data-theme='nostromo'] .brand::before {
+  content: 'MU/TH/UR > ';
+  font-size: 0.55em;
+  letter-spacing: 0.18em;
+  opacity: 0.7;
+}
+
+/* Halo / Cortana: glassy hex glow */
+body[data-theme='halo'] .clock-time,
+body[data-theme='halo'] .metric-value,
+body[data-theme='halo'] .sensor-value,
+body[data-theme='halo'] .stock-price,
+body[data-theme='halo'] .ha-detail-name {
+  text-shadow:
+    0 0 8px var(--accent),
+    0 0 22px rgba(0, 212, 255, 0.35);
+}
+
+/* LCARS: rounded LCARS pills, no glow needed */
+body[data-theme='lcars'] .widget {
+  border-radius: 24px;
+}
+body[data-theme='lcars'] .widget-header {
+  background: var(--accent);
+  color: var(--bg);
+  border-radius: 24px 24px 0 0;
+  border-bottom: none;
+}
+body[data-theme='lcars'] .widget-title {
+  color: var(--bg);
+}
+
+/* Doom: blood text on big values */
+body[data-theme='doom'] .clock-time,
+body[data-theme='doom'] .metric-value,
+body[data-theme='doom'] .sensor-value,
+body[data-theme='doom'] .stock-price,
+body[data-theme='doom'] .ha-detail-name {
+  text-shadow: 0 0 6px var(--accent), 2px 2px 0 #000;
+}
+
+/* T2 / Terminator: chrome + scanner red */
+body[data-theme='t2'] .clock-time,
+body[data-theme='t2'] .metric-value,
+body[data-theme='t2'] .sensor-value,
+body[data-theme='t2'] .stock-price,
+body[data-theme='t2'] .ha-detail-name {
+  text-shadow:
+    0 0 8px var(--accent),
+    0 2px 0 #000;
+}
+body[data-theme='t2'] .brand {
+  text-shadow: 0 0 8px var(--accent-hot), 0 0 16px rgba(255, 34, 34, 0.4);
+}
+
+/* Metallica: chrome bevel */
+body[data-theme='metallica'] .brand,
+body[data-theme='metallica'] .clock-time,
+body[data-theme='metallica'] .metric-value,
+body[data-theme='metallica'] .sensor-value,
+body[data-theme='metallica'] .stock-price,
+body[data-theme='metallica'] .ha-detail-name {
+  text-shadow:
+    0 1px 0 #fff,
+    0 -1px 0 #000,
+    0 0 14px rgba(192, 192, 192, 0.3);
 }
 
 /* dnd parchment */
