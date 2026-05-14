@@ -16,7 +16,9 @@ const FAMILY_STACKS: Record<string, { ui: string; mono: string; display: string 
   system: { ui: 'system-ui, -apple-system, "Segoe UI", Roboto, sans-serif', mono: 'ui-monospace, Consolas, monospace', display: 'system-ui, sans-serif' },
   mono: { ui: '"JetBrains Mono", ui-monospace, Consolas, monospace', mono: '"JetBrains Mono", ui-monospace, Consolas, monospace', display: '"JetBrains Mono", monospace' },
   serif: { ui: 'Georgia, "Cormorant Garamond", serif', mono: '"IM Fell English", Georgia, serif', display: '"Cinzel", Georgia, serif' },
-  rounded: { ui: '"Nunito", system-ui, sans-serif', mono: 'ui-monospace, monospace', display: '"Nunito", system-ui, sans-serif' }
+  rounded: { ui: '"Nunito", system-ui, sans-serif', mono: 'ui-monospace, monospace', display: '"Nunito", system-ui, sans-serif' },
+  vt323: { ui: '"VT323", "Share Tech Mono", monospace', mono: '"VT323", "Share Tech Mono", monospace', display: '"Monoton", "VT323", monospace' },
+  pressstart: { ui: '"Press Start 2P", "VT323", monospace', mono: '"Press Start 2P", "VT323", monospace', display: '"Press Start 2P", "VT323", monospace' }
 };
 
 export function ThemeProvider({ themeId, children }: { themeId: string; children: React.ReactNode }) {

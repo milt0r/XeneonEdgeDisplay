@@ -107,7 +107,7 @@ export interface AppSettings {
   ui: {
     onScreenKeyboard: boolean;
     fontScale: number;
-    fontFamily: 'theme' | 'inter' | 'system' | 'mono' | 'serif' | 'rounded';
+    fontFamily: 'theme' | 'inter' | 'system' | 'mono' | 'serif' | 'rounded' | 'vt323' | 'pressstart';
     /** 0.4 - 1.0; widget panel background opacity. */
     widgetOpacity: number;
     /** Per-theme background override. Empty string = use theme default; 'none' = no background. */

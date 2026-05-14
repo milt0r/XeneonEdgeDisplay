@@ -195,8 +195,10 @@ export function SettingsPanel() {
                 <option value="inter">Inter (clean sans)</option>
                 <option value="system">System UI</option>
                 <option value="rounded">Nunito (rounded sans)</option>
-                <option value="serif">Serif</option>
+                <option value="serif">Serif (Cinzel / IM Fell)</option>
                 <option value="mono">JetBrains Mono</option>
+                <option value="vt323">VT323 (Pip-Boy CRT)</option>
+                <option value="pressstart">Press Start 2P (8-bit pixel)</option>
               </select>
               <div className="muted mono" style={{ fontSize: 11 }}>
                 Override the theme's fonts. Pip-Boy/Cyberpunk/Dragon are dramatic but harder to read — pick Inter or System for max readability.
