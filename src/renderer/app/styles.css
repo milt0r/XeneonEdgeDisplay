@@ -20,15 +20,101 @@
 /* ---------- topbar ---------- */
 .topbar {
   display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
   justify-content: space-between;
-  align-items: center;
-  padding: 8px 16px;
+  align-items: stretch;
+  padding: 0 16px;
   background: var(--bg-elevated);
   border-bottom: 1px solid var(--border);
   flex: 0 0 auto;
-  height: 48px;
+  height: 56px;
+  position: relative;
 }
-.topbar-left, .topbar-right { display: flex; align-items: center; gap: 12px; }
+.topbar-tabs {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: stretch;
+  gap: 0;
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+.topbar-tabs::-webkit-scrollbar { display: none; }
+.tab {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  height: 100%;
+  border-bottom: 3px solid transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+  white-space: nowrap;
+  user-select: none;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 120ms, border-color 120ms, background 120ms;
+}
+.tab:hover {
+  color: var(--fg);
+  background: color-mix(in srgb, var(--bg-panel) 50%, transparent);
+}
+.tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+.tab.dragging { opacity: 0.4; }
+.tab-dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  flex: 0 0 auto;
+  box-shadow: 0 0 6px currentColor;
+}
+.tab-name { padding: 4px 0; }
+.tab-rename {
+  background: var(--bg-panel);
+  color: var(--fg);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 2px 6px;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  outline: none;
+  width: 120px;
+}
+.tab-add {
+  background: transparent;
+  border: none;
+  color: var(--fg-muted);
+  font-size: 22px;
+  cursor: pointer;
+  padding: 0 12px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 36px;
+  transition: color 120ms;
+}
+.tab-add:hover { color: var(--accent); }
+
+.topbar-right {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding-left: 16px;
+}
 .brand {
   font-family: var(--font-display);
   font-size: 18px;
@@ -48,6 +134,73 @@
   font-size: 18px;
   color: var(--accent);
 }
+
+/* Tab context menu */
+.tab-menu {
+  position: fixed;
+  z-index: 60000;
+  min-width: 220px;
+  background: var(--bg-panel);
+  border: 1px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 8px;
+  box-shadow: 0 10px 32px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.tab-menu-header {
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 4px 8px 6px;
+}
+.tab-menu-section {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 8px 8px 4px;
+}
+.tab-menu-divider {
+  height: 1px;
+  background: var(--border);
+  margin: 4px 0;
+}
+.tab-menu-item {
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  padding: 8px 10px;
+  text-align: left;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  min-height: 36px;
+}
+.tab-menu-item:hover { background: var(--accent-soft); color: var(--accent-hot); }
+.tab-menu-item.danger { color: #ff7a7a; }
+.tab-menu-item.danger:hover { background: rgba(255, 80, 80, 0.18); }
+.tab-menu-colors {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  padding: 4px 8px;
+}
+.tab-menu-color {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  background: var(--bg-elevated);
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--fg-muted);
+  display: flex; align-items: center; justify-content: center;
+  padding: 0;
+  transition: border-color 120ms, transform 80ms;
+}
+.tab-menu-color:hover { transform: scale(1.1); }
+.tab-menu-color.active { border-color: var(--fg); box-shadow: 0 0 0 2px var(--bg-panel), 0 0 0 4px var(--accent); }
 
 /* ---------- buttons (touch first) ---------- */
 .btn {

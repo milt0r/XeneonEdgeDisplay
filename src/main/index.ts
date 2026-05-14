@@ -110,6 +110,11 @@ function registerIpc() {
   ipcMain.handle(IPC.Layout.get, () => settingsStore.getLayout());
   ipcMain.handle(IPC.Layout.save, (_e, items: WidgetLayoutItem[]) => settingsStore.saveLayout(items));
 
+  ipcMain.handle(IPC.Tabs.get, () => settingsStore.getTabs());
+  ipcMain.handle(IPC.Tabs.save, (_e, tabs: any, activeTabId?: string) =>
+    settingsStore.saveTabs(tabs, activeTabId)
+  );
+
   ipcMain.handle(IPC.Weather.refresh, () => weather.refresh());
   ipcMain.handle(IPC.Weather.snapshot, () => weather.last());
 

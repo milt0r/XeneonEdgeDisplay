@@ -129,3 +129,11 @@ export interface WidgetLayoutItem {
   instanceId: string;
   config?: Record<string, unknown>;
 }
+
+export interface DashboardTab {
+  id: string;
+  name: string;
+  /** Optional accent color override (CSS color); falls back to theme accent. */
+  color?: string;
+  layout: WidgetLayoutItem[];
+}

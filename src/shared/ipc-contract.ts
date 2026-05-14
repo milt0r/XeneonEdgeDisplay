@@ -1,5 +1,6 @@
 import type {
   AppSettings,
+  DashboardTab,
   HAEntityState,
   SensorSnapshot,
   SpotifyPlayback,
@@ -30,6 +31,9 @@ export interface IpcApi {
 
   getLayout(): Promise<WidgetLayoutItem[]>;
   saveLayout(items: WidgetLayoutItem[]): Promise<void>;
+
+  getTabs(): Promise<{ tabs: DashboardTab[]; activeTabId: string }>;
+  saveTabs(tabs: DashboardTab[], activeTabId?: string): Promise<void>;
 
   weather: {
     refresh(): Promise<WeatherSnapshot | null>;
@@ -106,6 +110,7 @@ export const IPC = {
   Settings: { get: 'settings:get', update: 'settings:update' },
   Secrets: { set: 'secrets:set', has: 'secrets:has', clear: 'secrets:clear' },
   Layout: { get: 'layout:get', save: 'layout:save' },
+  Tabs: { get: 'tabs:get', save: 'tabs:save' },
   Weather: { refresh: 'weather:refresh', snapshot: 'weather:snapshot' },
   Sensors: { snapshot: 'sensors:snapshot', setSource: 'sensors:setSource' },
   Ha: { list: 'ha:list', call: 'ha:call', test: 'ha:test', camera: 'ha:camera' },

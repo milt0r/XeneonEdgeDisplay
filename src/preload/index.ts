@@ -12,6 +12,8 @@ const api: IpcApi = {
 
   getLayout: () => ipcRenderer.invoke(IPC.Layout.get),
   saveLayout: (items) => ipcRenderer.invoke(IPC.Layout.save, items),
+  getTabs: () => ipcRenderer.invoke(IPC.Tabs.get),
+  saveTabs: (tabs, activeTabId) => ipcRenderer.invoke(IPC.Tabs.save, tabs, activeTabId),
 
   weather: {
     refresh: () => ipcRenderer.invoke(IPC.Weather.refresh),
